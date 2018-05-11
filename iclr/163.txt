@@ -1,0 +1,78 @@
+Published as a conference paper at ICLR 2018
+
+VOICELOOP: VOICE FITTING AND SYNTHESIS VIA A
+PHONOLOGICAL LOOP
+
+Yaniv Taigman, Lior Wolf, Adam Polyak and Eliya Nachmani
+Facebook AI Research
+{yaniv, wolf, adampolyak, eliyan}@fb.com
+
+ABSTRACT
+
+We present a new neural text to speech (TTS) method that is able to transform text
+to speech in voices that are sampled in the wild. Unlike other systems, our solution
+is able to deal with unconstrained voice samples and without requiring aligned
+phonemes or linguistic features. The network architecture is simpler than those in
+the existing literature and is based on a novel shifting buffer working memory. The
+same buffer is used for estimating the attention, computing the output audio, and
+for updating the buffer itself. The input sentence is encoded using a context-free
+lookup table that contains one entry per character or phoneme. The speakers are
+similarly represented by a short vector that can also be ﬁtted to new identities, even
+with only a few samples. Variability in the generated speech is achieved by priming
+the buffer prior to generating the audio. Experimental results on several datasets
+demonstrate convincing capabilities, making TTS accessible to a wider range of
+applications. In order to promote reproducibility, we release our source code and
+models1.
+
+1
+
+INTRODUCTION
+
+We study the task of mimicking a person’s voice based on samples that are captured in-the-wild. As
+far as we know, no other solution exists for this highly applicable learning problem. While the current
+systems are mostly based on carefully collected or curated audio samples, our method is able to
+employ the audio of public speeches (from youtube), despite a large amount of background noise and
+clapping and even with an inaccurate automatic transcript. Moreover, almost all in-the-wild videos
+contain multiple other speakers that become challenging voice sample outliers and, in some cases,
+the videos are shot with home equipment and are of reduced quality.
+Our method, called VoiceLoop, is inspired by a working-memory model known as the phonological
+loop (Baddeley, 1986). The loop holds verbal information for short periods of time. It comprises
+both a phonological store, where information is constantly being replaced, and a rehearsal process,
+which maintains longer-term representations in the phonological store.
+In our method, we construct a phonological store by employing a shifting buffer that is best seen
+as a matrix S ∈ Rd×k with columns S[1] . . . S[k]. At every time point, all columns shift to the
+right (S[i + 1] = S[i] for 1 ≤ i < k), column k is discarded, and a new representation vector u
+is placed in the ﬁrst position (S[1] = u). u is a function of four parameters, among which are the
+latest “spoken” output and the buffer S itself. The buffer is, therefore, constantly refreshed with new
+information, similar to the phonological store, and the mechanism that creates the representations
+reuses the existing information in the buffer, thus creating long term dependencies.
+The two other input parameters of the network that computes the new representation u are the identity
+of the speaker and the current attention-mediated context. The identity is captured by a learned
+embedding and is stored in a lookup table (for the individuals in the training set) or ﬁtted (for new
+individuals). The usage of this embedding for the phonological store means that it inﬂuences the
+dynamic behavior of the store, the attention mechanism and the output process. Since the last process
+requires heavy personalization, it also receives the identity embedding directly.
+
+1PyTorch
+
+sample
+
+code
+
+and
+
+facebookresearch/loop
+
+audio
+
+ﬁles
+
+are
+
+available
+
+here: https://github.com/
+
+1
+
+

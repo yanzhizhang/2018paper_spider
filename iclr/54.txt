@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+NERVENET: LEARNING STRUCTURED POLICY WITH
+GRAPH NEURAL NETWORKS
+
+Tingwu Wang∗, Renjie Liao∗, Jimmy Ba & Sanja Fidler
+Department of Computer Science
+University of Toronto
+Vector Institute
+{tingwuwang,rjliao}@cs.toronto.edu,
+jimmy@psi.toronto.edu, fidler@cs.toronto.edu
+
+ABSTRACT
+
+We address the problem of learning structured policies for continuous control. In
+traditional reinforcement learning, policies of agents are learned by multi-layer
+perceptrons (MLPs) which take the concatenation of all observations from the en-
+vironment as input for predicting actions. In this work, we propose NerveNet to
+explicitly model the structure of an agent, which naturally takes the form of a
+graph. Speciﬁcally, serving as the agent’s policy network, NerveNet ﬁrst propa-
+gates information over the structure of the agent and then predict actions for differ-
+ent parts of the agent. In the experiments, we ﬁrst show that our NerveNet is com-
+parable to state-of-the-art methods on standard MuJoCo environments. We further
+propose our customized reinforcement learning environments for benchmarking
+two types of structure transfer learning tasks, i.e., size and disability transfer, as
+well as multi-task learning. We demonstrate that policies learned by NerveNet are
+signiﬁcantly more transferable and generalizable than policies learned by other
+models and are able to transfer even in a zero-shot setting.
+
+1
+
+INTRODUCTION
+
+Deep reinforcement learning (RL) has received increasing attention over the past few years, with the
+recent success of applications such as playing Atari Games, Mnih et al. (2015), and Go, (Silver et al.,
+2016; 2017). Signiﬁcant advances have also been made in robotics using the latest RL techniques,
+e.g., Levine et al. (2016); Gu et al. (2017).
+Many RL problems feature agents with multiple dependent controllers. For example, humanoid
+robots consist of multiple physically linked joints. Action to be taken by each joint or the body
+should thus not only depend on its own observations but also on actions of other joints.
+Previous approaches in RL typically use MLP to learn the agent’s policy. In particular, MLP takes
+the concatenation of observations from the environment as input, which may be measurements like
+positions, velocities of body and joints in the current time instance. The MLP policy then predicts
+actions to be taken by every joint and body. Thus the task of the MLP policy is to discover the latent
+relationships between observations. This typically leads to longer training times, requiring more
+exposure of the agent to the environment. In our work, we aim to exploit the body structure of an
+agent, and physical dependencies that naturally exist in such agents.
+We rely on the fact that bodies of most robots and animals have a discrete graph structure. Nodes of
+the graph may represent the joints, and edges represent the (physical) dependencies between them.
+In particular, we deﬁne the agent’s policy using a Graph Neural Network, Scarselli et al. (2009),
+which is a neural network that operates over graph structures. We refer to our model as NerveNet
+due to the resemblance of the neural nervous system to a graph. NerveNet propagates information
+between different parts of the body based on the underlying graph structure before outputting the
+action for each part. By doing so, NerveNet can leverage the structure information encoded by the
+agent’s body which is advantageous in learning the correct inductive bias, and thus is less prone to
+
+∗Two authors contribute equally.
+
+1
+
+

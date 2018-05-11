@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+UNDERSTANDING IMAGE MOTION WITH GROUP
+REPRESENTATIONS
+
+Andrew Jaegle∗, Stephen Phillips∗, Daphne Ippolito, and Kostas Daniilidis
+University of Pennsylvania
+Philadelphia, PA 19104
+{ajaegle, stephi, daphnei, kostas}@seas.upenn.edu
+
+ABSTRACT
+
+Motion is an important signal for agents in dynamic environments, but learning to
+represent motion from unlabeled video is a difﬁcult and underconstrained problem.
+We propose a model of motion based on elementary group properties of transfor-
+mations and use it to train a representation of image motion. While most methods
+of estimating motion are based on pixel-level constraints, we use these group prop-
+erties to constrain the abstract representation of motion itself. We demonstrate that
+a deep neural network trained using this method captures motion in both synthetic
+2D sequences and real-world sequences of vehicle motion, without requiring any
+labels. Networks trained to respect these constraints implicitly identify the image
+characteristic of motion in different sequence types. In the context of vehicle
+motion, this method extracts information useful for localization, tracking, and
+odometry. Our results demonstrate that this representation is useful for learning
+motion in the general setting where explicit labels are difﬁcult to obtain.
+
+1
+
+INTRODUCTION
+
+Motion perception is a key component of biological and computer vision. By understanding how
+a stream of images reﬂects the motion of the world around it, an agent can better judge how to act.
+For example, a ﬂy can use visual motion cues to dodge an approaching hand and to distinguish this
+threat from a looming landing surface (Reiser & Dickinson (2013)). Motion is an important cue for
+understanding actions and predicting 3D scene structure, and it has been extensively studied from
+computational, ethological, and biological perspectives (Hildreth & Koch (1987)).
+In computer vision, the problem of motion representation has typically been approached from either
+a local or global perspective. Local representations of motion are exempliﬁed by optical ﬂow. Flow
+represents image motion as the 2D displacement of individual pixels of an image, giving rich low-level
+detail while foregoing a compact representation of the underlying scene motion. In contrast, global
+representations such as those used in visual odometry attempt to compactly explain the movement of
+the whole scene. Such representations typically rely on a rigid world assumption, thus limiting their
+applicability to more general settings.
+Image transformations due to motion form a subspace of all continuous image transformations.
+Smooth changes in the motion subspace correspond to sequences of images with realistic motion. We
+wish to characterize this subspace. The motion subspace differs from other image transformation
+subspaces, such as changes in the space of images of human faces. Smooth changes in this space
+also form a subspace of image transformations, but one containing transformations that do not occur
+in natural image sequences, such as the face of one person transforming into the face of another.
+A representation that characterizes motion should be sensitive to the distinction between image
+transformations that are realistic (produced by image motion) vs. those that are unrealistic (not
+produced by image motion).
+To be useful for understanding and acting on scene motion, a representation should capture the
+motion of the observer and all relevant scene content. Supervised training of such a representation
+is challenging: explicit motion labels are difﬁcult to obtain, especially for nonrigid scenes where
+
+∗Authors contributed equally.
+
+1
+
+

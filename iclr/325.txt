@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+SENSITIVITY AND GENERALIZATION
+IN NEURAL NETWORKS: AN EMPIRICAL STUDY
+
+Roman Novak, Yasaman Bahri∗, Daniel A. Abolaﬁa,
+Jeffrey Pennington, Jascha Sohl-Dickstein
+Google Brain
+{romann, yasamanb, danabo, jpennin, jaschasd}@google.com
+
+ABSTRACT
+
+is often found that
+
+In practice it
+large over-parameterized neural networks
+generalize better than their smaller counterparts, an observation that appears
+to conﬂict with classical notions of function complexity, which typically favor
+smaller models. In this work, we investigate this tension between complexity and
+generalization through an extensive empirical exploration of two natural metrics
+of complexity related to sensitivity to input perturbations. Our experiments survey
+thousands of models with various fully-connected architectures, optimizers, and
+other hyper-parameters, as well as four different image classiﬁcation datasets.
+
+We ﬁnd that trained neural networks are more robust to input perturbations
+in the vicinity of the training data manifold, as measured by the norm of the
+input-output Jacobian of the network, and that it correlates well with general-
+ization. We further establish that factors associated with poor generalization
+– such as full-batch training or using random labels – correspond to lower
+robustness, while factors associated with good generalization – such as data
+augmentation and ReLU non-linearities – give rise to more robust functions.
+Finally, we demonstrate how the input-output Jacobian norm can be predictive of
+generalization at the level of individual test points.
+
+1
+
+INTRODUCTION
+
+The empirical success of deep learning has thus far eluded interpretation through existing lenses
+of computational complexity (Blum & Rivest, 1988), numerical optimization (Choromanska et al.,
+2015; Goodfellow & Vinyals, 2014; Dauphin et al., 2014) and classical statistical learning theory
+(Zhang et al., 2016): neural networks are highly non-convex models with extreme capacity that train
+fast and generalize well. In fact, not only do large networks demonstrate good test performance, but
+larger networks often generalize better, counter to what would be expected from classical measures,
+such as VC dimension. This phenomenon has been observed in targeted experiments (Neyshabur
+et al., 2015), historical trends of Deep Learning competitions (Canziani et al., 2016), and in the
+course of this work (Figure 1).
+This observation is at odds with Occam’s razor, the principle of parsimony, as applied to the intuitive
+notion of function complexity (see §A.2 for extended discussion). One resolution of the apparent
+contradiction is to examine complexity of functions in conjunction with the input domain. f (x) =
+x3 sin(x) may seem decisively more complex than g(x) = x. But restrained to a narrow input
+domain of [−0.01, 0.01] they appear differently: g remains a linear function of the input, while
+f (x) = O
+networks, that behave very differently close to the data manifold than away from it (§4.1).
+We therefore analyze the complexity of models through their capacity to distinguish different inputs
+in the neighborhood of datapoints, or, in other words, their sensitivity. We study two simple metrics
+presented in §3 and ﬁnd that one of them, the norm of the input-output Jacobian, correlates with
+generalization in a very wide variety of scenarios.
+
+(cid:0)x4(cid:1) resembles a constant 0. In this work we ﬁnd that such intuition applies to neural
+
+∗Work done as a member of the Google Brain Residency program (g.co/brainresidency)
+
+1
+
+

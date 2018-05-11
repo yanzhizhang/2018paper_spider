@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+INTERACTIVE GROUNDED LANGUAGE ACQUISITION
+AND GENERALIZATION IN A 2D WORLD
+
+Haonan Yu1, Haichao Zhang1 & Wei Xu1,2
+1Baidu Research, Sunnyvale USA
+2National Engineering Laboratory for Deep Learning Technology and Applications, Beijing China
+{haonanyu,zhanghaichao,wei.xu}@baidu.com
+
+ABSTRACT
+
+We build a virtual agent for learning language in a 2D maze-like world. The
+agent sees images of the surrounding environment, listens to a virtual teacher, and
+takes actions to receive rewards. It interactively learns the teacher’s language from
+scratch based on two language use cases: sentence-directed navigation and ques-
+tion answering. It learns simultaneously the visual representations of the world,
+the language, and the action control. By disentangling language grounding from
+other computational routines and sharing a concept detection function between
+language grounding and prediction, the agent reliably interpolates and extrapo-
+lates to interpret sentences that contain new word combinations or new words
+missing from training sentences. The new words are transferred from the answers
+of language prediction. Such a language ability is trained and evaluated on a popu-
+lation of over 1.6 million distinct sentences consisting of 119 object words, 8 color
+words, 9 spatial-relation words, and 50 grammatical words. The proposed model
+signiﬁcantly outperforms ﬁve comparison methods for interpreting zero-shot sen-
+tences. In addition, we demonstrate human-interpretable intermediate outputs of
+the model in the appendix.
+
+1
+
+INTRODUCTION
+
+Some empiricists argue that language may be learned based on its usage (Tomasello, 2003). Skinner
+(1957) suggests that the successful use of a word reinforces the understanding of its meaning as well
+as the probability of it being used again in the future. Bruner (1985) emphasizes the role of social
+interaction in helping a child develop the language, and posits the importance of the feedback and
+reinforcement from the parents during the learning process. This paper takes a positive view of the
+above behaviorism and tries to explore some of the ideas by instantiating them in a 2D virtual world
+where interactive language acquisition happens. This interactive setting contrasts with a common
+learning setting in that language is learned from dynamic interactions with environments instead of
+from static labeled data.
+Language acquisition can go beyond mapping language as input patterns to output labels for merely
+obtaining high rewards or accomplishing tasks. We take a step further to require the language to be
+grounded (Harnad, 1990). Speciﬁcally, we consult the paradigm of procedural semantics (Woods,
+2007) which posits that words, as abstract procedures, should be able to pick out referents. We
+will attempt to explicitly link words to environment concepts instead of treating the whole model
+as a black box. Such a capability also implies that, depending on the interactions with the world,
+words would have particular meanings in a particular context and some content words in the usual
+sense might not even have meanings in our case. As a result, the goal of this paper is to acquire
+“in-context” word meanings regardless of their suitability in all scenarios.
+On the other hand, it has been argued that a child’s exposure to adult language provides inadequate
+evidence for language learning (Chomsky, 1991), but some induction mechanism should exist to
+bridge this gap (Landauer & Dumais, 1997). This property is critical for any AI system to learn
+an inﬁnite number of sentences from a ﬁnite amount of training data. This type of generalization
+problem is specially addressed in our problem setting. After training, we want the agent to generalize
+to interpret zero-shot sentences of two types:
+
+1
+
+

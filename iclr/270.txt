@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+DO GANS LEARN THE DISTRIBUTION? SOME THEORY
+AND EMPIRICS
+
+Andrej Risteski
+Applied Mathematics Department and IDSS
+Massachusetts Institute of Technology
+Cambridge, MA 02139, USA
+risteski@mit.edu
+
+Sanjeev Arora
+Department of Computer Science
+Princeton University
+Princeton, NJ 08544, USA
+arora@cs.princeton.edu
+
+Yi Zhang
+Department of Computer Science
+Princeton University
+Princeton, NJ 08544, USA
+y.zhang@cs.princeton.edu
+
+ABSTRACT
+
+Do GANS (Generative Adversarial Nets) actually learn the target distribution?
+The foundational paper of Goodfellow et al. (2014) suggested they do, if they
+were given “sufﬁciently large” deep nets, sample size, and computation time. A
+recent theoretical analysis in Arora et al. (2017) raised doubts whether the same
+holds when discriminator has bounded size. It showed that the training objective
+can approach its optimum value even if the generated distribution has very low
+support —in other words, the training objective is unable to prevent mode col-
+lapse. The current paper makes two contributions. (1) It proposes a novel test for
+estimating support size using the birthday paradox of discrete probability. Using
+this evidence is presented that well-known GANs approaches do learn distribu-
+tions of fairly low support.
+(2) It theoretically studies encoder-decoder GANs
+architectures (e.g., BiGAN/ALI), which were proposed to learn more meaningful
+features via GANs and (consequently) to also solve the mode-collapse issue. Our
+result shows that such encoder-decoder training objectives also cannot guarantee
+learning of the full distribution because they cannot prevent serious mode collapse.
+More seriously, they cannot prevent learning meaningless codes for data, contrary
+to usual intuition.
+
+1
+
+INTRODUCTION
+
+From the earliest papers on Generative Adversarial Networks the question has been raised whether
+or not they actually come close to learning the distribution they are trained with (henceforth refered
+to as the target distribution)? These methods train a generator deep net that converts a random
+seed into a realistic-looking image. Concurrently they train a discriminator deep net to discriminate
+between its output and real images, which in turn is used to produce gradient feedback to improve
+the generator net. In practice the generator deep net starts producing realistic outputs by the end,
+and the objective approaches its optimal value. But does this mean the deep net has learnt the
+target distribution of real images? Standard analysis introduced in Goodfellow et al. (2014) shows
+that given “sufﬁciently large” generator and discriminator, sample size, and computation time the
+training does succeed in learning the underlying distribution arbitrarily closely (measured in Jensen-
+Shannon divergence). But this does not settle the question of what happens with realistic sample
+and net sizes.
+Note that GANs differ from many previous methods for learning distributions in that they do not
+provide an estimate of a measure of distributional ﬁt —e.g., perplexity score. Therefore researchers
+have probed their performance using surrogate qualitative tests, which were usually designed to rule
+out the most obvious failure mode of the training, namely, that the GAN has simply memorized
+
+1
+
+

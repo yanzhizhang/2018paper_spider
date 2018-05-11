@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+AUTO-ENCODING SEQUENTIAL MONTE CARLO
+
+Tuan Anh Le†, Maximilian Igl†, Tom Rainforth‡, Tom Jin†,§, Frank Wood†
+†Department of Engineering Science, University of Oxford
+‡Department of Statistics, University of Oxford
+§Department of Statistics, University of Warwick
+{tuananh,igl,jin,fwood}@robots.ox.ac.uk,
+
+rainforth@stats.ox.ac.uk
+
+ABSTRACT
+
+We build on auto-encoding sequential Monte Carlo (AESMC):1 a method for model
+and proposal learning based on maximizing the lower bound to the log marginal
+likelihood in a broad family of structured probabilistic models. Our approach
+relies on the efﬁciency of sequential Monte Carlo (SMC) for performing inference
+in structured probabilistic models and the ﬂexibility of deep neural networks
+to model complex conditional probability distributions. We develop additional
+theoretical insights and experiment with a new training procedure which can
+improve both model and proposal learning. We demonstrate that our approach
+provides a fast, easy-to-implement and scalable means for simultaneous model
+learning and proposal adaptation in deep generative models.
+
+1
+
+INTRODUCTION
+
+We build upon AESMC (Le et al., 2017), a method for model learning that itself builds on variational
+auto-encoders (VAEs) (Kingma & Welling, 2014; Rezende et al., 2014) and importance weighted
+auto-encoders (IWAEs) (Burda et al., 2016). AESMC is similarly based on maximizing a lower bound
+to the log marginal likelihood, but uses SMC (Doucet & Johansen, 2009) as the underlying marginal
+likelihood estimator instead of importance sampling (IS). For a very wide array of models, particularly
+those with sequential structure, SMC forms a substantially more powerful inference method than IS,
+typically returning lower variance estimates for the marginal likelihood. Consequently, by using
+SMC for its marginal likelihood estimation, AESMC often leads to improvements in model learning
+compared with VAEs and IWAEs. We provide experiments on structured time-series data that show
+that AESMC based learning was able to learn useful representations of the latent space for both
+reconstruction and prediction more effectively than the IWAE counterpart.
+AESMC was introduced in an earlier preprint (Le et al., 2017) concurrently with the closely related
+methods of Maddison et al. (2017); Naesseth et al. (2017). In this work we take these ideas further by
+providing new theoretical insights for the resulting evidence lower bounds (ELBOs), extending these
+to explore the relative efﬁciency of different approaches to proposal learning, and using our results to
+develop a new and improved training procedure. In particular, we introduce a method for expressing
+the gap between an ELBO and the log marginal likelihood as a Kullback-Leibler (KL) divergence
+between two distributions on an extended sampling space. Doing so allows us to investigate the
+behavior of this family of algorithms when the objective is maximized perfectly, which occurs only if
+the KL divergence becomes zero. In the IWAE case, this implies that the proposal distributions are
+equal to the posterior distributions under the learned model. In the AESMC case, it has implications
+for both the proposal distributions and the intermediate set of targets that are learned. We demonstrate
+that, somewhat counter-intuitively, using lower variance estimates for the marginal likelihood can
+actually be harmful to proposal learning. Using these insights, we experiment with an adaptation to
+the AESMC algorithm, which we call alternating ELBOs, that uses different lower bounds for updating
+the model parameters and proposal parameters. We observe that this adaptation can, in some cases,
+improve model learning and proposal adaptation.
+
+1This work builds upon an earlier preprint (Le et al., 2017) along with the independent, simultaneously
+
+developed, closely related, work of Maddison et al. (2017) and Naesseth et al. (2017).
+
+1
+
+

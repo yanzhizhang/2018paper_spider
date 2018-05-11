@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+DCN+: MIXED OBJECTIVE AND DEEP RESIDUAL
+COATTENTION FOR QUESTION ANSWERING
+
+Caiming Xiong∗, Victor Zhong∗, Richard Socher
+Salesforce Research
+Palo Alto, CA 94301, USA
+{cxiong, vzhong, rsocher}@salesforce.com
+
+ABSTRACT
+
+Traditional models for question answering optimize using cross entropy loss,
+which encourages exact answers at the cost of penalizing nearby or overlapping
+answers that are sometimes equally accurate. We propose a mixed objective that
+combines cross entropy loss with self-critical policy learning. The objective uses
+rewards derived from word overlap to solve the misalignment between evaluation
+metric and optimization objective. In addition to the mixed objective, we improve
+dynamic coattention networks (DCN) with a deep residual coattention encoder
+that is inspired by recent work in deep self-attention and residual networks. Our
+proposals improve model performance across question types and input lengths,
+especially for long questions that requires the ability to capture long-term de-
+pendencies. On the Stanford Question Answering Dataset, our model achieves
+state-of-the-art results with 75.1% exact match accuracy and 83.1% F1, while the
+ensemble obtains 78.9% exact match accuracy and 86.0% F1.
+
+1
+
+INTRODUCTION
+
+Existing state-of-the-art question answering models are trained to produce exact answer spans for
+a question and a document. In this setting, a ground truth answer used to supervise the model is
+deﬁned as a start and an end position within the document. Existing training approaches optimize
+using cross entropy loss over the two positions. However, this suffers from a fundamental disconnect
+between the optimization, which is tied to the position of a particular ground truth answer span, and
+the evaluation, which is based on the textual content of the answer. This disconnect is especially
+harmful in cases where answers that are textually similar to, but distinct in positions from, the ground
+truth are penalized in the same fashion as answers that are textually dissimilar. For example, suppose
+we are given the sentence “Some believe that the Golden State Warriors team of 2017 is one of the
+greatest teams in NBA history”, the question “which team is considered to be one of the greatest
+teams in NBA history”, and a ground truth answer of “the Golden State Warriors team of 2017”.
+The span “Warriors” is also a correct answer, but from the perspective of traditional cross entropy
+based training it is no better than the span “history”.
+To address this problem, we propose a mixed objective that combines traditional cross entropy loss
+over positions with a measure of word overlap trained with reinforcement learning. We obtain the
+latter objective using self-critical policy learning in which the reward is based on word overlap be-
+tween the proposed answer and the ground truth answer. Our mixed objective brings two beneﬁts:
+(i) the reinforcement learning objective encourages answers that are textually similar to the ground
+truth answer and discourages those that are not; (ii) the cross entropy objective signiﬁcantly facili-
+tates policy learning by encouraging trajectories that are known to be correct. The resulting objective
+is one that is both faithful to the evaluation metric and converges quickly in practice.
+In addition to our mixed training objective, we extend the Dynamic Coattention Network (DCN)
+by Xiong et al. (2017) with a deep residual coattention encoder. This allows the network to build
+richer representations of the input by enabling each input sequence to attend to previous attention
+contexts. Vaswani et al. (2017) show that the stacking of attention layers helps model long-range
+
+∗Equal contribution
+
+1
+
+

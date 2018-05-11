@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+MIXED PRECISION TRAINING
+
+Sharan Narang∗, Gregory Diamos, Erich Elsen†
+Baidu Research
+{sharan, gdiamos}@baidu.com
+
+Paulius Micikevicius∗, Jonah Alben, David Garcia, Boris Ginsburg, Michael Houston,
+Oleksii Kuchaiev, Ganesh Venkatesh, Hao Wu
+NVIDIA
+{pauliusm, alben, dagarcia, bginsburg, mhouston,
+okuchaiev, gavenkatesh, skyw}@nvidia.com
+
+ABSTRACT
+
+Increasing the size of a neural network typically improves accuracy but also in-
+creases the memory and compute requirements for training the model. We intro-
+duce methodology for training deep neural networks using half-precision ﬂoat-
+ing point numbers, without losing model accuracy or having to modify hyper-
+parameters. This nearly halves memory requirements and, on recent GPUs,
+speeds up arithmetic. Weights, activations, and gradients are stored in IEEE half-
+precision format. Since this format has a narrower range than single-precision we
+propose three techniques for preventing the loss of critical information. Firstly,
+we recommend maintaining a single-precision copy of weights that accumulates
+the gradients after each optimizer step (this copy is rounded to half-precision for
+the forward- and back-propagation). Secondly, we propose loss-scaling to pre-
+serve gradient values with small magnitudes. Thirdly, we use half-precision arith-
+metic that accumulates into single-precision outputs, which are converted to half-
+precision before storing to memory. We demonstrate that the proposed methodol-
+ogy works across a wide variety of tasks and modern large scale (exceeding 100
+million parameters) model architectures, trained on large datasets.
+
+1
+
+INTRODUCTION
+
+Deep Learning has enabled progress in many different applications, ranging from image recognition
+(He et al., 2016a) to language modeling (Jozefowicz et al., 2016) to machine translation (Wu et al.,
+2016) and speech recognition (Amodei et al., 2016). Two trends have been critical to these results
+- increasingly large training data sets and increasingly complex models. For example, the neural
+network used in Hannun et al. (2014) had 11 million parameters which grew to approximately 67
+million for bidirectional RNNs and further to 116 million for the latest forward only Gated Recurrent
+Unit (GRU) models in Amodei et al. (2016).
+Larger models usually require more compute and memory resources to train. These requirements
+can be lowered by using reduced precision representation and arithmetic. Performance (speed) of
+any program, including neural network training and inference, is limited by one of three factors:
+arithmetic bandwidth, memory bandwidth, or latency. Reduced precision addresses two of these
+limiters. Memory bandwidth pressure is lowered by using fewer bits to to store the same number of
+values. Arithmetic time can also be lowered on processors that offer higher throughput for reduced
+precision math. For example, half-precision math throughput in recent GPUs is 2× to 8× higher
+than for single-precision. In addition to speed improvements, reduced precision formats also reduce
+the amount of memory required for training.
+Modern deep learning training systems use single-precision (FP32) format. In this paper, we address
+the training with reduced precision while maintaining model accuracy. Speciﬁcally, we train vari-
+
+∗Equal contribution
+†Now at Google Brain eriche@google.com
+
+1
+
+

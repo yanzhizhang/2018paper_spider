@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING SPARSE LATENT REPRESENTATIONS WITH
+THE DEEP COPULA INFORMATION BOTTLENECK
+
+Aleksander Wieczorek∗, Mario Wieser∗, Damian Murezzan, Volker Roth
+University of Basel, Switzerland
+{firstname.lastname}@unibas.ch
+
+ABSTRACT
+
+Deep latent variable models are powerful tools for representation learning. In this
+paper, we adopt the deep information bottleneck model, identify its shortcom-
+ings and propose a model that circumvents them. To this end, we apply a copula
+transformation which, by restoring the invariance properties of the information
+bottleneck method, leads to disentanglement of the features in the latent space.
+Building on that, we show how this transformation translates to sparsity of the
+latent space in the new model. We evaluate our method on artiﬁcial and real data.
+
+1
+
+INTRODUCTION
+
+In recent years, deep latent variable models (Kingma & Welling, 2013; Rezende et al., 2014; Good-
+fellow et al., 2014) have become a popular toolbox in the machine learning community for a wide
+range of applications (Ledig et al., 2016; Reed et al., 2016; Isola et al., 2016). At the same time, the
+compact representation, sparsity and interpretability of the latent feature space have been identiﬁed
+as crucial elements of such models. In this context, multiple contributions have been made in the
+ﬁeld of relevant feature extraction (Chalk et al., 2016; Alemi et al., 2016) and learning of disentan-
+gled representations of the latent space (Chen et al., 2016; Bouchacourt et al., 2017; Higgins et al.,
+2017).
+In this paper, we consider latent space representation learning. We focus on disentangling fea-
+tures with the copula transformation and, building on that, on forcing a compact low-dimensional
+representation with a sparsity-inducing model formulation. To this end, we adopt the deep infor-
+mation bottleneck (DIB) model (Alemi et al., 2016) which combines the information bottleneck and
+variational autoencoder methods. The information bottleneck (IB) principle (Tishby et al., 2000)
+identiﬁes relevant features with respect to a target variable. It takes two random vectors x and y and
+searches for a third random vector t which, while compressing x, preserves information contained in
+y. A variational autoencoder (VAE) (Kingma & Welling, 2013; Rezende et al., 2014) is a generative
+model which learns a latent representation t of x by using the variational approach.
+Although DIB produces good results in terms of image classiﬁcation and adversarial attacks, it suf-
+fers from two major shortcomings. First, the IB solution only depends on the copula of x and y and
+is thus invariant to strictly monotone transformations of the marginal distributions. DIB does not
+preserve this invariance, which means that it is unnecessarily complex by also implicitly modelling
+the marginal distributions. We elaborate on the fundamental issues arising from this lack of invari-
+ance in Section 3. Second, the latent space of the IB is not sparse which results in the fact that a
+compact feature representation is not feasible.
+Our contribution is two-fold: In the ﬁrst step, we restore the invariance properties of the information
+bottleneck solution in the DIB. We achieve this by applying a transformation of x and y which
+makes the latent space only depend on the copula. This is a way to fully represent all the desirable
+features inherent to the IB formulation. The model is also simpliﬁed by ensuring robust and fully
+non-parametric treatment of the marginal distributions. In addition, the problems arising from the
+lack of invariance to monotone transformations of the marginals are solved. In the second step, once
+the invariance properties are restored, we exploit the sparse structure of the latent space of DIB. This
+is possible thanks to the copula transformation in conjunction with using the sparse parametrisation
+
+∗These authors contributed equally.
+
+1
+
+

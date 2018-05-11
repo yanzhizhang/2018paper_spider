@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+DEEP REWIRING: TRAINING VERY SPARSE DEEP NET-
+WORKS
+
+Guillaume Bellec, David Kappel, Wolfgang Maass & Robert Legenstein
+Institute for Theoretical Computer Science
+Graz University of Technology
+Austria
+{bellec,kappel,maass,legenstein}@igi.tugraz.at
+
+ABSTRACT
+
+Neuromorphic hardware tends to pose limits on the connectivity of deep networks
+that one can run on them. But also generic hardware and software implementa-
+tions of deep learning run more efﬁciently for sparse networks. Several methods
+exist for pruning connections of a neural network after it was trained without con-
+nectivity constraints. We present an algorithm, DEEP R, that enables us to train
+directly a sparsely connected neural network. DEEP R automatically rewires the
+network during supervised training so that connections are there where they are
+most needed for the task, while its total number is all the time strictly bounded.
+We demonstrate that DEEP R can be used to train very sparse feedforward and
+recurrent neural networks on standard benchmark tasks with just a minor loss in
+performance. DEEP R is based on a rigorous theoretical foundation that views
+rewiring as stochastic sampling of network conﬁgurations from a posterior.
+
+1
+
+INTRODUCTION
+
+Network connectivity is one of the main determinants for whether a neural network can be efﬁ-
+ciently implemented in hardware or simulated in software. For example, it is mentioned in Jouppi
+et al. (2017) that in Google’s tensor processing units (TPUs), weights do not normally ﬁt in on-chip
+memory for neural network applications despite the small 8 bit weight precision on TPUs. Memory
+is also the bottleneck in terms of energy consumption in TPUs and FPGAs (Han et al., 2017; Iandola
+et al., 2016). For example, for an implementation of a long short term memory network (LSTM),
+memory reference consumes more than two orders of magnitude more energy than ALU operations
+(Han et al., 2017). The situation is even more critical in neuromorphic hardware, where either hard
+upper bounds on network connectivity are unavoidable (Schemmel et al., 2010; Merolla et al., 2014)
+or fast on-chip memory of local processing cores is severely limited, for example the 96 MByte lo-
+cal memory of cores in the SpiNNaker system (Furber et al., 2014). This implementation bottleneck
+will become even more severe in future applications of deep learning when the number of neurons
+in layers will increase, causing a quadratic growth in the number of connections between them.
+Evolution has apparently faced a similar problem when evolving large neuronal systems such as the
+human brain, given that the brain volume is dominated by white matter, i.e., by connections between
+neurons. The solution found by evolution is convincing. Synaptic connectivity in the brain is highly
+dynamic in the sense that new synapses are constantly rewired, especially during learning (Holtmaat
+et al., 2005; Stettler et al., 2006; Attardo et al., 2015; Chambers & Rumpel, 2017). In other words,
+rewiring is an integral part of the learning algorithms in the brain, rather than a separate process.
+We are not aware of previous methods for simultaneous training and rewiring in artiﬁcial neural
+networks, so that they are able to stay within a strict bound on the total number of connections
+throughout the learning process. There are however several heuristic methods for pruning a larger
+network (Han et al., 2015b;a; Collins & Kohli, 2014; Yang et al., 2015; Srinivas & Babu, 2015), that
+is, the network is ﬁrst trained to convergence, and network connections and / or neurons are pruned
+only subsequently. These methods are useful for downloading a trained network on neuromorphic
+hardware, but not for on-chip training. A number of methods have been proposed that are capable
+of reducing connectivity during training (Collins & Kohli, 2014; Jin et al., 2016; Narang et al.,
+
+1
+
+

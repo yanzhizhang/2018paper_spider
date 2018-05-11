@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+MULTI-MENTION LEARNING FOR READING
+COMPREHENSION WITH NEURAL CASCADES
+
+Swabha Swayamdipta∗
+Language Technologies Institute
+Carnegie Mellon University
+Pittsburgh, PA 15213, USA
+swabha@cs.cmu.edu
+
+Ankur P. Parikh & Tom Kwiatkowski
+Google Research
+New York, NY 10011, USA
+{aparikh,tomkwiat}@google.com
+
+ABSTRACT
+
+Reading comprehension is a challenging task, especially when executed across
+longer or across multiple evidence documents, where the answer is likely to re-
+occur. Existing neural architectures typically do not scale to the entire evidence,
+and hence, resort to selecting a single passage in the document (either via trunca-
+tion or other means), and carefully searching for the answer within that passage.
+However, in some cases, this strategy can be suboptimal, since by focusing on a
+speciﬁc passage, it becomes difﬁcult to leverage multiple mentions of the same
+answer throughout the document. In this work, we take a different approach by
+constructing lightweight models that are combined in a cascade to ﬁnd the answer.
+Each submodel consists only of feed-forward networks equipped with an atten-
+tion mechanism, making it trivially parallelizable. We show that our approach can
+scale to approximately an order of magnitude larger evidence documents and can
+aggregate information at the representation level from multiple mentions of each
+answer candidate across the document. Empirically, our approach achieves state-
+of-the-art performance on both the Wikipedia and web domains of the TriviaQA
+dataset, outperforming more complex, recurrent architectures.
+
+1
+
+INTRODUCTION
+
+Reading comprehension, the task of answering questions based on a set of one more documents,
+is a key challenge in natural language understanding. While data-driven approaches for the task
+date back to Hirschman et al. (1999), much of the recent progress can be attributed to new large-
+scale datasets such as the CNN/Daily Mail Corpus (Hermann et al., 2015), the Children’s Book
+Test Corpus (Hill et al., 2015) and the Stanford Question Answering Dataset (SQuAD) (Rajpurkar
+et al., 2016). These datasets have driven a large body of neural approaches (Wang & Jiang, 2016;
+Lee et al., 2016; Seo et al., 2016; Xiong et al., 2016, inter alia) that build complex deep models
+typically driven by long short-term memory networks (Hochreiter & Schmidhuber, 1997). These
+models have given impressive results on SQuAD where the document consists of a single paragraph
+and the correct answer span is typically only present once. However, they are computationally
+intensive and cannot scale to large evidence texts. Such is the case in the recently released TriviaQA
+dataset (Joshi et al., 2017), which provides as evidence, entire webpages or Wikipedia articles, for
+answering independently collected trivia-style questions.
+So far, progress on the TriviaQA dataset has leveraged existing approaches on the SQuAD dataset
+by truncating documents and focusing on the ﬁrst 800 words (Joshi et al., 2017; Pan et al., 2017).
+This has the obvious limitation that the truncated document may not contain the evidence required
+to answer the question1. Furthermore, in TriviaQA there is often useful evidence spread throughout
+the supporting documents. This cannot be harnessed by approaches such as Choi et al. (2017) that
+greedily search for the best 1-2 sentences in a document. For example, in Fig.1 the answer does not
+appear in the ﬁrst 800 words. The ﬁrst occurrence of the answer string is not sufﬁcient to answer
+the question. The passage starting at token 4089 does contain all of the information required to infer
+
+∗Work done during internship at Google NY.
+1Even though the answer string itself might occur in the truncated document.
+
+1
+
+

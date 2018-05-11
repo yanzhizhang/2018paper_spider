@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+IMPROVING THE UNIVERSALITY AND LEARNABIL-
+ITY OF NEURAL PROGRAMMER-INTERPRETERS WITH
+COMBINATOR ABSTRACTION
+
+Da Xiao1,2, Jo-Yu Liao2, Xingyuan Yuan2
+1School of Cyberspace Security, Beijing University of Posts and Telecommunications, China
+2ColorfulClouds Technology Co., Ltd, Beijing, China
+xiaoda99@gmail.com, {liaoruoyu,yuan}@caiyunapp.com
+
+ABSTRACT
+
+To overcome the limitations of Neural Programmer-Interpreters (NPI) in its uni-
+versality and learnability, we propose the incorporation of combinator abstraction
+into neural programing and a new NPI architecture to support this abstraction,
+which we call Combinatory Neural Programmer-Interpreter (CNPI). Combinator
+abstraction dramatically reduces the number and complexity of programs that need
+to be interpreted by the core controller of CNPI, while still allowing the CNPI to
+represent and interpret arbitrary complex programs by the collaboration of the core
+with the other components. We propose a small set of four combinators to capture
+the most pervasive programming patterns. Due to the ﬁniteness and simplicity of
+this combinator set and the ofﬂoading of some burden of interpretation from the
+core, we are able construct a CNPI that is universal with respect to the set of all
+combinatorizable programs, which is adequate for solving most algorithmic tasks.
+Moreover, besides supervised training on execution traces, CNPI can be trained
+by policy gradient reinforcement learning with appropriately designed curricula.
+
+1
+
+INTRODUCTION
+
+Teaching machines to learn programs is a challenging task. Numerous models have been pro-
+posed for learning programs, e.g. Neural Turing Machine (Graves et al., 2014), Differentiable
+Neural Computer (Graves et al., 2016), Neural GPU (Kaiser & Sutskever, 2015), Neural Program-
+mer (Neelakantan et al., 2015), Neural Random Access Machine (Kurach et al., 2015) and Neural
+Programmer-Interpreter (Reed & de Freitas, 2016). These models are usually equipped with some
+form of memory components with differentiable access. Most of these models are trained on pro-
+gram input-output pairs and the neural network effectively learns to become the particular target
+program, mimicking a particular Turing machine.
+Of these models one notable exception is Neural Programmer-Interpreters (NPI) (Reed & de Freitas,
+2016) and its extension that supports recursion (Cai et al., 2017) (referred to in this paper as RNPI).
+NPI has three components: a core controller that is typically implemented by a recurrent neural net-
+work, a program memory that stores embeddings of learned programs, and domain-speciﬁc encoders
+that enable a single NPI to operate in diverse environments. Instead of learning any particular pro-
+gram, the core module learns to interpret arbitrary programs represented as program embeddings,
+mimicking a universal Turing machine. This integration of the core (interpreter) and a learned pro-
+gram memory (programmer) offers NPIs with better ﬂexibility and composability by allowing the
+model to learn new programs by combining subprograms. Despite these merits, the NPI model bears
+some theoretical and practical limitations that hinder its application in real world problems.
+One hypothetical theoretical property of the NPI model that makes it appealing for multi-task, trans-
+fer, and life-long learning settings is its universality, i.e. the capability to represent and interpret any
+program. As the NPI relies solely on the core to interpret programs, universality requires a ﬁxed core
+to interpret potentially many programs. A universal ﬁxed core is critical for learning and re-using
+learned programs in a continual manner, because a core with changing weights may fail to interpret
+old learned programs after learning new ones. Although the original NPI paper shows empirically
+
+1
+
+

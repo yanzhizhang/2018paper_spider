@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+A FRAMEWORK FOR THE QUANTITATIVE
+EVALUATION OF DISENTANGLED REPRESENTATIONS
+
+Cian Eastwood
+School of Informatics
+University of Edinburgh, UK
+c.eastwood@ed.ac.uk
+
+Christopher K. I. Williams
+School of Informatics
+University of Edinburgh, UK
+and Alan Turing Institute, London, UK
+ckiw@inf.ed.ac.uk
+
+ABSTRACT
+
+Recent AI research has emphasised the importance of learning disentangled rep-
+resentations of the explanatory factors behind data. Despite the growing interest
+in models which can learn such representations, visual inspection remains the
+standard evaluation metric. While various desiderata have been implied in recent
+deﬁnitions, it is currently unclear what exactly makes one disentangled representa-
+tion better than another. In this work we propose a framework for the quantitative
+evaluation of disentangled representations when the ground-truth latent structure
+is available. Three criteria are explicitly deﬁned and quantiﬁed to elucidate the
+quality of learnt representations and thus compare models on an equal basis. To
+illustrate the appropriateness of the framework, we employ it to compare quanti-
+tatively the representations learned by recent state-of-the-art models.
+
+1
+
+INTRODUCTION
+
+To gain a conceptual understanding of our world, models must ﬁrst learn to understand the factorial
+structure of low-level sensory input without supervision (Bengio et al., 2013; Lake et al., 2016;
+Higgins et al., 2017). As argued in several notable works (Desjardins et al., 2012; Bengio et al.,
+2013; Chen et al., 2016; Higgins et al., 2017), this understanding can only be gained if the model
+learns to disentangle the underlying explanatory factors hidden in unlabelled input.
+A disentangled representation is generally described as one which separates the factors of variation,
+explicitly representing the important attributes of the data (Desjardins et al., 2012; Bengio et al.,
+2013; Cohen & Welling, 2014b; Kulkarni et al., 2015; Chen et al., 2016; Higgins et al., 2017).
+For example, given an image dataset of human faces, a disentangled representation may consist of
+separate dimensions (or features) for the face size, hairstyle, eye colour, facial expression, etc. Ul-
+timately, we would like to learn representations that are invariant to irrelevant changes in the data.
+However, the relevant downstream tasks are generally unknown at training time and hence it is difﬁ-
+cult to deduce a priori which features will be useful. Thus, the most robust method is to disentangle
+as many factors of variation as possible, discarding as little information as possible (Desjardins et al.,
+2012; Bengio et al., 2013).
+Despite the expanding literature on models which seek to learn disentangled representations (Des-
+jardins et al., 2012; Reed et al., 2014; Zhu et al., 2014; Cheung et al., 2014; Larsen et al., 2015;
+Makhzani et al., 2015; Yang et al., 2015; Kulkarni et al., 2015; Whitney et al., 2016; Chen et al.,
+2016; Higgins et al., 2017; Denton & Birodkar, 2017), visual inspection remains the standard eval-
+uation metric. While the work of Higgins et al. (2017) partially addresses this issue (as discussed
+in section 3) and various deﬁnitions have implied additional desiderata like interpretability (Bengio
+et al., 2013; Kulkarni et al., 2015; Chen et al., 2016), invariance (Goodfellow et al., 2009; Cohen
+& Welling, 2014a;b; Lenc & Vedaldi, 2015) and equivariance (Kivinen & Williams, 2011; Lenc &
+Vedaldi, 2015; Jayaraman & Grauman, 2015), current research generally lacks a clear metric for
+quantitatively evaluating and comparing disentangled representations.
+In this work we propose a framework for the quantitative evaluation of disentangled representations
+when the ground-truth latent structure is available. To elucidate the quality of learnt representations
+
+1
+
+

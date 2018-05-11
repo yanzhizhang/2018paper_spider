@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+RESIDUAL CONNECTIONS ENCOURAGE ITERATIVE IN-
+FERENCE
+
+Stanisław Jastrz˛ebski1,2,∗, Devansh Arpit2,∗, Nicolas Ballas3, Vikas Verma5,
+Tong Che2 & Yoshua Bengio2,6
+
+1 Jagiellonian University, Cracow, Poland
+2 MILA, Université de Montréal, Canada
+3 Facebook, Montreal, Canada
+4 University of Bonn, Bonn, Germany
+5 Aalto University, Finland
+6 CIFAR Senior Fellow
+∗ Equal Contribution
+
+ABSTRACT
+
+Residual networks (Resnets) have become a prominent architecture in deep learn-
+ing. However, a comprehensive understanding of Resnets is still a topic of ongoing
+research. A recent view argues that Resnets perform iterative reﬁnement of fea-
+tures. We attempt to further expose properties of this aspect. To this end, we study
+Resnets both analytically and empirically. We formalize the notion of iterative re-
+ﬁnement in Resnets by showing that residual connections naturally encourage fea-
+tures of residual blocks to move along the negative gradient of loss as we go from
+one block to the next. In addition, our empirical analysis suggests that Resnets are
+able to perform both representation learning and iterative reﬁnement. In general,
+a Resnet block tends to concentrate representation learning behavior in the ﬁrst
+few layers while higher layers perform iterative reﬁnement of features. Finally
+we observe that sharing residual layers naively leads to representation explosion
+and counterintuitively, overﬁtting, and we show that simple existing strategies can
+help alleviating this problem.
+
+1
+
+INTRODUCTION
+
+Traditionally, deep neural network architectures (e.g. VGG Simonyan & Zisserman (2014), AlexNet
+Krizhevsky et al. (2012), etc.) have been compositional in nature, meaning a hidden layer applies an
+afﬁne transformation followed by non-linearity, with a different transformation at each layer. How-
+ever, a major problem with deep architectures has been that of vanishing and exploding gradients.
+To address this problem, solutions like better activations (ReLU Nair & Hinton (2010)), weight
+initialization methods Glorot & Bengio (2010); He et al. (2015) and normalization methods Ioffe
+& Szegedy (2015); Arpit et al. (2016) have been proposed. Nonetheless, training compositional
+networks deeper than 15 − 20 layers remains a challenging task.
+Recently, residual networks (Resnets He et al. (2016a)) were introduced to tackle these issues and
+are considered a breakthrough in deep learning because of their ability to learn very deep networks
+and achieve state-of-the-art performance. Besides this, performance of Resnets are generally found
+to remain largely unaffected by removing individual residual blocks or shufﬂing adjacent blocks
+Veit et al. (2016). These attributes of Resnets stem from the fact that residual blocks transform
+representations additively instead of compositionally (like traditional deep networks). This additive
+framework along with the aforementioned attributes has given rise to two school of thoughts about
+Resnets– the ensemble view where they are thought to learn an exponential ensemble of shallower
+models Veit et al. (2016), and the unrolled iterative estimation view Liao & Poggio (2016); Greff
+et al. (2016), where Resnet layers are thought to iteratively reﬁne representations instead of learning
+new ones. While the success of Resnets may be attributed partly to both these views, our work takes
+
+1
+
+

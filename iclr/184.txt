@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+SEARNN:
+TRAINING RNNS WITH GLOBAL-LOCAL LOSSES
+
+Rémi Leblond1, 2∗ Jean-Baptiste Alayrac1, 2∗ Anton Osokin1, 2, 3
+1Département d’informatique de l’ENS, Paris, France
+2INRIA, École normale supérieure, CNRS, PSL Research University
+3National Research University Higher School of Economics, Moscow, Russia
+4Université de Montréal & Montreal Institute for Learning Algorithms (MILA)
+5Canadian Institute for Advanced Research (CIFAR)
+{firstname.lastname}@inria.fr
+
+Simon Lacoste-Julien4, 5
+
+ABSTRACT
+
+We propose SEARNN, a novel training algorithm for recurrent neural networks
+(RNNs) inspired by the “learning to search” (L2S) approach to structured prediction.
+RNNs have been widely successful in structured prediction applications such
+as machine translation or parsing, and are commonly trained using maximum
+likelihood estimation (MLE). Unfortunately, this training loss is not always an
+appropriate surrogate for the test error: by only maximizing the ground truth
+probability, it fails to exploit the wealth of information offered by structured
+losses. Further, it introduces discrepancies between training and predicting (such
+as exposure bias) that may hurt test performance. Instead, SEARNN leverages
+test-alike search space exploration to introduce global-local losses that are closer
+to the test error. We ﬁrst demonstrate improved performance over MLE on two
+different tasks: OCR and spelling correction. Then, we propose a subsampling
+strategy to enable SEARNN to scale to large vocabulary sizes. This allows us to
+validate the beneﬁts of our approach on a machine translation task.
+
+1
+
+INTRODUCTION
+
+Recurrent neural networks (RNNs) have been quite successful in structured prediction applications
+such as machine translation (Sutskever et al., 2014), parsing (Ballesteros et al., 2016) or caption
+generation (Vinyals et al., 2015). These models use the same repeated cell (or unit) to output a
+sequence of tokens one by one. As each prediction takes into account all previous predictions, this
+cell learns to output the next token conditioned on the previous ones. The standard training loss for
+RNNs is derived from maximum likelihood estimation (MLE): we consider that the cell outputs a
+probability distribution at each step in the sequence, and we seek to maximize the probability of the
+ground truth.
+Unfortunately, this training loss is not a particularly close surrogate to the various test errors we
+want to minimize. A striking example of discrepancy is that the MLE loss is close to 0/1: it makes
+no distinction between candidates that are close or far away from the ground truth (with respect to
+the structured test error), thus failing to exploit valuable information. Another example of train/test
+discrepancy is called exposure or exploration bias (Ranzato et al., 2016): in traditional MLE training
+the cell learns the conditional probability of the next token, based on the previous ground truth tokens
+– this is often referred to as teacher forcing. However, at test time the model does not have access to
+the ground truth, and thus feeds its own previous predictions to its next cell for prediction instead.
+Improving RNN training thus appears as a relevant endeavor, which has received much attention
+recently. In particular, ideas coming from reinforcement learning (RL), such as the REINFORCE and
+ACTOR-CRITIC algorithms (Ranzato et al., 2016; Bahdanau et al., 2017), have been adapted to derive
+training losses that are more closely related to the test error that we actually want to minimize.
+
+∗Equal contribution.
+
+1
+
+

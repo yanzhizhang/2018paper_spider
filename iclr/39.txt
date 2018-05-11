@@ -1,0 +1,81 @@
+Published as a conference paper at ICLR 2018
+
+AN ONLINE LEARNING APPROACH TO GENERATIVE
+ADVERSARIAL NETWORKS
+
+Paulina Grnarova, Kﬁr Y. Levy, Aurelien Lucchi, Thomas Hofmann, Andreas Krause
+ETH Zürich
+{paulina.grnarova,yehuda.levy,aurelien.lucchi,thomas.hofmann}@inf.ethz.ch
+krausea@ethz.ch
+
+ABSTRACT
+
+We consider the problem of training generative models with a Generative Adversar-
+ial Network (GAN). Although GANs can accurately model complex distributions,
+they are known to be difﬁcult to train due to instabilities caused by a difﬁcult
+minimax optimization problem. In this paper, we view the problem of training
+GANs as ﬁnding a mixed strategy in a zero-sum game. Building on ideas from
+online learning we propose a novel training method named CHEKHOV GAN 1. On
+the theory side, we show that our method provably converges to an equilibrium
+for semi-shallow GAN architectures, i.e. architectures where the discriminator
+is a one-layer network and the generator is arbitrary. On the practical side, we
+develop an efﬁcient heuristic guided by our theoretical results, which we apply to
+commonly used deep GAN architectures. On several real-world tasks our approach
+exhibits improved stability and performance compared to standard GAN training.
+
+1
+
+INTRODUCTION
+
+A recent trend in generative models is to use a deep neural network as a generator. Two notable
+approaches are variational auto-encoders (VAE) (Kingma & Welling, 2013; Rezende et al., 2014) as
+well as Generative Adversarial Networks (GAN) (Goodfellow et al., 2014). Unlike VAEs, the GAN
+approach offers a way to circumvent log-likelihood-based estimation and it also typically produces
+visually sharper samples (Goodfellow et al., 2014). The goal of the generator network is to generate
+samples that are indistinguishable from real samples, where indistinguishability is measured by an
+additional discriminative model. This creates an adversarial game setting where one pits a generator
+against a discriminator.
+Let us denote the data distribution by pdata(x) and the model distribution by pu(x). A probabilistic
+discriminator is denoted by hv : x → [0; 1] and a generator by Gu : z → x. The GAN objective is:
+(1)
+
+Ez∼pz log(1 − hv(Gu(z))) .
+
+Ex∼pdata log hv(x) +
+
+min
+
+max
+
+M (u, v) =
+
+1
+2
+
+u
+
+v
+
+1
+2
+
+Each of the two players (generator/discriminator) tries to optimize their own objective, which is
+exactly balanced by the loss of the other player, thus yielding a two-player zero-sum minimax game.
+Standard GAN approaches aim at ﬁnding a pure Nash Equilibrium by using traditional gradient-based
+techniques to minimize each player’s cost in an alternating fashion. However, an update made by one
+player can repeatedly undo the progress made by the other one, without ever converging.
+In general, alternating gradient descent fails to converge even for very simple games as shown
+by Salimans et al. (2016).
+In the setting of GANs, one of the central open issues is this non-
+convergence problem, which in practice leads to oscillations between different kinds of generated
+samples (Metz et al., 2016).
+While standard GAN methods seek to ﬁnd pure minimax strategies, we propose to consider mixed
+strategies, which allows us to leverage online learning algorithms for mixed strategies in large games.
+
+1We base this name on the Chekhov’s gun (dramatic) principle that states that every element in a story
+must be necessary, and irrelevant elements should be removed. Analogously, our CHEKHOV GAN algorithm
+introduces a sequence of elements which are eventually composed to yield a generator.
+
+1
+
+

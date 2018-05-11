@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+IDENTIFYING ANALOGIES ACROSS DOMAINS
+
+Yedid Hoshen1 and Lior Wolf1,2
+1Facebook AI Research
+2Tel Aviv University
+
+ABSTRACT
+
+Identifying analogies across domains without supervision is an important task for
+artiﬁcial intelligence. Recent advances in cross domain image mapping have con-
+centrated on translating images across domains. Although the progress made
+is impressive, the visual ﬁdelity many times does not sufﬁce for identifying the
+matching sample from the other domain. In this paper, we tackle this very task of
+ﬁnding exact analogies between datasets i.e. for every image from domain A ﬁnd
+an analogous image in domain B. We present a matching-by-synthesis approach:
+AN-GAN, and show that it outperforms current techniques. We further show that
+the cross-domain mapping task can be broken into two parts: domain alignment
+and learning the mapping function. The tasks can be iteratively solved, and as
+the alignment is improved, the unsupervised translation function reaches quality
+comparable to full supervision.
+
+1
+
+INTRODUCTION
+
+Humans are remarkable in their ability to enter an unseen domain and make analogies to the pre-
+viously seen domain without prior supervision (“This dinosaur looks just like my dog Fluffy”).
+This ability is important for using previous knowledge in order to obtain strong priors on the new
+situation, which makes identifying analogies between multiple domains an important problem for
+Artiﬁcial Intelligence. Much of the recent success of AI has been in supervised problems, i.e., when
+explicit correspondences between the input and output were speciﬁed on a training set. Analogy
+identiﬁcation is different in that no explicit example analogies are given in advance, as the new
+domain is unseen.
+Recently several approaches were proposed for unsupervised mapping between domains. The ap-
+proaches take as input sets of images from two different domains A and B without explicit corre-
+spondences between the images in each set, e.g. Domain A: a set of aerial photos and Domain B:
+a set of Google-Maps images. The methods learn a mapping function TAB that takes an image in
+one domain and maps it to its likely appearance in the other domain, e.g. map an aerial photo to
+a Google-Maps image. This is achieved by utilizing two constraints: (i) Distributional constraint:
+the distributions of mapped A domain images (TAB(x)) and images of the target domain B must be
+indistinguishable, and (ii) Cycle constraint: an image mapped to the other domain and back must be
+unchanged, i.e., TBA(TAB(x)) = x.
+In this paper the task of analogy identiﬁcation refers to ﬁnding pairs of examples in the two domains
+that are related by a ﬁxed non-linear transformation. Although the two above constraints have been
+found effective for training a mapping function that is able to translate between the domains, the
+translated images are often not of high enough visual ﬁdelity to be able to perform exact matching.
+We hypothesize that it is caused due to not having exemplar-based constraints but rather constraints
+on the distributions and the inversion property.
+In this work we tackle the problem of analogy identiﬁcation. We ﬁnd that although current methods
+are not designed for this task, it is possible to add exemplar-based constraints in order to recover
+high performance in visual analogy identiﬁcation. We show that our method is effective also when
+only some of the sample images in A and B have exact analogies whereas the rest do not have exact
+analogies in the sample sets. We also show that it is able to ﬁnd correspondences between sets when
+no exact correspondences are available at all. In the latter case, since the method retrieves rather
+than maps examples, it naturally yields far better visual quality than the mapping function.
+
+1
+
+

@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+MITIGATING ADVERSARIAL EFFECTS THROUGH RAN-
+DOMIZATION
+
+Cihang Xie, Zhishuai Zhang & Alan L. Yuille
+Department of Computer Science
+The Johns Hopkins University
+Baltimore, MD 21218 USA
+{cihangxie306, zhshuai.zhang, alan.l.yuille}@gmail.com
+
+Jianyu Wang
+Baidu Research USA
+Sunnyvale, CA 94089 USA
+wjyouch@gmail.com
+
+Zhou Ren
+Snap Inc.
+Venice, CA 90291 USA
+zhou.ren@snapchat.com
+
+ABSTRACT
+
+Convolutional neural networks have demonstrated high accuracy on various tasks
+in recent years. However, they are extremely vulnerable to adversarial examples.
+For example, imperceptible perturbations added to clean images can cause convo-
+lutional neural networks to fail. In this paper, we propose to utilize randomization
+at inference time to mitigate adversarial effects. Speciﬁcally, we use two random-
+ization operations: random resizing, which resizes the input images to a random
+size, and random padding, which pads zeros around the input images in a ran-
+dom manner. Extensive experiments demonstrate that the proposed randomiza-
+tion method is very effective at defending against both single-step and iterative at-
+tacks. Our method provides the following advantages: 1) no additional training or
+ﬁne-tuning, 2) very few additional computations, 3) compatible with other adver-
+sarial defense methods. By combining the proposed randomization method with
+an adversarially trained model, it achieves a normalized score of 0.924 (ranked
+No.2 among 107 defense teams) in the NIPS 2017 adversarial examples defense
+challenge, which is far better than using adversarial training alone with a nor-
+malized score of 0.773 (ranked No.56). The code is public available at https:
+//github.com/cihangxie/NIPS2017_adv_challenge_defense.
+
+1
+
+INTRODUCTION
+
+Convolutional Neural Networks (CNNs) have been successfully applied to a wide range of vision
+tasks, including image classiﬁcation (Krizhevsky et al., 2012; Simonyan & Zisserman, 2015; He
+et al., 2016a), object detection (Girshick, 2015; Ren et al., 2015; Zhang et al., 2017), semantic seg-
+mentation (Long et al., 2015; Chen et al., 2017), visual concept discovery (Wang et al., 2017) etc.
+However, recent works show that CNNs are extremely vulnerable to small perturbations to the input
+image. For example, adding visually imperceptible perturbations to the original image can result in
+failures for image classiﬁcation (Szegedy et al., 2014; Goodfellow et al., 2015), object detection (Xie
+et al., 2017) and semantic segmentation (Xie et al., 2017; Fischer et al., 2017; Cisse et al., 2017).
+These perturbed images are called adversarial examples and Figure 1 gives an example. Adversarial
+examples pose a great security danger to the deployment of commercial machine learning systems.
+Thus, making CNNs more robust to adversarial examples is a very important yet challenging prob-
+lem. Recent works (Papernot et al., 2016b; Kurakin et al., 2017; Tram`er et al., 2017; Cao & Gong,
+
+1
+
+

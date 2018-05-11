@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING FROM BETWEEN-CLASS EXAMPLES
+FOR DEEP SOUND RECOGNITION
+
+Yuji Tokozume1, Yoshitaka Ushiku1, Tatsuya Harada1;2
+1The University of Tokyo, 2RIKEN
+ftokozume,ushiku,haradag@mi.t.u-tokyo.ac.jp
+
+ABSTRACT
+
+Deep learning methods have achieved high performance in sound recognition
+tasks. Deciding how to feed the training data is important for further performance
+improvement. We propose a novel learning method for deep sound recognition:
+Between-Class learning (BC learning). Our strategy is to learn a discriminative
+feature space by recognizing the between-class sounds as between-class sounds.
+We generate between-class sounds by mixing two sounds belonging to different
+classes with a random ratio. We then input the mixed sound to the model and
+train the model to output the mixing ratio. The advantages of BC learning are not
+limited only to the increase in variation of the training data; BC learning leads
+to an enlargement of Fisher’s criterion in the feature space and a regularization
+of the positional relationship among the feature distributions of the classes. The
+experimental results show that BC learning improves the performance on various
+sound recognition networks, datasets, and data augmentation schemes, in which
+BC learning proves to be always beneﬁcial. Furthermore, we construct a new deep
+sound recognition network (EnvNet-v2) and train it with BC learning. As a result,
+we achieved a performance surpasses the human level1.
+
+1
+
+INTRODUCTION
+
+Sound recognition has been conventionally conducted by applying classiﬁers such as SVM to local
+features such as MFCC or log-mel features (Logan et al., 2000; Vacher et al., 2007; Łopatka et al.,
+2010). Convolutional neural networks (CNNs) (LeCun et al., 1998), which have achieved success in
+image recognition tasks (Krizhevsky et al., 2012; Simonyan & Zisserman, 2015; He et al., 2016),
+have recently proven to be effective in tasks related to series data, such as speech recognition
+(Abdel-Hamid et al., 2014; Sainath et al., 2015a;b) and natural language processing (Kim, 2014;
+Zhang et al., 2015). Some researchers applied CNNs to sound recognition tasks and achieved high
+performance (Aytar et al., 2016; Dai et al., 2017; Tokozume & Harada, 2017).
+The amount and quality of training data and how to feed it are important for machine learning, partic-
+ularly for deep learning. Various approaches have been proposed to improve the sound recognition
+performance. The ﬁrst approach is to efﬁciently use limited training data with data augmentation.
+Researchers proposed increasing the training data variation by altering the shape or property of
+sounds or adding a background noise (Tokozume & Harada, 2017; Salamon & Bello, 2017). Re-
+searchers also proposed using additional training data created by mixing multiple training examples
+(Parascandolo et al., 2016; Takahashi et al., 2016). The second approach is to use external data or
+knowledge. Aytar et al. (2016) proposed learning rich sound representations using a large amount of
+unlabeled video datasets and pre-trained image recognition networks. The sound dataset expansion
+was also conducted (Salamon et al., 2014; Piczak, 2015b; Gemmeke et al., 2017).
+In this paper, as a novel third approach we propose a learning method for deep sound recognition:
+Between-Class learning (BC learning). Our strategy is to learn a discriminative feature space by
+recognizing the between-class sounds as between-class sounds. We generate between-class sounds
+by mixing two sounds belonging to different classes with a random ratio. We then input the mixed
+sound to the model and train the network to output the mixing ratio. Our method focuses on the char-
+acteristic of the sound, from which we can generate a new sound simply by adding the waveform
+
+1The code is publicly available at https://github.com/mil-tokyo/bc_learning_sound/.
+
+1
+
+

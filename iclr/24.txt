@@ -1,0 +1,74 @@
+Published as a conference paper at ICLR 2018
+
+NEURAL SPEED READING VIA SKIM-RNN
+
+Sewon Min3∗
+
+Minjoon Seo1,2∗
+Clova AI Research, NAVER1
+Allen Institute for Artiﬁcial Intelligence4
+{minjoon, ali, hannaneh}@cs.washington.edu, shmsw25@snu.ac.kr
+
+University of Washington2
+
+XNOR.AI5
+
+Ali Farhadi2,4,5
+
+Hannaneh Hajishirzi2
+
+Seoul National University3
+
+ABSTRACT
+
+Inspired by the principles of speed reading, we introduce Skim-RNN, a recurrent
+neural network (RNN) that dynamically decides to update only a small fraction
+of the hidden state for relatively unimportant input tokens. Skim-RNN gives
+computational advantage over an RNN that always updates the entire hidden state.
+Skim-RNN uses the same input and output interfaces as a standard RNN and
+can be easily used instead of RNNs in existing models. In our experiments, we
+show that Skim-RNN can achieve signiﬁcantly reduced computational cost without
+losing accuracy compared to standard RNNs across ﬁve different natural language
+tasks. In addition, we demonstrate that the trade-off between accuracy and speed of
+Skim-RNN can be dynamically controlled during inference time in a stable manner.
+Our analysis also shows that Skim-RNN running on a single CPU offers lower
+latency compared to standard RNNs on GPUs.
+
+1
+
+INTRODUCTION
+
+Recurrent neural network (RNN) is a predominantly popular architecture for modeling natural
+language, where RNN sequentially ‘reads’ input tokens and outputs a distributed representation for
+each token. By recurrently updating the hidden state with an identical function, RNN inherently
+requires the same computational cost across time. While this requirement seems natural for some
+application domains, not all input token are equally important in many language processing tasks.
+For instance, in question answering, a rather efﬁcient strategy would be to allocate less computation
+on irrelevant parts of the text (to the question) and only allow heavy computation on important parts.
+Attention models (Bahdanau et al., 2014) compute the importance of the words relevant to the
+given task using an attention mechanism. They, however, do not focus on improving the efﬁciency
+of the inference. More recently, a variant of LSTMs (Yu et al., 2017) is introduced to improve
+inference efﬁciency through skipping multiple tokens at a given time step. In this paper, we introduce
+skim-RNN that takes advantage of ‘skimming’ rather than ‘skipping’ tokens. Skimming refers to the
+ability to decide to spend little time (rather than skipping) on parts of the text that does not affect the
+reader’s main objective. Skimming typically gains trained human speed readers up to 4x speed up,
+occasionally with a bit of loss in the comprehension rates (Marcel Adam Just, 1987).
+Inspired by the principles of human’s speed reading, we introduce Skim-RNN (Figure 1), which
+makes a fast decision on the signiﬁcance of each input (to the downstream task) and ‘skims’ through
+unimportant input tokens by using a smaller RNN to update only a fraction of the hidden state. When
+the decision is to ‘fully read’, Skim-RNN updates the entire hidden state with the default RNN cell.
+Since the hard decision function (‘skim’ or ‘read’) is non-differentiable, we use gumbel-softmax (Jang
+et al., 2017) to estimate the gradient of the function, instead of more traditional methods such as
+REINFORCE (policy gradient) (Williams, 1992). The switching mechanism between the two RNN
+cells enables Skim-RNN to reduce the total number of ﬂoat operations (Flop reduction, or Flop-R)
+when the skimming rate is high, which often leads to faster inference on CPUs1, a highly desirable
+goal for large-scale products and small devices.
+
+∗Equal contribution.
+1Flop reduction does not necessarily mean equivalent speed gain. For instance, on GPUs, there will be
+no speed gain because of parallel computation. On CPUs, the gain will not be as high as the Flop-R due to
+overheads. See Section 4.3.
+
+1
+
+

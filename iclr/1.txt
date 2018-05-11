@@ -1,0 +1,58 @@
+Published as a conference paper at ICLR 2018
+
+DEEP COMPLEX NETWORKS
+
+Chiheb Trabelsi,∗ ♦♣ Olexa Bilaniuk,∗ ♦ Ying Zhang,† ♦♠ Dmitriy Serdyuk,† ♦ Sandeep Subramanian,† ♦
+
+João Felipe Santos,♦ Soroush Mehri,♥ Negar Rostamzadeh,♠ Yoshua Bengio♦¶ & Christopher J Pal♦♣
+
+♦ Montreal Institute for Learning Algorithms (MILA), Montreal
+♣ Ecole Polytechnique, Montreal
+♥ Microsoft Research, Montreal
+♠ Element AI, Montreal
+¶ CIFAR Senior Fellow
+chiheb.trabelsi@polymtl.ca, olexa.bilaniuk@umontreal.ca, ying.zhlisa@gmail.com,
+{serdyuk@iro, sandeep.subramanian.1@}umontreal.ca, jfsantos@emt.inrs.ca,
+soroush.mehri@microsoft.com, negar@elementai.com,
+find.me@the.web, christopher.pal@polymtl.ca
+
+ABSTRACT
+
+At present, the vast majority of building blocks, techniques, and architectures for
+deep learning are based on real-valued operations and representations. However,
+recent work on recurrent neural networks and older fundamental theoretical anal-
+ysis suggests that complex numbers could have a richer representational capacity
+and could also facilitate noise-robust memory retrieval mechanisms. Despite their
+attractive properties and potential for opening up entirely new neural architectures,
+complex-valued deep neural networks have been marginalized due to the absence
+of the building blocks required to design such models. In this work, we provide
+the key atomic components for complex-valued deep neural networks and apply
+them to convolutional feed-forward networks and convolutional LSTMs. More
+precisely, we rely on complex convolutions and present algorithms for complex
+batch-normalization, complex weight initialization strategies for complex-valued
+neural nets and we use them in experiments with end-to-end training schemes.
+We demonstrate that such complex-valued models are competitive with their real-
+valued counterparts. We test deep complex models on several computer vision
+tasks, on music transcription using the MusicNet dataset and on Speech Spectrum
+Prediction using the TIMIT dataset. We achieve state-of-the-art performance on
+these audio-related tasks.
+
+1
+
+INTRODUCTION
+
+Recent research advances have made signiﬁcant progress in addressing the difﬁculties involved in
+learning deep neural network architectures. Key innovations include normalization techniques (Ioffe
+and Szegedy, 2015; Salimans and Kingma, 2016) and the emergence of gating-based feed-forward
+neural networks like Highway Networks (Srivastava et al., 2015). Residual networks (He et al.,
+2015a; 2016) have emerged as one of the most popular and effective strategies for training very deep
+convolutional neural networks (CNNs). Both highway networks and residual networks facilitate
+the training of deep networks by providing shortcut paths for easy gradient ﬂow to lower network
+layers thereby diminishing the effects of vanishing gradients (Hochreiter, 1991). He et al. (2016)
+
+∗Equal ﬁrst author
+†Equal contributions
+
+1
+
+

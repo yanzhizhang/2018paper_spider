@@ -1,0 +1,59 @@
+Published as a conference paper at ICLR 2018
+
+TWIN NETWORKS: MATCHING THE FUTURE
+FOR SEQUENCE GENERATION
+
+Dmitriy Serdyuk,* ♦ Nan Rosemary Ke,* ♦ ‡ Alessandro Sordoni♥
+Adam Trischler,♥ Chris Pal♣♦ & Yoshua Bengio¶ ♦
+
+♦ Montreal Institute for Learning Algorithms (MILA), Canada
+♥ Microsoft Research, Canada
+♣ Ecole Polytechnique, Canada
+¶ CIFAR Senior Fellow
+‡ Work done at Microsoft Research
+* Authors contributed equally
+serdyuk@iro.umontreal.ca, rosemary.nan.ke@gmail.com
+
+ABSTRACT
+
+We propose a simple technique for encouraging generative RNNs to plan ahead.
+We train a “backward” recurrent network to generate a given sequence in reverse
+order, and we encourage states of the forward model to predict cotemporal states
+of the backward model. The backward network is used only during training, and
+plays no role during sampling or inference. We hypothesize that our approach
+eases modeling of long-term dependencies by implicitly forcing the forward states
+to hold information about the longer-term future (as contained in the backward
+states). We show empirically that our approach achieves 9% relative improvement
+for a speech recognition task, and achieves signiﬁcant improvement on a COCO
+caption generation task.
+
+1
+
+INTRODUCTION
+
+Recurrent Neural Networks (RNNs) are the basis of state-of-art models for generating sequential
+data such as text and speech. RNNs are trained to generate sequences by predicting one output
+at a time given all previous ones, and excel at the task through their capacity to remember past
+information well beyond classical n-gram models (Bengio et al., 1994; Hochreiter & Schmidhuber,
+1997). More recently, RNNs have also found success when applied to conditional generation tasks
+such as speech-to-text (Chorowski et al., 2015; Chan et al., 2016), image captioning (Xu et al., 2015)
+and machine translation (Sutskever et al., 2014; Bahdanau et al., 2014).
+RNNs are usually trained by teacher forcing: at each point in a given sequence, the RNN is opti-
+mized to predict the next token given all preceding tokens. This corresponds to optimizing one-step-
+ahead prediction. As there is no explicit bias toward planning in the training objective, the model
+may prefer to focus on the most recent tokens instead of capturing subtle long-term dependencies
+that could contribute to global coherence. Local correlations are usually stronger than long-term de-
+pendencies and thus end up dominating the learning signal. The consequence is that samples from
+RNNs tend to exhibit local coherence but lack meaningful global structure. This difﬁculty in cap-
+turing long-term dependencies has been noted and discussed in several seminal works (Hochreiter,
+1991; Bengio et al., 1994; Hochreiter & Schmidhuber, 1997; Pascanu et al., 2013).
+Recent efforts to address this problem have involved augmenting RNNs with external memory (Di-
+eng et al., 2016; Grave et al., 2016; Gulcehre et al., 2017a), with unitary or hierarchical architec-
+tures (Arjovsky et al., 2016; Serban et al., 2017), or with explicit planning mechanisms (Gulcehre
+et al., 2017b). Parallel efforts aim to prevent overﬁtting on strong local correlations by regularizing
+the states of the network, by applying dropout or penalizing various statistics (Moon et al., 2015;
+Zaremba et al., 2014; Gal & Ghahramani, 2016; Krueger et al., 2016; Merity et al., 2017).
+
+1
+
+

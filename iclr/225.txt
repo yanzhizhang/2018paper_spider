@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+META-LEARNING FOR SEMI-SUPERVISED FEW-SHOT
+CLASSIFICATION
+
+Mengye Ren†(cid:111)(cid:110), Eleni Triantaﬁllou∗†(cid:111)(cid:110), Sachin Ravi∗§, Jake Snell†(cid:111)(cid:110), Kevin Swersky¶,
+Joshua B. Tenenbaum(cid:92), Hugo Larochelle¶‡ & Richard S. Zemel†‡(cid:111)(cid:110)
+†University of Toronto, §Princeton University, ¶Google Brain, (cid:92)MIT, ‡CIFAR, (cid:111)(cid:110)Vector Institute
+{mren,eleni}@cs.toronto.edu, sachinr@cs.princeton.edu,
+jsnell@cs.toronto.edu, kswersky@google.com,
+jbt@mit.edu, hugolarochelle@google.com, zemel@cs.toronto.edu
+
+ABSTRACT
+
+In few-shot classiﬁcation, we are interested in learning algorithms that train
+a classiﬁer from only a handful of labeled examples. Recent progress in
+few-shot classiﬁcation has featured meta-learning,
+in which a parameterized
+model for a learning algorithm is deﬁned and trained on episodes representing
+different classiﬁcation problems, each with a small labeled training set and its
+corresponding test set.
+In this work, we advance this few-shot classiﬁcation
+paradigm towards a scenario where unlabeled examples are also available within
+each episode. We consider two situations: one where all unlabeled examples
+are assumed to belong to the same set of classes as the labeled examples of the
+episode, as well as the more challenging situation where examples from other
+distractor classes are also provided. To address this paradigm, we propose novel
+extensions of Prototypical Networks (Snell et al., 2017) that are augmented with
+the ability to use unlabeled examples when producing prototypes. These models
+are trained in an end-to-end way on episodes, to learn to leverage the unlabeled
+examples successfully. We evaluate these methods on versions of the Omniglot
+and miniImageNet benchmarks, adapted to this new framework augmented with
+unlabeled examples. We also propose a new split of ImageNet, consisting of a
+large set of classes, with a hierarchical structure. Our experiments conﬁrm that
+our Prototypical Networks can learn to improve their predictions due to unlabeled
+examples, much like a semi-supervised algorithm would.
+
+1
+
+INTRODUCTION
+
+The availability of large quantities of labeled data has enabled deep learning methods to achieve im-
+pressive breakthroughs in several tasks related to artiﬁcial intelligence, such as speech recognition,
+object recognition and machine translation. However, current deep learning approaches struggle in
+tackling problems for which labeled data are scarce. Speciﬁcally, while current methods excel at
+tackling a single problem with lots of labeled data, methods that can simultaneously solve a large
+variety of problems that each have only a few labels are lacking. Humans on the other hand are
+readily able to rapidly learn new classes, such as new types of fruit when we visit a tropical country.
+This signiﬁcant gap between human and machine learning provides fertile ground for deep learning
+developments.
+For this reason, recently there has been an increasing body of work on few-shot learning, which
+considers the design of learning algorithms that speciﬁcally allow for better generalization on
+problems with small labeled training sets. Here we focus on the case of few-shot classiﬁcation,
+where the given classiﬁcation problem is assumed to contain only a handful of labeled examples per
+class. One approach to few-shot learning follows a form of meta-learning 1 (Thrun, 1998; Hochreiter
+et al., 2001), which performs transfer learning from a pool of various classiﬁcation problems
+
+∗Equal contribution.
+1See the following blog post for an overview: http://bair.berkeley.edu/blog/2017/07/18/
+
+learning-to-learn/
+
+1
+
+

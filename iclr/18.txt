@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+SYNTAX-DIRECTED VARIATIONAL AUTOENCODER
+FOR STRUCTURED DATA
+
+Hanjun Dai*1, Yingtao Tian*2, Bo Dai1, Steven Skiena2, Le Song1, 3
+1 College of Computing, Georgia Institute of Technology
+2 Department of Computer Science, Stony Brook University
+3 Ant Financial
+1 {hanjundai, bodai}@gatech.edu, lsong@cc.gatech.edu
+2 {yittian, skiena}@cs.stonybrook.edu
+
+ABSTRACT
+
+Deep generative models have been enjoying success in modeling continuous data.
+However it remains challenging to capture the representations for discrete struc-
+tures with formal grammars and semantics, e.g., computer programs and molec-
+ular structures. How to generate both syntactically and semantically correct data
+still remains largely an open problem. Inspired by the theory of compiler where
+the syntax and semantics check is done via syntax-directed translation (SDT), we
+propose a novel syntax-directed variational autoencoder (SD-VAE) by introduc-
+ing stochastic lazy attributes. This approach converts the ofﬂine SDT check into
+on-the-ﬂy generated guidance for constraining the decoder. Comparing to the
+state-of-the-art methods, our approach enforces constraints on the output space so
+that the output will be not only syntactically valid, but also semantically reason-
+able. We evaluate the proposed model with applications in programming language
+and molecules, including reconstruction and program/molecule optimization. The
+results demonstrate the effectiveness in incorporating syntactic and semantic con-
+straints in discrete generative models, which is signiﬁcantly better than current
+state-of-the-art approaches.
+
+1
+
+INTRODUCTION
+
+Recent advances in deep representation learning have resulted in powerful probabilistic generative
+models which have demonstrated their ability on modeling continuous data, e.g., time series sig-
+nals (Oord et al., 2016; Dai et al., 2017) and images (Radford et al., 2015; Karras et al., 2017).
+Despite the success in these domains, it is still challenging to correctly generate discrete structured
+data, such as graphs, molecules and computer programs. Since many of the structures have syntax
+and semantic formalisms, the generative models without explicit constraints often produces invalid
+ones.
+Conceptually an approach in generative model for structured data can be divided in two parts, one
+being the formalization of the structure generation and the other one being a (usually deep) gen-
+erative model producing parameters for stochastic process in that formalization. Often the hope is
+that with the help of training samples and capacity of deep models, the loss function will prefer the
+valid patterns and encourage the mass of the distribution of the generative model towards the desired
+region automatically.
+Arguably the simplest structured data are sequences, whose generation with deep model has been
+well studied under the seq2seq (Sutskever et al., 2014) framework that models the generation of
+sequence as a series of token choices parameterized by recurrent neural networks (RNNs).
+Its
+widespread success has encourage several pioneer works that consider the conversion of more
+complex structure data into sequences and apply sequence models to the represented sequences.
+G´omez-Bombarelli et al. (2016) (CVAE) is a representative work of such paradigm for the chemical
+molecule generation, using the SMILES line notation (Weininger, 1988) for representing molecules.
+
+*Both authors contributed equally to the paper.
+
+1
+
+

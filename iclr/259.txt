@@ -1,0 +1,73 @@
+Published as a conference paper at ICLR 2018
+
+DYNAMIC NEURAL PROGRAM EMBEDDINGS FOR PRO-
+GRAM REPAIR
+
+Ke Wang∗
+University of California
+Davis, CA 95616, USA
+kbwang@ucdavis.edu
+
+Rishabh Singh
+Microsoft Research
+Redmond, WA 98052, USA
+risin@microsoft.com
+
+Zhendong Su
+University of California
+Davis, CA 95616, USA
+su@ucdavis.edu
+
+ABSTRACT
+
+Neural program embeddings have shown much promise recently for a variety
+of program analysis tasks, including program synthesis, program repair, code-
+completion, and fault localization. However, most existing program embeddings
+are based on syntactic features of programs, such as token sequences or abstract
+syntax trees. Unlike images and text, a program has well-deﬁned semantics that
+can be difﬁcult to capture by only considering its syntax (i.e. syntactically similar
+programs can exhibit vastly different run-time behavior), which makes syntax-
+based program embeddings fundamentally limited. We propose a novel semantic
+program embedding that is learned from program execution traces. Our key in-
+sight is that program states expressed as sequential tuples of live variable values
+not only capture program semantics more precisely, but also offer a more natural
+ﬁt for Recurrent Neural Networks to model. We evaluate different syntactic and
+semantic program embeddings on the task of classifying the types of errors that
+students make in their submissions to an introductory programming class and on
+the CodeHunt education platform. Our evaluation results show that the semantic
+program embeddings signiﬁcantly outperform the syntactic program embeddings
+based on token sequences and abstract syntax trees.
+In addition, we augment
+a search-based program repair system with predictions made from our semantic
+embedding and demonstrate signiﬁcantly improved search efﬁciency.
+
+1
+
+INTRODUCTION
+
+Recent breakthroughs in deep learning techniques for computer vision and natural language pro-
+cessing have led to a growing interest in their applications in programming languages and software
+engineering. Several well-explored areas include program classiﬁcation, similarity detection, pro-
+gram repair, and program synthesis. One of the key steps in using neural networks for such tasks is
+to design suitable program representations for the networks to exploit. Most existing approaches in
+the neural program analysis literature have used syntax-based program representations. Mou et al.
+(2016) proposed a convolutional neural network over abstract syntax trees (ASTs) as the program
+representation to classify programs based on their functionalities and detecting different sorting rou-
+tines. DeepFix (Gupta et al., 2017), SynFix (Bhatia & Singh, 2016), and sk p (Pu et al., 2016) are
+recent neural program repair techniques for correcting errors in student programs for MOOC assign-
+ments, and they all represent programs as sequences of tokens. Even program synthesis techniques
+that generate programs as output, such as RobustFill (Devlin et al., 2017), also adopt a token-based
+program representation for the output decoder. The only exception is Piech et al. (2015), which
+introduces a novel perspective of representing programs using input-output pairs. However, such
+representations are too coarse-grained to accurately capture program properties — programs with
+the same input-output behavior may have very different syntactic characteristics. Consequently, the
+embeddings learned from input-output pairs are not precise enough for many program analysis tasks.
+Although these pioneering efforts have made signiﬁcant contributions to bridge the gap between
+deep learning techniques and program analysis tasks, syntax-based program representations are fun-
+damentally limited due to the enormous gap between program syntax (i.e. static expression) and
+
+∗Work done during an internship at Microsoft Research.
+
+1
+
+

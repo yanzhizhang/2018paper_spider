@@ -1,0 +1,70 @@
+Published as a conference paper at ICLR 2018
+
+MODEL-ENSEMBLE TRUST-REGION POLICY OPTI-
+MIZATION
+
+Ignasi Clavera
+
+Thanard Kurutach
+Berkeley AI Research
+University of California, Berkeley
+Berkeley, CA 94709
+{thanard.kurutach, iclavera, rockyduan, avivt, pabbeel}@berkeley.edu
+
+Yan Duan
+
+Aviv Tamar
+
+Pieter Abbeel
+
+ABSTRACT
+
+Model-free reinforcement learning (RL) methods are succeeding in a growing
+number of tasks, aided by recent advances in deep learning. However, they tend to
+suffer from high sample complexity which hinders their use in real-world domains.
+Alternatively, model-based reinforcement learning promises to reduce sample com-
+plexity, but tends to require careful tuning and, to date, it has succeeded mainly in
+restrictive domains where simple models are sufﬁcient for learning. In this paper,
+we analyze the behavior of vanilla model-based reinforcement learning methods
+when deep neural networks are used to learn both the model and the policy, and we
+show that the learned policy tends to exploit regions where insufﬁcient data is avail-
+able for the model to be learned, causing instability in training. To overcome this
+issue, we propose to use an ensemble of models to maintain the model uncertainty
+and regularize the learning process. We further show that the use of likelihood
+ratio derivatives yields much more stable learning than backpropagation through
+time. Altogether, our approach Model-Ensemble Trust-Region Policy Optimization
+(ME-TRPO) signiﬁcantly reduces the sample complexity compared to model-free
+deep RL methods on challenging continuous control benchmark tasks1.
+
+1
+
+INTRODUCTION
+
+Deep reinforcement learning has achieved many impressive results in recent years, including learning
+to play Atari games from raw-pixel inputs (Mnih et al., 2015), mastering the game of Go (Silver
+et al., 2016; 2017), as well as learning advanced locomotion and manipulation skills from raw
+sensory inputs (Levine et al., 2016a; Schulman et al., 2015; 2016; Lillicrap et al., 2015). Many
+of these results were achieved using model-free reinforcement learning algorithms, which do not
+attempt to build a model of the environment. These algorithms are generally applicable, require
+relatively little tuning, and can easily incorporate powerful function approximators such as deep
+neural networks. However, they tend to suffer from high sample complexity, especially when such
+powerful function approximators are used, and hence their applications have been mostly limited to
+simulated environments. In comparison, model-based reinforcement learning algorithms utilize a
+learned model of the environment to assist learning. These methods can potentially be much more
+sample efﬁcient than model-free algorithms, and hence can be applied to real-world tasks where low
+sample complexity is crucial (Deisenroth and Rasmussen, 2011; Levine et al., 2016a; Venkatraman
+et al., 2017). However, so far such methods have required very restrictive forms of the learned models,
+as well as careful tuning for them to be applicable. Although it is a straightforward idea to extend
+model-based algorithms to deep neural network models, so far there has been comparatively fewer
+successful applications.
+The standard approach for model-based reinforcement learning alternates between model learning
+and policy optimization. In the model learning stage, samples are collected from interaction with
+the environment, and supervised learning is used to ﬁt a dynamics model to the observations. In the
+policy optimization stage, the learned model is used to search for an improved policy. The underlying
+assumption in this approach, henceforth termed vanilla model-based RL, is that with enough data,
+
+1Videos available at: https://sites.google.com/view/me-trpo
+
+1
+
+

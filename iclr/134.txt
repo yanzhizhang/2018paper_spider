@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+TEMPORALLY EFFICIENT DEEP LEARNING
+WITH SPIKES
+
+Peter O’Connor, Efstratios Gavves, Matthias Reisser, Max Welling
+QUVA Lab
+University of Amsterdam
+Amsterdam, Netherlands
+{p.e.oconnor,egavves,m.reisser,m.welling}@uva.nl
+
+ABSTRACT
+
+The vast majority of natural sensory data is temporally redundant. For instance,
+video frames or audio samples which are sampled at nearby points in time tend to
+have similar values. Typically, deep learning algorithms take no advantage of this
+redundancy to reduce computations. This can be an obscene waste of energy. We
+present a variant on backpropagation for neural networks in which computation
+scales with the rate of change of the data - not the rate at which we process the
+data. We do this by implementing a form of Predictive Coding wherein neurons
+communicate a combination of their state, and their temporal change in state,
+and quantize this signal using Sigma-Delta modulation. Intriguingly, this simple
+communication rule give rise to units that resemble biologically-inspired leaky
+integrate-and-ﬁre neurons, and to a spike-timing-dependent weight-update similar
+to Spike-Timing Dependent Plasticity (STDP), a synaptic learning rule observed
+in the brain. We demonstrate that on MNIST, on a temporal variant of MNIST,
+and on Youtube-BB, a dataset with videos in the wild, our algorithm performs
+about as well as a standard deep network trained with backpropagation, despite
+only communicating discrete values between layers.
+
+1
+
+INTRODUCTION
+
+Currently, most algorithms used in Machine Learning work under the assumption that data points are
+independent and identically distributed, as this assumption provides good statistical guarantees for
+convergence. This is very different from the way data enters our brains. Our eyes receive a single,
+never-ending stream of temporally correlated data. We get to use this data once, and then it’s gone.
+Moreover, most sensors produce sequential, temporally redundant streams of data. This can be both a
+blessing and a curse. From a statistical learning point of view this redundancy may lead to biased
+estimators when used to train models which assume independent and identically distributed input data.
+However, the temporal redundancy also implies that intuitively not all computations are necessary.
+Online Learning is the study of how to learn in this domain - where data becomes available in
+sequential order and is given to the model only once. Given the enormous amount of sequential data,
+mainly videos, that are being produced nowadays, it seems desirable to develop learning systems
+that simply consume data on-the-ﬂy as it is being generated, rather than collect it into datasets for
+ofﬂine-training. There is, however a problem of efﬁciency, which we hope to illustrate with two
+examples:
+
+1. CCTV feeds. CCTV Cameras collect an enormous amount of data from mostly-static scenes.
+The amount of new information in a frame, given the previous frame, tends to be low, i.e.
+the data tends to be temporally redundant. If we want to train a model from of this data (for
+example a pedestrian detector), we need to process a large amount of mostly-static frames.
+If the frame rate doubles, so does the amount of computation. Intuitively, it feels that this
+should not be necessary. It would be nice to still be able to use all this data, but have the
+amount of computation scale with the amount of new information in each frame, not just the
+number of frames and dimensions of the data.
+
+1
+
+

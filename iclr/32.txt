@@ -1,0 +1,72 @@
+Published as a conference paper at ICLR 2018
+
+UNSUPERVISED LEARNING OF GOAL SPACES FOR
+INTRINSICALLY MOTIVATED GOAL EXPLORATION
+
+Alexandre Péré
+Flowers Team
+Inria and Ensta-ParisTech, France
+alexandre.pere@inria.fr
+
+Sebastien Forestier
+Flowers Team
+Inria and Ensta-ParisTech, France
+sebastien.forestier@inria.fr
+
+Olivier Sigaud
+Flowers Team
+Inria, Ensta-ParisTech and UPMC, France
+Olivier.Sigaud@upmc.fr
+
+Pierre-Yves Oudeyer
+Flowers Team
+Inria and Ensta-ParisTech, France
+pierre-yves.oudeyer@inria.fr
+
+ABSTRACT
+
+Intrinsically motivated goal exploration algorithms enable machines to discover
+repertoires of policies that produce a diversity of effects in complex environ-
+ments. These exploration algorithms have been shown to allow real world robots
+to acquire skills such as tool use in high-dimensional continuous state and action
+spaces. However, they have so far assumed that self-generated goals are sampled
+in a speciﬁcally engineered feature space, limiting their autonomy. In this work,
+we propose to use deep representation learning algorithms to learn an adequate
+goal space. This is a developmental 2-stage approach: ﬁrst, in a perceptual learn-
+ing stage, deep learning algorithms use passive raw sensor observations of world
+changes to learn a corresponding latent space; then goal exploration happens in
+a second stage by sampling goals in this latent space. We present experiments
+where a simulated robot arm interacts with an object, and we show that explo-
+ration algorithms using such learned representations can match the performance
+obtained using engineered representations.
+Keywords: exploration; autonomous goal setting; diversity; unsupervised
+learning; deep neural network
+
+1
+
+INTRODUCTION
+
+Spontaneous exploration plays a key role in the development of knowledge and skills in human
+children. For example, young children spend a large amount of time exploring what they can do
+with their body and external objects, independently of external objectives such as ﬁnding food or
+following instructions from adults. Such intrinsically motivated exploration (Berlyne, 1966; Gopnik
+et al., 1999; Oudeyer & Smith, 2016) leads them to make ratcheting discoveries, such as learning to
+locomote or climb in various styles and on various surfaces, or learning to stack and use objects as
+tools. Equipping machines with similar intrinsically motivated exploration capabilities should also
+be an essential dimension for lifelong open-ended learning and artiﬁcial intelligence.
+In the last two decades, several families of computational models have both contributed to a better
+understanding of such exploration processes in infants, and how to apply them efﬁciently for au-
+tonomous lifelong machine learning (Oudeyer et al., 2016). One general approach taken by several
+research groups (Baldassarre et al., 2013; Oudeyer et al., 2007; Barto, 2013; Friston et al., 2017)
+has been to model the child as intrinsically motivated to make sense of the world, exploring like a
+scientist that imagines, selects and runs experiments to gain knowledge and control over the world.
+These models have focused in particular on three kinds of mechanisms argued to be essential and
+complementary to enable machines and animals to efﬁciently explore and discover skill repertoires
+in the real world (Oudeyer et al., 2013; Cangelosi et al., 2015): embodiment 1, intrinsic motivation2
+
+1Body synergies provide structure on action and perception
+2Self-organizes a curriculum of exploration and learning at multiple levels of abstraction
+
+1
+
+

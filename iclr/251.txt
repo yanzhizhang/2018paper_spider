@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+GENERALIZING ACROSS DOMAINS VIA
+CROSS-GRADIENT TRAINING
+
+Shiv Shankar∗1, Vihari Piratla∗1, Soumen Chakrabarti1, Siddhartha Chaudhuri1,2, Preethi Jyothi1, and
+
+Sunita Sarawagi1
+
+1Department of Computer Science, Indian Institute of Technology Bombay
+
+2Adobe Research
+
+ABSTRACT
+
+We present CROSSGRAD, a method to use multi-domain training data to learn a
+classiﬁer that generalizes to new domains. CROSSGRAD does not need an adap-
+tation phase via labeled or unlabeled data, or domain features in the new domain.
+Most existing domain adaptation methods attempt to erase domain signals using
+techniques like domain adversarial training. In contrast, CROSSGRAD is free to
+use domain signals for predicting labels, if it can prevent overﬁtting on training
+domains. We conceptualize the task in a Bayesian setting, in which a sampling
+step is implemented as data augmentation, based on domain-guided perturbations
+of input instances. CROSSGRAD parallelly trains a label and a domain classiﬁer on
+examples perturbed by loss gradients of each other’s objectives. This enables us
+to directly perturb inputs, without separating and re-mixing domain signals while
+making various distributional assumptions. Empirical evaluation on three differ-
+ent applications where this setting is natural establishes that (1) domain-guided
+perturbation provides consistently better generalization to unseen domains, com-
+pared to generic instance perturbation methods, and that (2) data augmentation is
+a more stable and accurate method than domain adversarial training.
+
+1
+
+INTRODUCTION
+
+We investigate how to train a classiﬁcation model using multi-domain training data, so as to gen-
+eralize to labeling instances from unseen domains. This problem arises in many applications, viz.,
+handwriting recognition, speech recognition, sentiment analysis, and sensor data interpretation. In
+these applications, domains may be deﬁned by fonts, speakers, writers, etc. Most existing work on
+handling a target domain not seen at training time requires either labeled or unlabeled data from the
+target domain at test time. Often, a separate “adaptation” step is then run over the source and target
+domain instances, only after which target domain instances are labeled. In contrast, we consider
+the situation where, during training, we have labeled instances from several domains which we can
+collectively exploit so that the trained system can handle new domains without the adaptation step.
+
+1.1 PROBLEM STATEMENT
+Let D be a space of domains. During training we get labeled data from a proper subset D ⊂ D of
+these domains. Each labeled example during training is a triple (x, y, d) where x is the input, y ∈ Y
+is the true class label from a ﬁnite set of labels Y and d ∈ D is the domain from which this example
+is sampled. We must train a classiﬁer to predict the label y for examples sampled from all domains,
+including the subset D\ D not seen in the training set. Our goal is high accuracy for both in-domain
+(i.e., in D) and out-of-domain (i.e., in D \ D) test instances.
+One challenge in learning a classiﬁer that generalizes to unseen domains is that Pr(y|x) is typi-
+cally harder to learn than Pr(y|x, d). While Yang & Hospedales (2015) addressed a similar setting,
+they assumed a speciﬁc geometry characterizing the domain, and performed kernel regression in
+
+∗These two authors contributed equally
+
+1
+
+

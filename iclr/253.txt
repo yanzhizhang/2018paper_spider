@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING PARAMETRIC CLOSED-LOOP POLICIES
+FOR MARKOV POTENTIAL GAMES
+
+Sergio Valcarcel Macua
+PROWLER.io
+Cambridge, UK
+sergio@prowler.io
+
+Javier Zazo, Santiago Zazo
+Information Processing and Telecommunications Center
+Universidad Politécnica de Madrid
+Madrid, Spain
+javier.zazo.ruiz@upm.es
+santiago@gaps.ssr.upm.es
+
+ABSTRACT
+
+Multiagent systems where the agents interact among themselves and with an
+stochastic environment can be formalized as stochastic games. We study a subclass
+of these games, named Markov potential games (MPGs), that appear often in eco-
+nomic and engineering applications when the agents share some common resource.
+We consider MPGs with continuous state-action variables, coupled constraints and
+nonconvex rewards. Previous analysis followed a variational approach that is only
+valid for very simple cases (convex rewards, invertible dynamics, and no coupled
+constraints); or considered deterministic dynamics and provided open-loop (OL)
+analysis, studying strategies that consist in predeﬁned action sequences, which are
+not optimal for stochastic environments. We present a closed-loop (CL) analysis
+for MPGs and consider parametric policies that depend on the current state and
+where agents adapt to stochastic transitions. We provide easily veriﬁable, sufﬁcient
+and necessary conditions for a stochastic game to be an MPG, even for complex
+parametric functions (e.g., deep neural networks); and show that a closed-loop
+Nash equilibrium (NE) can be found (or at least approximated) by solving a related
+optimal control problem (OCP). This is useful since solving an OCP—which is a
+single-objective problem—is usually much simpler than solving the original set
+of coupled OCPs that form the game—which is a multiobjective control problem.
+This is a considerable improvement over the previously standard approach for the
+CL analysis of MPGs, which gives no approximate solution if no NE belongs to
+the chosen parametric family, and which is practical only for simple parametric
+forms. We illustrate the theoretical contributions with an example by applying our
+approach to a noncooperative communications engineering game. We then solve
+the game with a deep reinforcement learning algorithm that learns policies that
+closely approximates an exact variational NE of the game.
+
+1
+
+INTRODUCTION
+
+In a noncooperative stochastic dynamic game, the agents compete in a time-varying environment,
+which is characterized by a discrete-time dynamical system equipped with a set of states and a
+state-transition probability distribution. Each agent has an instantaneous reward function, which can
+be stochastic and depends on agents’ actions and current system state. We consider that both the
+state and action sets are subsets of real vector spaces and subject to coupled constraints, as usually
+required by engineering applications.
+A dynamic game starts at some initial state. Then, the agents take some action and the game moves to
+another state and gives some reward values to the agents. This process is repeated at every time step
+over a (possibly) inﬁnite time horizon. The aim of each agent is to ﬁnd the policy that maximizes its
+expected long term return given other agents’ policies. Thus, a game can be represented as a set of
+coupled optimal-control-problems (OCPs), which are difﬁcult to solve in general.
+OCPs are usually analyzed for two cases namely open-loop (OL) or closed-loop (CL), depending on
+the information that is available to the agents when making their decisions. In the OL analysis, the
+
+1
+
+

@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+DEEP SENSING: ACTIVE SENSING USING MULTI-
+DIRECTIONAL RECURRENT NEURAL NETWORKS
+
+Jinsung Yoon
+Department of Electrical and Computer Engineering
+University of California, Los Angeles
+Los Angeles, CA 90095, USA
+jsyoon0823@g.ucla.edu
+
+William R. Zame
+Department of Mathematics
+Department of Economics
+University of California, Los Angeles
+Los Angeles, CA 90095, USA
+zame@econ.ucla.edu
+
+Mihaela van der Schaar
+Department of Engineering Science, University of Oxford, Oxford, UK
+Alan Turing Institute, London, UK
+mihaela.vanderschaar@eng.ox.ac.uk
+
+ABSTRACT
+
+For every prediction we might wish to make, we must decide what to observe
+(what source of information) and when to observe it. Because making observa-
+tions is costly, this decision must trade off the value of information against the
+cost of observation. Making observations (sensing) should be an active choice. To
+solve the problem of active sensing we develop a novel deep learning architecture:
+Deep Sensing. At training time, Deep Sensing learns how to issue predictions at
+various cost-performance points. To do this, it creates a different presentation at
+each of a variety of different performance levels, each associated with a particular
+set of measurement rates (costs). This requires learning how to estimate the value
+of real measurements vs. inferred measurements, which in turn requires learning
+how to infer missing (unobserved) measurements. To infer missing measurements,
+we develop a Multi-directional Recurrent Neural Network (M-RNN). An M-RNN
+differs from a bi-directional RNN in that it sequentially operates across streams
+in addition to within streams, and because the timing of inputs into the hidden
+layers is both lagged and advanced. At runtime, the operator prescribes a perfor-
+mance level or a cost constraint, and Deep Sensing determines what measurements
+to take and what to infer from those measurements, and then issues predictions.
+To demonstrate the power of our method, we apply it to two real-world medical
+datasets with signiﬁcantly improved performance.
+
+1
+
+INTRODUCTION
+
+Making observations is costly. Hence, for every prediction we might wish to make, we must decide
+what to observe – i.e., what source of information to consult/use – and when to observe it. This
+(joint) decision involves a trade-off between the value of the information that will/might be obtained
+from the observation and the cost of making the observation. There is little reason to make an
+observation if the result of that observation can already be conﬁdently estimated on the basis of
+what is already known or if the result would be of little value in any case; it would be much better to
+conserve the resources to make a different observation at a different time. Thus making observations
+(sensing) should be an active choice (Yu et al. (2009)). The problem of active sensing has many
+applications, from healthcare (the example we use here to illustrate our method) to neuroscience to
+robotics to wireless communications.
+The central point of our approach is that we need to estimate the value of information. This must be
+learned at training time. We learn the estimated value for a speciﬁed set of measurements by ﬁrst
+predicting on the basis of the information we have, then deleting the speciﬁed set of measurements,
+inferring what we have deleted on the basis of the data that remains, making a new prediction on
+
+1
+
+

@@ -1,0 +1,63 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING TO TEACH
+
+Yang Fan†∗, Fei Tian‡∗, Tao Qin‡, Xiang-Yang Li†& Tie-Yan Liu‡
+†School of Computer Science and Technology, University of Science and Technology of China
+fyabc@mail.ustc.edu.cn, xiangyangli@ustc.edu.cn
+‡Microsoft Research
+{fetia,taoqin,tyliu}@microsoft.com
+
+ABSTRACT
+
+Teaching plays a very important role in our society, by spreading human knowl-
+edge and educating our next generations. A good teacher will select appropriate
+teaching materials, impact suitable methodologies, and set up targeted examina-
+tions, according to the learning behaviors of the students. In the ﬁeld of artiﬁcial
+intelligence, however, one has not fully explored the role of teaching, and pays
+most attention to machine learning. In this paper, we argue that equal attention, if
+not more, should be paid to teaching, and furthermore, an optimization framework
+(instead of heuristics) should be used to obtain good teaching strategies. We call
+this approach “learning to teach”. In the approach, two intelligent agents interact
+with each other: a student model (which corresponds to the learner in traditional
+machine learning algorithms), and a teacher model (which determines the appro-
+priate data, loss function, and hypothesis space to facilitate the training of the
+student model). The teacher model leverages the feedback from the student model
+to optimize its own teaching strategies by means of reinforcement learning, so as
+to achieve teacher-student co-evolution. To demonstrate the practical value of our
+proposed approach, we take the training of deep neural networks (DNN) as an ex-
+ample, and show that by using the learning to teach techniques, we are able to use
+much less training data and fewer iterations to achieve almost the same accura-
+cy for different kinds of DNN models (e.g., multi-layer perceptron, convolutional
+neural networks and recurrent neural networks) under various machine learning
+tasks (e.g., image classiﬁcation and text understanding).
+
+1
+
+INTRODUCTION
+
+The evolution of modern human society heavily depends on its advanced education system. The goal
+of education is to equip the students with necessary knowledge and skills, so as to empower them to
+further deepen the understanding of the world, and push the frontier of our humanity. In general, the
+growth of a student will be inﬂuenced by two factors: his/her own learning ability and the teaching
+ability of his/her teacher. Among these two, the teacher plays a critical role: an experienced teach-
+er enables faster learning of a student through elaborated strategies such as selecting appropriate
+teaching materials, imparting suitable methodologies, and setting up targeted examinations.
+The training of an agent in artiﬁcial intelligence (e.g., an image classiﬁcation model) is very similar
+to the growth of a student in human society. However, after carefully revisiting the literature of ar-
+tiﬁcial intelligence (AI), we ﬁnd that the importance role of the teacher has not been fully realized.
+Researchers put most of their efforts on the student, e.g., designing various optimization algorithms
+to enhance the learning ability of intelligent agents. In contrast, there are very limited attempts on
+building good teaching strategies, as brieﬂy summarized below. Machine teaching (Zhu, 2013; 2015;
+Liu & Zhu, 2016; Liu et al., 2017) studies the problem of how to identify the smallest training set
+to push the machine learning model towards a pre-deﬁned oracle model. Curriculum learning (CL)
+(Bengio et al., 2009; Spitkovsky et al., 2010; Graves et al., 2017) and self-paced learning (SPL) (Ku-
+mar et al., 2010; Lee & Grauman, 2011; Jiang et al., 2014b) heuristically deﬁne the scheduling of
+training data in a from-easy-to-hard order. Graduated optimization (Hazan et al., 2016) heuristically
+∗The ﬁrst two authors contribute equally to this paper. Works done when the ﬁrst author was visiting
+
+Microsoft Research Asia.
+
+1
+
+

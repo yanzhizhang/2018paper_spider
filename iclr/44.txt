@@ -1,0 +1,70 @@
+Published as a conference paper at ICLR 2018
+
+UNSUPERVISED CIPHER CRACKING USING DISCRETE
+GANS
+
+Aidan N. Gomez 1,2
+aidan@cs.toronto.edu
+
+Ivan Zhang 2
+ivan@ivanzhang.ca
+
+Sicong Huang 1,2
+huang@cs.toronto.edu
+
+Bryan M. Li 1,2
+bryan@bryanli.io
+
+Muhammad Osama 1,2
+muhammad.osama@mcode.ca
+
+Łukasz Kaiser 3
+lukaszkaiser@google.com
+
+1 Department of Computer Science, University of Toronto
+2 FOR.ai
+3 Google Brain
+
+ABSTRACT
+
+This work details CipherGAN, an architecture inspired by CycleGAN used for
+inferring the underlying cipher mapping given banks of unpaired ciphertext and
+plaintext. We demonstrate that CipherGAN is capable of cracking language data
+enciphered using shift and Vigen`ere ciphers to a high degree of ﬁdelity and for
+vocabularies much larger than previously achieved. We present how CycleGAN
+can be made compatible with discrete data and train in a stable way. We then
+prove that the technique used in CipherGAN avoids the common problem of un-
+informative discrimination associated with GANs applied to discrete data.
+
+1
+
+INTRODUCTION
+
+Humans have been encoding messages for secrecy since before the ancient Greeks, and for the
+same amount of time, have been fascinated with trying to crack these codes using brute-force, fre-
+quency analysis, crib-dragging and even espionage. Simple ciphers have, in the past century, been
+rendered irrelevant in favor of the more secure encryption schemes enabled by modern computa-
+tional resources. However, the question of cipher-cracking remains an interesting problem since it
+requires an intimate understanding of the structure in a language. Nearly all automated cipher crack-
+ing techniques have had to rely on a human-in-the-loop; grounding the automated techniques in a
+human’s preexisting knowledge of language to clean up the errors made by simple algorithms such
+as frequency analysis. Across a number of domains, the use of hand-crafted features has often been
+replaced by automatic feature extraction directly from data using end-to-end learning frameworks
+(Goodfellow et al., 2016). The question to be addressed is as follows:
+
+Can a neural network be trained to deduce withheld ciphers from unaligned text, without the
+
+supplementation of preexisting human knowledge?
+
+The implications for such a general framework would be far-reaching in the ﬁeld of unsupervised
+translation, where each language can be treated as an enciphering of the other. The decoding of
+the Copiale cipher (Knight et al., 2011) stands as an excellent example of the potential for machine
+learning techniques to decode enciphered texts by treating the problem as language translation. The
+CycleGAN (Zhu et al., 2017) architecture is extremely general and we demonstrate our adaptation,
+CipherGAN, is capable of cracking ciphers to an extremely high degree of accuracy. CipherGAN
+
+Code available at: github.com/for-ai/ciphergan
+
+1
+
+

@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+ATTACKING BINARIZED NEURAL NETWORKS
+
+Angus Galloway1, Graham W. Taylor1,2,3 Medhat Moussa1
+1School of Engineering, University of Guelph, Canada
+2Canadian Institute for Advanced Research
+3Vector Institute for Artiﬁcial Intelligence, Canada
+{gallowaa,gwtaylor,mmoussa}@uoguelph.ca
+
+ABSTRACT
+
+Neural networks with low-precision weights and activations offer compelling ef-
+ﬁciency advantages over their full-precision equivalents. The two most frequently
+discussed beneﬁts of quantization are reduced memory consumption, and a faster
+forward pass when implemented with efﬁcient bitwise operations. We propose a
+third beneﬁt of very low-precision neural networks: improved robustness against
+some adversarial attacks, and in the worst case, performance that is on par with
+full-precision models. We focus on the very low-precision case where weights
+and activations are both quantized to ±1, and note that stochastically quantiz-
+ing weights in just one layer can sharply reduce the impact of iterative attacks.
+We observe that non-scaled binary neural networks exhibit a similar effect to the
+original defensive distillation procedure that led to gradient masking, and a false
+notion of security. We address this by conducting both black-box and white-box
+experiments with binary models that do not artiﬁcially mask gradients.1
+
+1
+
+INTRODUCTION
+
+The ability to fool machine learning models by making small changes to their input severely limits
+their potential for safe use in many real-world scenarios. Example vulnerabilities include a seem-
+ingly innocuous audio broadcast that is interpreted by a speech recognition model in a smartphone,
+with the intent to trigger an e-transfer, as well as pictures or identity documents that are automati-
+cally tagged as someone other than the real individual.
+The two most common threat models when evaluating the security of a system are the black-box
+and white-box assumptions, which represent varying degrees of information that an adversary may
+possess. In a black-box threat model, an adversary has similar abilities to a normal user that interacts
+with a system by providing inputs and observing the corresponding outputs. Under this threat model,
+an adversary generally does not know details of the model architecture or dataset used to train the
+model. Of course, an adversary is free to assume that a convolutional architecture was likely used if
+the input domain is images, or a recurrent model for speech or text.
+In a white-box threat model, an adversary has complete access to the model architecture and param-
+eters. In the case of neural networks, white-box attacks frequently rely on gradient information to
+craft especially strong adversarial examples, where strong means that the example is very close to
+the original input as deﬁned by some distance norm (e.g. L0–number of features modiﬁed, L2–mean
+squared distance), yet is very likely to cause the model to yield the incorrect output. For both threat
+types, targeted attacks where a model is made to fail in a speciﬁc way (e.g. causing a handwritten
+‘7’ look like a ‘3’) represents a stronger attack than simple misclassiﬁcation.
+The problem with deploying machine learning systems that are secured in a traditional sense, is that
+adversarial examples have been shown to generalize well between models with different source and
+target architectures (Szegedy et al., 2013; Papernot et al., 2017b; Tram`er et al., 2017). This means
+that a secured model can be compromised in an approximately white-box setting by training and
+attacking a substitute model that approximates the decision boundary of the model under attack (Pa-
+pernot et al., 2017b). Thus, to make strong conclusions about the robustness of a machine learning
+model to adversarial attacks, both threat models should be considered.
+
+1Source code available at https://github.com/AngusG/cleverhans-attacking-bnns
+
+1
+
+

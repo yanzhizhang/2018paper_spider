@@ -1,0 +1,75 @@
+Published as a conference paper at ICLR 2018
+
+AUTO-CONDITIONED RECURRENT NETWORKS FOR
+EXTENDED COMPLEX HUMAN MOTION SYNTHESIS
+
+Yi Zhou1 ∗
+zhou859@usc.edu
+
+Zimo Li1 ∗
+zimoli@usc.edu
+
+Shuangjiu Xiao2
+xsjiu99@cs.sjtu.edu.cn
+
+Chong He2
+sal@sjtu.edu.cn
+
+Zeng Huang1
+zenghuan@usc.edu
+
+Hao Li1,3,4
+hao@hao-li.com
+
+1University of Southern California
+3USC Institute for Creative Technologies
+
+2Shanghai Jiao Tong University
+
+4Pinscreen
+
+ABSTRACT
+
+We present a real-time method for synthesizing highly complex human motions
+using a novel training regime we call the auto-conditioned Recurrent Neural Net-
+work (acRNN). Recently, researchers have attempted to synthesize new motion
+by using autoregressive techniques, but existing methods tend to freeze or diverge
+after a couple of seconds due to an accumulation of errors that are fed back into
+the network. Furthermore, such methods have only been shown to be reliable for
+relatively simple human motions, such as walking or running. In contrast, our
+approach can synthesize arbitrary motions with highly complex styles, including
+dances or martial arts in addition to locomotion. The acRNN is able to accomplish
+this by explicitly accommodating for autoregressive noise accumulation during
+training. Our work is the ﬁrst to our knowledge that demonstrates the ability to
+generate over 18,000 continuous frames (300 seconds) of new complex human
+motion w.r.t. different styles.
+
+1
+
+INTRODUCTION
+
+The synthesis of realistic human motion has recently seen increased interest (Holden et al., 2016;
+2017; Fragkiadaki et al., 2015; Jain et al., 2016; Bütepage et al., 2017; Martinez et al., 2017) with
+applications beyond animation and video games. The simulation of human looking virtual agents
+is likely to become mainstream with the dramatic advancement of Artiﬁcial Intelligence and the
+democratization of Virtual Reality. A challenge for human motion synthesis is to automatically
+generate new variations of motions while preserving a certain style, e.g., generating large numbers of
+different Bollywood dances for hundreds of characters in an animated scene of an Indian party. Aided
+by the availability of large human-motion capture databases, many database-driven frameworks have
+been employed to this end, including motion graphs (Kovar et al., 2002; Safonova & Hodgins, 2007;
+Min & Chai, 2012), as well as linear (Safonova et al., 2004; Chai & Hodgins, 2005; Tautges et al.,
+2011) and kernel methods (Mukai, 2011; Park et al., 2002; Levine et al., 2012; Grochow et al., 2004;
+Moeslund et al., 2006; Wang et al., 2008), which blend key-frame motions from a database. It is hard
+for these methods, however, to add new variations to existing motions in the database while keeping
+the style consistent. This is especially true for motions with a complex style such as dancing and
+martial arts. More recently, with the rapid development in deep learning, people have started to use
+neural networks to accomplish this task (Holden et al., 2017; 2016; 2015). These works have shown
+promising results, demonstrating the ability of using high-level parameters (such as a walking-path)
+to synthesize locomotion tasks such as jumping, running, walking, balancing, etc. These networks do
+not generate new variations of complex motion, however, being instead limited to speciﬁc use cases.
+
+∗equal contribution
+
+1
+
+

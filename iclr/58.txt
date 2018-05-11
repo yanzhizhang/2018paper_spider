@@ -1,0 +1,72 @@
+Published as a conference paper at ICLR 2018
+
+TOWARDS BETTER UNDERSTANDING OF
+GRADIENT-BASED ATTRIBUTION METHODS
+FOR DEEP NEURAL NETWORKS
+
+Marco Ancona
+Department of Computer Science
+ETH Zurich, Switzerland
+marco.ancona@inf.ethz.ch
+
+Cengiz Öztireli
+Department of Computer Science
+ETH Zurich, Switzerland
+cengizo@inf.ethz.ch
+
+Enea Ceolini
+Institute of Neuroinformatics
+University Zürich and ETH Zürich
+enea.ceolini@ini.uzh.ch
+
+Markus Gross
+Department of Computer Science
+ETH Zurich, Switzerland
+grossm@inf.ethz.ch
+
+ABSTRACT
+
+Understanding the ﬂow of information in Deep Neural Networks (DNNs) is a chal-
+lenging problem that has gain increasing attention over the last few years. While
+several methods have been proposed to explain network predictions, there have
+been only a few attempts to compare them from a theoretical perspective. What
+is more, no exhaustive empirical comparison has been performed in the past. In
+this work, we analyze four gradient-based attribution methods and formally prove
+conditions of equivalence and approximation between them. By reformulating
+two of these methods, we construct a uniﬁed framework which enables a direct
+comparison, as well as an easier implementation. Finally, we propose a novel eval-
+uation metric, called Sensitivity-n and test the gradient-based attribution methods
+alongside with a simple perturbation-based attribution method on several datasets
+in the domains of image and text classiﬁcation, using various network architectures.
+
+1
+
+INTRODUCTION AND MOTIVATION
+
+While DNNs have had a large impact on a variety of different tasks (LeCun et al., 2015; Krizhevsky
+et al., 2012; Mnih et al., 2015; Silver et al., 2016; Wu et al., 2016), explaining their predictions is still
+challenging. The lack of tools to inspect the behavior of these black-box models makes DNNs less
+trustable for those domains where interpretability and reliability are crucial, like autonomous driving,
+medical applications and ﬁnance.
+In this work, we study the problem of assigning an attribution value, sometimes also called "relevance"
+or "contribution", to each input feature of a network. More formally, consider a DNN that takes an
+input x = [x1, ..., xN ] ∈ RN and produces an output S(x) = [S1(x), ..., SC(x)], where C is the
+total number of output neurons. Given a speciﬁc target neuron c, the goal of an attribution method
+N ] ∈ RN of each input feature xi to the output Sc.
+is to determine the contribution Rc = [Rc
+For a classiﬁcation task, the target neuron of interest is usually the output neuron associated with
+the correct class for a given sample. When the attributions of all input features are arranged together
+to have the same shape of the input sample we talk about attribution maps (Figures 1-2), which are
+usually displayed as heatmaps where red color indicates features that contribute positively to the
+activation of the target output, and blue color indicates features that have a suppressing effect on it.
+The problem of ﬁnding attributions for deep networks has been tackled in several previous works
+(Simonyan et al., 2014; Zeiler & Fergus, 2014; Springenberg et al., 2014; Bach et al., 2015; Shrikumar
+et al., 2017; Sundararajan et al., 2017; Montavon et al., 2017; Zintgraf et al., 2017). Unfortunately,
+due to slightly different problem formulations, lack of compatibility with the variety of existing DNN
+architectures and no common benchmark, a comprehensive comparison is not available. Various
+
+1, ..., Rc
+
+1
+
+

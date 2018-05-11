@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+AMBIENTGAN: GENERATIVE MODELS FROM LOSSY
+MEASUREMENTS
+
+Ashish Bora
+Department of Computer Science
+University of Texas at Austin
+ashish.bora@utexas.edu
+
+Eric Price
+Department of Computer Science
+University of Texas at Austin
+ecprice@cs.utexas.edu
+
+Alexandros G. Dimakis
+Department of Electrical and Computer Engineering
+University of Texas at Austin
+dimakis@austin.utexas.edu
+
+ABSTRACT
+
+Generative models provide a way to model structure in complex distributions and
+have been shown to be useful for many tasks of practical interest. However, cur-
+rent techniques for training generative models require access to fully-observed
+samples.
+In many settings, it is expensive or even impossible to obtain fully-
+observed samples, but economical to obtain partial, noisy observations. We con-
+sider the task of learning an implicit generative model given only lossy measure-
+ments of samples from the distribution of interest. We show that the true under-
+lying distribution can be provably recovered even in the presence of per-sample
+information loss for a class of measurement models. Based on this, we propose a
+new method of training Generative Adversarial Networks (GANs) which we call
+AmbientGAN. On three benchmark datasets, and for various measurement mod-
+els, we demonstrate substantial qualitative and quantitative improvements. Gen-
+erative models trained with our method can obtain 2-4x higher inception scores
+than the baselines.
+
+1
+
+INTRODUCTION
+
+Generative models are powerful tools to concisely represent the structure in large datasets. An
+implicit generative model is a mechanism that only speciﬁes a stochastic procedure to produce sam-
+ples from a probability distribution. These models are attractive since they do not require an explicit
+parametrization of the probability distribution they are trying to model.
+Recently, there has been substantial progress in neural-network based implicit generative models
+within the autoregressive and the adversarial framework. The adversarial framework was pioneered
+by Generative Adversarial Networks (GANs) [Goodfellow et al. (2014)]. In these models, a genera-
+tor network attempts to map samples from a simple low-dimensional distribution (such as standard
+Gaussian) to points in a high-dimensional space that resemble the learned data distribution. At the
+same time, a discriminator network attempts to distinguish between real and generated samples.
+By setting up a min-max game between them, the two networks are jointly trained. The latent
+probability distribution along with the learned generator network deﬁne a stochastic procedure that
+can produce new samples. The adversarial framework has been shown to be extremely successful
+in modeling complex distributions [Berthelot et al. (2017); Vondrick et al. (2016); Pascual et al.
+(2017); Wu et al. (2016)], and the priors induced by these models are useful for various applications
+[Shrivastava et al. (2016); Ho & Ermon (2016)].
+This procedure for training generative models requires access to a large number of fully-observed
+samples from the desired distribution. Unfortunately, obtaining multiple high-resolution samples
+can be expensive or impractical for some applications. For example, many sensing and tomography
+problems (e.g. MRI, CT Scan) require a large number of projections for good reconstruction. Com-
+pressed sensing [Donoho (2006); Candes et al. (2006)] attempts to ameliorate this problem using
+
+1
+
+

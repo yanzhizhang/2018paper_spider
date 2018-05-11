@@ -1,0 +1,76 @@
+Published as a conference paper at ICLR 2018
+
+ENSEMBLE ADVERSARIAL TRAINING:
+ATTACKS AND DEFENSES
+
+Florian Tram`er
+Stanford University
+tramer@cs.stanford.edu
+
+Alexey Kurakin
+Google Brain
+kurakin@google.com
+
+Nicolas Papernot∗
+Pennsylvania State University
+ngp5056@cse.psu.edu
+
+Ian Goodfellow
+Google Brain
+goodfellow@google.com
+
+Dan Boneh
+Stanford University
+dabo@cs.stanford.edu
+
+Patrick McDaniel
+Pennsylvania State University
+mcdaniel@cse.psu.edu
+
+ABSTRACT
+
+Adversarial examples are perturbed inputs designed to fool machine learning mod-
+els. Adversarial training injects such examples into training data to increase ro-
+bustness. To scale this technique to large datasets, perturbations are crafted using
+fast single-step methods that maximize a linear approximation of the model’s loss.
+We show that this form of adversarial training converges to a degenerate global
+minimum, wherein small curvature artifacts near the data points obfuscate a lin-
+ear approximation of the loss. The model thus learns to generate weak perturba-
+tions, rather than defend against strong ones. As a result, we ﬁnd that adversarial
+training remains vulnerable to black-box attacks, where we transfer perturbations
+computed on undefended models, as well as to a powerful novel single-step attack
+that escapes the non-smooth vicinity of the input data via a small random step.
+We further introduce Ensemble Adversarial Training, a technique that augments
+training data with perturbations transferred from other models. On ImageNet,
+Ensemble Adversarial Training yields models with strong robustness to black-box
+attacks. In particular, our most robust model won the ﬁrst round of the NIPS 2017
+competition on Defenses against Adversarial Attacks (Kurakin et al., 2017c).
+
+1
+
+INTRODUCTION
+
+Machine learning (ML) models are often vulnerable to adversarial examples, maliciously perturbed
+inputs designed to mislead a model at test time (Biggio et al., 2013; Szegedy et al., 2013; Goodfellow
+et al., 2014b; Papernot et al., 2016a). Furthermore, Szegedy et al. (2013) showed that these inputs
+transfer across models: the same adversarial example is often misclassiﬁed by different models,
+thus enabling simple black-box attacks on deployed models (Papernot et al., 2017; Liu et al., 2017).
+Adversarial training (Szegedy et al., 2013) increases robustness by augmenting training data with
+adversarial examples. Madry et al. (2017) showed that adversarially trained models can be made
+robust to white-box attacks (i.e., with knowledge of the model parameters) if the perturbations com-
+puted during training closely maximize the model’s loss. However, prior attempts at scaling this
+approach to ImageNet-scale tasks (Deng et al., 2009) have proven unsuccessful (Kurakin et al.,
+2017b).
+It is thus natural to ask whether it is possible, at scale, to achieve robustness against the class of
+black-box adversaries Towards this goal, Kurakin et al. (2017b) adversarially trained an Inception
+v3 model (Szegedy et al., 2016b) on ImageNet using a “single-step” attack based on a linearization
+of the model’s loss (Goodfellow et al., 2014b). Their trained model is robust to single-step perturba-
+tions but remains vulnerable to more costly “multi-step” attacks. Yet, Kurakin et al. (2017b) found
+that these attacks fail to reliably transfer between models, and thus concluded that the robustness of
+their model should extend to black-box adversaries. Surprisingly, we show that this is not the case.
+
+∗Part of the work was done while the author was at Google Brain.
+
+1
+
+

@@ -1,0 +1,76 @@
+Published as a conference paper at ICLR 2018
+
+VARIATIONAL IMAGE COMPRESSION
+WITH A SCALE HYPERPRIOR
+
+Johannes Ballé∗
+jballe@google.com
+
+David Minnen∗
+dminnen@google.com
+
+Saurabh Singh∗
+saurabhsingh@google.com
+
+Sung Jin Hwang∗
+sjhwang@google.com
+
+Nick Johnston∗
+nickj@google.com
+
+∗Google
+Mountain View, CA 94043, USA
+
+ABSTRACT
+
+We describe an end-to-end trainable model for image compression based on vari-
+ational autoencoders. The model incorporates a hyperprior to effectively capture
+spatial dependencies in the latent representation. This hyperprior relates to side
+information, a concept universal to virtually all modern image codecs, but largely
+unexplored in image compression using artiﬁcial neural networks (ANNs). Un-
+like existing autoencoder compression methods, our model trains a complex prior
+jointly with the underlying autoencoder. We demonstrate that this model leads
+to state-of-the-art image compression when measuring visual quality using the
+popular MS-SSIM index, and yields rate–distortion performance surpassing pub-
+lished ANN-based methods when evaluated using a more traditional metric based
+on squared error (PSNR). Furthermore, we provide a qualitative comparison of
+models trained for different distortion metrics.
+
+1
+
+INTRODUCTION
+
+Recent machine learning methods for lossy image compression have generated signiﬁcant interest
+in both the machine learning and image processing communities (e.g., Ballé et al., 2017; Theis et
+al., 2017; Toderici et al., 2017; Rippel and Bourdev, 2017). Like all lossy compression methods,
+they operate on a simple principle: an image, typically modeled as a vector of pixel intensities x, is
+quantized, reducing the amount of information required to store or transmit it, but introducing error
+at the same time. Typically, it is not the pixel intensitites that are quantized directly. Rather, an
+alternative (latent) representation of the image is found, a vector in some other space y, and quanti-
+zation takes place in this representation, yielding a discrete-valued vector ˆy. Because it is discrete,
+it can be losslessly compressed using entropy coding methods, such as arithmetic coding (Rissanen
+and Langdon, 1981), to create a bitstream which is sent over the channel. Entropy coding relies
+on a prior probability model of the quantized representation, which is known to both encoder and
+decoder (the entropy model).
+In the class of ANN-based methods for image compression mentioned above, the entropy model
+used to compress the latent representation is typically represented as a joint, or even fully factorized,
+distribution p ˆy(ˆy). Note that we need to distinguish between the actual marginal distribution of the
+latent representation m(ˆy), and the entropy model p ˆy(ˆy). While the entropy model is typically as-
+sumed to have some parametric form, with parameters ﬁtted to the data, the marginal is an unknown
+distribution arising from both the distribution of images that are encoded, and the method which is
+used to infer the alternative representation y. The smallest average code length an encoder–decoder
+pair can achieve, using p ˆy as their shared entropy model, is given by the Shannon cross entropy
+between the two distributions:
+
+(1)
+Note that this entropy is minimized if the model distribution is identical to the marginal. This implies
+that, for instance, using a fully factorized entropy model, when statistical dependencies exist in the
+actual distribution of the latent representation, will lead to suboptimal compression performance.
+One way conventional compression methods increase their compression performance is by trans-
+mitting side information: additional bits of information sent from the encoder to the decoder, which
+
+R = E ˆy∼m[− log2 p ˆy(ˆy)].
+
+1
+
+

@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+META LEARNING SHARED HIERARCHIES
+
+Kevin Frans
+Henry M. Gunn High School
+Work done as an intern at OpenAI
+kevinfrans2@gmail.com
+
+John Schulman
+OpenAI
+
+Jonathan Ho, Xi Chen, Pieter Abbeel
+UC Berkeley, Department of Electrical
+Engineering and Computer Science
+
+ABSTRACT
+
+We develop a metalearning approach for learning hierarchically structured poli-
+cies, improving sample efﬁciency on unseen tasks through the use of shared
+primitives—policies that are executed for large numbers of timesteps. Speciﬁ-
+cally, a set of primitives are shared within a distribution of tasks, and are switched
+between by task-speciﬁc policies. We provide a concrete metric for measuring
+the strength of such hierarchies, leading to an optimization problem for quickly
+reaching high reward on unseen tasks. We then present an algorithm to solve this
+problem end-to-end through the use of any off-the-shelf reinforcement learning
+method, by repeatedly sampling new tasks and resetting task-speciﬁc policies. We
+successfully discover1 meaningful motor primitives for the directional movement
+of four-legged robots, solely by interacting with distributions of mazes. We also
+demonstrate the transferability of primitives to solve long-timescale sparse-reward
+obstacle courses, and we enable 3D humanoid robots to robustly walk and crawl
+with the same policy.
+
+1
+
+INTRODUCTION
+
+Humans encounter a wide variety of tasks throughout their lives and utilize prior knowledge to
+master new tasks quickly. In contrast, reinforcement learning algorithms are typically used to solve
+each task independently and from scratch, and they require far more experience than humans. While
+a large body of research seeks to improve the sample efﬁciency of reinforcement learning algorithms,
+there is a limit to learning speed in the absence of prior knowledge.
+We consider the setting where agents solve distributions of related tasks, with the goal of learning
+new tasks quickly. One challenge is that while we want to share information between the different
+tasks, these tasks have different optimal policies, so it’s suboptimal to learn a single shared policy
+for all tasks. Addressing this challenge, we propose a model containing a set of shared sub-policies
+(i.e., motor primitives), which are switched between by task-speciﬁc master policies. This design is
+closely related to the options framework (Sutton et al., 1999; Bacon et al., 2016), but applied to the
+setting of a task distribution. We propose a method for the end-to-end training of sub-policies that
+allow for quick learning on new tasks, handled solely by learning a master policy.
+Our contributions are as follows.
+
+• We formulate an optimization problem that answers the question of what is a good hierar-
+chy?—the problem is to ﬁnd a set of low-level motor primitives that enable the high-level
+master policy to be learned quickly.
+
+• We propose an optimization algorithm that tractably and approximately solves the opti-
+mization problem we posed. The main novelty is in how we repeatedly reset the master
+policy, which allows us to adapt the sub-policies for fast learning.
+
+1Videos at https://sites.google.com/site/mlshsupplementals
+
+1
+
+

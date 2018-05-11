@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+SKIP CONNECTIONS ELIMINATE SINGULARITIES
+
+A. Emin Orhan
+
+aeminorhan@gmail.com
+
+Baylor College of Medicine & Rice University
+
+Xaq Pitkow
+
+xaq@rice.edu
+
+ABSTRACT
+
+Skip connections made the training of very deep networks possible and have be-
+come an indispensable component in a variety of neural architectures. A com-
+pletely satisfactory explanation for their success remains elusive. Here, we present
+a novel explanation for the beneﬁts of skip connections in training very deep net-
+works. The difﬁculty of training deep networks is partly due to the singularities
+caused by the non-identiﬁability of the model. Several such singularities have
+been identiﬁed in previous works: (i) overlap singularities caused by the permuta-
+tion symmetry of nodes in a given layer, (ii) elimination singularities correspond-
+ing to the elimination, i.e. consistent deactivation, of nodes, (iii) singularities gen-
+erated by the linear dependence of the nodes. These singularities cause degenerate
+manifolds in the loss landscape that slow down learning. We argue that skip con-
+nections eliminate these singularities by breaking the permutation symmetry of
+nodes, by reducing the possibility of node elimination and by making the nodes
+less linearly dependent. Moreover, for typical initializations, skip connections
+move the network away from the “ghosts” of these singularities and sculpt the
+landscape around them to alleviate the learning slow-down. These hypotheses are
+supported by evidence from simpliﬁed models, as well as from experiments with
+deep networks trained on real-world datasets.
+
+1
+
+INTRODUCTION
+
+Skip connections are extra connections between nodes in different layers of a neural network that
+skip one or more layers of nonlinear processing. The introduction of skip (or residual) connections
+has substantially improved the training of very deep neural networks (He et al., 2015; 2016; Huang
+et al., 2016; Srivastava et al., 2015). Despite informal intuitions put forward to motivate skip con-
+nections, a clear understanding of how these connections improve training has been lacking. Such
+understanding is invaluable both in its own right and for the possibilities it might offer for further
+improvements in training very deep neural networks. In this paper, we attempt to shed light on this
+question. We argue that skip connections improve the training of deep networks partly by eliminat-
+ing the singularities inherent in the loss landscapes of deep networks. These singularities are caused
+by the non-identiﬁability of subsets of parameters when nodes in the network either get eliminated
+(elimination singularities), collapse into each other (overlap singularities) (Wei et al., 2008), or
+become linearly dependent (linear dependence singularities). Saad & Solla (1995); Amari et al.
+(2006); Wei et al. (2008) identiﬁed the elimination and overlap singularities and showed that they
+signiﬁcantly slow down learning in shallow networks; Saxe et al. (2013) showed that linear depen-
+dence between nodes arises generically in randomly initialized deep linear networks and becomes
+more severe with depth. We show that skip connections eliminate these singularities and provide ev-
+idence suggesting that they improve training partly by ameliorating the learning slow-down caused
+by the singularities.
+
+2 RESULTS
+2.1 SINGULARITIES IN FULLY-CONNECTED LAYERS AND HOW SKIP CONNECTIONS BREAK
+
+THEM
+
+In this work, we focus on three types of singularity that arise in fully-connected layers: elimination
+and overlap singularities (Amari et al., 2006; Wei et al., 2008), and linear dependence singularities
+
+1
+
+

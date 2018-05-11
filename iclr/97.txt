@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+DON’T DECAY THE LEARNING RATE,
+INCREASE THE BATCH SIZE
+
+Samuel L. Smith∗, Pieter-Jan Kindermans∗, Chris Ying & Quoc V. Le
+Google Brain
+{slsmith, pikinder, chrisying, qvl}@google.com
+
+ABSTRACT
+
+It is common practice to decay the learning rate. Here we show one can usually
+obtain the same learning curve on both training and test sets by instead increasing
+the batch size during training. This procedure is successful for stochastic gradi-
+ent descent (SGD), SGD with momentum, Nesterov momentum, and Adam. It
+reaches equivalent test accuracies after the same number of training epochs, but
+with fewer parameter updates, leading to greater parallelism and shorter training
+times. We can further reduce the number of parameter updates by increasing the
+learning rate  and scaling the batch size B ∝ . Finally, one can increase the mo-
+mentum coefﬁcient m and scale B ∝ 1/(1 − m), although this tends to slightly
+reduce the test accuracy. Crucially, our techniques allow us to repurpose existing
+training schedules for large batch training with no hyper-parameter tuning. We
+train ResNet-50 on ImageNet to 76.1% validation accuracy in under 30 minutes.
+
+1
+
+INTRODUCTION
+
+Stochastic gradient descent (SGD) remains the dominant optimization algorithm of deep learning.
+However while SGD ﬁnds minima that generalize well (Zhang et al., 2016; Wilson et al., 2017),
+each parameter update only takes a small step towards the objective. Increasing interest has focused
+on large batch training (Goyal et al., 2017; Hoffer et al., 2017; You et al., 2017a), in an attempt to
+increase the step size and reduce the number of parameter updates required to train a model. Large
+batches can be parallelized across many machines, reducing training time. Unfortunately, when we
+increase the batch size the test set accuracy often falls (Keskar et al., 2016; Goyal et al., 2017).
+To understand this surprising observation, Smith & Le (2017) argued one should interpret SGD as
+integrating a stochastic differential equation. They showed that the scale of random ﬂuctuations in
+B − 1), where  is the learning rate, N training set size and B batch
+the SGD dynamics, g = ( N
+size. Furthermore, they found that there is an optimum ﬂuctuation scale g which maximizes the test
+set accuracy (at constant learning rate), and this introduces an optimal batch size proportional to the
+learning rate when B (cid:28) N. Goyal et al. (2017) already observed this scaling rule empirically and
+exploited it to train ResNet-50 to 76.3% ImageNet validation accuracy in one hour. Here we show,
+• When one decays the learning rate, one simultaneously decays the scale of random ﬂuctu-
+ations g in the SGD dynamics. Decaying the learning rate is simulated annealing. We
+propose an alternative procedure; instead of decaying the learning rate, we increase the
+batch size during training. This strategy achieves near-identical model performance on the
+test set with the same number of training epochs but signiﬁcantly fewer parameter updates.
+Our proposal does not require any ﬁne-tuning as we follow pre-existing training schedules;
+when the learning rate drops by a factor of α, we instead increase the batch size by α.
+• As shown previously, we can further reduce the number of parameter updates by increasing
+the learning rate and scaling B ∝ . One can also increase the momentum coefﬁcient and
+scale B ∝ 1/(1 − m), although this slightly reduces the test accuracy. We train Inception-
+ResNet-V2 on ImageNet in under 2500 parameter updates, using batches of 65536 images,
+and reach a validation set accuracy of 77%. We also replicate the setup of Goyal et al.
+(2017) on TPU and train ResNet-50 on ImageNet to 76.1% accuracy in under 30 minutes.
+∗Both authors contributed equally. Work performed as members of the Google Brain Residency Program.
+
+1
+
+

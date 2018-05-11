@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+TOWARDS SYNTHESIZING COMPLEX PROGRAMS
+FROM INPUT-OUTPUT EXAMPLES
+
+Xinyun Chen Chang Liu Dawn Song
+University of California, Berkeley
+
+ABSTRACT
+
+In recent years, deep learning techniques have been developed to improve the per-
+formance of program synthesis from input-output examples. Albeit its signiﬁcant
+progress, the programs that can be synthesized by state-of-the-art approaches are
+still simple in terms of their complexity. In this work, we move a signiﬁcant step
+forward along this direction by proposing a new class of challenging tasks in the
+domain of program synthesis from input-output examples: learning a context-free
+parser from pairs of input programs and their parse trees. We show that this class
+of tasks are much more challenging than previously studied tasks, and the test
+accuracy of existing approaches is almost 0%.
+We tackle the challenges by developing three novel techniques inspired by three
+novel observations, which reveal the key ingredients of using deep learning to
+synthesize a complex program. First, the use of a non-differentiable machine is the
+key to effectively restrict the search space. Thus our proposed approach learns a
+neural program operating a domain-speciﬁc non-differentiable machine. Second,
+recursion is the key to achieve generalizability. Thus, we bake-in the notion of
+recursion in the design of our non-differentiable machine. Third, reinforcement
+learning is the key to learn how to operate the non-differentiable machine, but
+it is also hard to train the model effectively with existing reinforcement learning
+algorithms from a cold boot. We develop a novel two-phase reinforcement learning-
+based search algorithm to overcome this issue. In our evaluation, we show that
+using our novel approach, neural parsing programs can be learned to achieve 100%
+test accuracy on test inputs that are 500× longer than the training samples.
+
+1
+
+INTRODUCTION
+
+Learning a domain-speciﬁc program from input-output examples is an important open challenge
+with many applications (Balog et al., 2017; Reed & De Freitas, 2016; Cai et al., 2017; Li et al.,
+2017; Devlin et al., 2017; Parisotto et al., 2017; Gulwani et al., 2012; Gulwani, 2011). Approaches
+in this domain largely fall into two categories. One line of work learns a neural network (i.e., a
+fully-differentiable program) to generate outputs from inputs directly (Vinyals et al., 2015b; Aharoni
+& Goldberg, 2017; Dong & Lapata, 2016; Devlin et al., 2017). Despite their promising performance,
+these approaches typically cannot generalize well to previously unseen inputs. Another line of work
+synthesizes a non-differentiable (discrete) program in a domain-speciﬁc language (DSL) using either
+a neural network (Devlin et al., 2017; Parisotto et al., 2017) or SMT solvers (Ellis et al., 2016).
+However, the complexity of programs that can be synthesized using existing approaches is limited.
+Although many efforts are devoted into the ﬁeld of neural program synthesis, all of them are still
+focusing on synthesizing simple textbook-level programs, such as array copying, Quicksort, and a
+combination of no more than 10 string operations. We believe that the next important step for the
+community is to consider more complex programs.
+In this work, we endeavor to pursue this direction and move a big step forward to synthesize more
+complex programs than before. Along the way, we identify several novel challenges dealing with
+complex programs that have not been fully discussed before, and propose novel principled approaches
+to tackle them. First, an end-to-end differentiable neural network is hard to generalize, and in some
+cases is hard to even achieve a test accuracy that is greater than 0%. We observe that a neural network
+is too ﬂexible to approximate any functions, but the programs that we want to synthesize typically lie
+
+1
+
+

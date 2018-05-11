@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+TRUST-PCL: AN OFF-POLICY
+TRUST REGION METHOD FOR CONTINUOUS CONTROL
+
+Oﬁr Nachum, Mohammad Norouzi, Kelvin Xu, & Dale Schuurmans∗
+{ofirnachum,mnorouzi,kelvinxx,schuurmans}@google.com
+Google Brain
+
+ABSTRACT
+
+Trust region methods, such as TRPO, are often used to stabilize policy optimiza-
+tion algorithms in reinforcement learning (RL). While current trust region strate-
+gies are effective for continuous control, they typically require a large amount
+of on-policy interaction with the environment. To address this problem, we pro-
+pose an off-policy trust region method, Trust-PCL, which exploits an observation
+that the optimal policy and state values of a maximum reward objective with a
+relative-entropy regularizer satisfy a set of multi-step pathwise consistencies along
+any path. The introduction of relative entropy regularization allows Trust-PCL to
+maintain optimization stability while exploiting off-policy data to improve sample
+efﬁciency. When evaluated on a number of continuous control tasks, Trust-PCL
+signiﬁcantly improves the solution quality and sample efﬁciency of TRPO.1
+
+1
+
+INTRODUCTION
+
+The goal of model-free reinforcement learning (RL) is to optimize an agent’s behavior policy
+through trial and error interaction with a black box environment. Value-based RL algorithms such
+as Q-learning (Watkins, 1989) and policy-based algorithms such as actor-critic (Konda & Tsitsiklis,
+2000) have achieved well-known successes in environments with enumerable action spaces and pre-
+dictable but possibly complex dynamics, e.g., as in Atari games (Mnih et al., 2013; Van Hasselt et al.,
+2016; Mnih et al., 2016). However, when applied to environments with more sophisticated action
+spaces and dynamics (e.g., continuous control and robotics), success has been far more limited.
+In an attempt to improve the applicability of Q-learning to continuous control, Silver et al. (2014)
+and Lillicrap et al. (2015) developed an off-policy algorithm DDPG, leading to promising results
+on continuous control environments. That said, current off-policy methods including DDPG often
+improve data efﬁciency at the cost of optimization stability. The behaviour of DDPG is known to
+be highly dependent on hyperparameter selection and initialization (Metz et al., 2017); even when
+using optimal hyperparameters, individual training runs can display highly varying outcomes.
+On the other hand, in an attempt to improve the stability and convergence speed of policy-based
+RL methods, Kakade (2002) developed a natural policy gradient algorithm based on Amari (1998),
+which subsequently led to the development of trust region policy optimization (TRPO) (Schulman
+et al., 2015). TRPO has shown strong empirical performance on difﬁcult continuous control tasks
+often outperforming value-based methods like DDPG. However, a major drawback is that such meth-
+ods are not able to exploit off-policy data and thus require a large amount of on-policy interaction
+with the environment, making them impractical for solving challenging real-world problems.
+Efforts at combining the stability of trust region policy-based methods with the sample efﬁciency of
+value-based methods have focused on using off-policy data to better train a value estimate, which
+can be used as a control variate for variance reduction (Gu et al., 2017a;b).
+In this paper, we investigate an alternative approach to improving the sample efﬁciency of trust
+region policy-based RL methods. We exploit the key fact that, under entropy regularization, the
+
+∗Also at the Department of Computing Science, University of Alberta, daes@ualberta.ca
+1An implementation of Trust-PCL is available at https://github.com/tensorflow/models/
+
+tree/master/research/pcl_rl
+
+1
+
+

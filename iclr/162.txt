@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+mixup: BEYOND EMPIRICAL RISK MINIMIZATION
+
+Hongyi Zhang
+MIT
+
+Moustapha Cisse, Yann N. Dauphin, David Lopez-Paz∗
+FAIR
+
+ABSTRACT
+
+Large deep neural networks are powerful, but exhibit undesirable behaviors such
+as memorization and sensitivity to adversarial examples. In this work, we propose
+mixup, a simple learning principle to alleviate these issues. In essence, mixup trains
+a neural network on convex combinations of pairs of examples and their labels.
+By doing so, mixup regularizes the neural network to favor simple linear behavior
+in-between training examples. Our experiments on the ImageNet-2012, CIFAR-10,
+CIFAR-100, Google commands and UCI datasets show that mixup improves the
+generalization of state-of-the-art neural network architectures. We also ﬁnd that
+mixup reduces the memorization of corrupt labels, increases the robustness to
+adversarial examples, and stabilizes the training of generative adversarial networks.
+
+1
+
+INTRODUCTION
+
+Large deep neural networks have enabled breakthroughs in ﬁelds such as computer vision (Krizhevsky
+et al., 2012), speech recognition (Hinton et al., 2012), and reinforcement learning (Silver et al., 2016).
+In most successful applications, these neural networks share two commonalities. First, they are
+trained as to minimize their average error over the training data, a learning rule also known as the
+Empirical Risk Minimization (ERM) principle (Vapnik, 1998). Second, the size of these state-of-the-
+art neural networks scales linearly with the number of training examples. For instance, the network of
+Springenberg et al. (2015) used 106 parameters to model the 5 · 104 images in the CIFAR-10 dataset,
+the network of (Simonyan & Zisserman, 2015) used 108 parameters to model the 106 images in the
+ImageNet-2012 dataset, and the network of Chelba et al. (2013) used 2 · 1010 parameters to model
+the 109 words in the One Billion Word dataset.
+Strikingly, a classical result in learning theory (Vapnik & Chervonenkis, 1971) tells us that the
+convergence of ERM is guaranteed as long as the size of the learning machine (e.g., the neural
+network) does not increase with the number of training data. Here, the size of a learning machine is
+measured in terms of its number of parameters or, relatedly, its VC-complexity (Harvey et al., 2017).
+This contradiction challenges the suitability of ERM to train our current neural network models, as
+highlighted in recent research. On the one hand, ERM allows large neural networks to memorize
+(instead of generalize from) the training data even in the presence of strong regularization, or in
+classiﬁcation problems where the labels are assigned at random (Zhang et al., 2017). On the other
+hand, neural networks trained with ERM change their predictions drastically when evaluated on
+examples just outside the training distribution (Szegedy et al., 2014), also known as adversarial
+examples. This evidence suggests that ERM is unable to explain or provide generalization on testing
+distributions that differ only slightly from the training data. However, what is the alternative to ERM?
+The method of choice to train on similar but different examples to the training data is known as data
+augmentation (Simard et al., 1998), formalized by the Vicinal Risk Minimization (VRM) principle
+(Chapelle et al., 2000). In VRM, human knowledge is required to describe a vicinity or neighborhood
+around each example in the training data. Then, additional virtual examples can be drawn from the
+vicinity distribution of the training examples to enlarge the support of the training distribution. For
+instance, when performing image classiﬁcation, it is common to deﬁne the vicinity of one image
+as the set of its horizontal reﬂections, slight rotations, and mild scalings. While data augmentation
+consistently leads to improved generalization (Simard et al., 1998), the procedure is dataset-dependent,
+and thus requires the use of expert knowledge. Furthermore, data augmentation assumes that the
+
+∗Alphabetical order.
+
+1
+
+

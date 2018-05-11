@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+THERMOMETER ENCODING: ONE HOT WAY TO RESIST
+ADVERSARIAL EXAMPLES
+
+Jacob Buckman∗†, Aurko Roy∗, Colin Raffel, Ian Goodfellow
+Google Brain
+Mountain View, CA
+{buckman, aurkor, craffel, goodfellow}@google.com
+
+ABSTRACT
+
+It is well known that it is possible to construct “adversarial examples” for neu-
+ral networks: inputs which are misclassiﬁed by the network yet indistinguishable
+from true data. We propose a simple modiﬁcation to standard neural network ar-
+chitectures, thermometer encoding, which signiﬁcantly increases the robustness
+of the network to adversarial examples. We demonstrate this robustness with ex-
+periments on the MNIST, CIFAR-10, CIFAR-100, and SVHN datasets, and show
+that models with thermometer-encoded inputs consistently have higher accuracy
+on adversarial examples, without decreasing generalization. State-of-the-art accu-
+racy under the strongest known white-box attack was increased from 93.20% to
+94.30% on MNIST and 50.00% to 79.16% on CIFAR-10. We explore the proper-
+ties of these networks, providing evidence that thermometer encodings help neural
+networks to ﬁnd more-non-linear decision boundaries.
+
+1
+
+INTRODUCTION AND RELATED WORK
+
+Adversarial examples are inputs to machine learning models that are intentionally designed to cause
+the model to produce an incorrect output. The term was introduced by Szegedy et al. (2014) in the
+context of neural networks for computer vision. In the context of spam and malware detection, such
+inputs have been studied earlier under the name evasion attacks (Biggio et al., 2013). Adversarial
+examples are interesting from a scientiﬁc perspective, because they demonstrate that even machine
+learning models that have superhuman performance on I.I.D. test sets fail catastrophically on in-
+puts that are modiﬁed even slightly by an adversary. Adversarial examples also raise concerns in
+the emerging ﬁeld of machine learning security because malicious attackers could use adversarial
+examples to cause undesired behavior (Papernot et al., 2016).
+Unfortunately, there is not yet any known strong defense against adversarial examples. Adversarial
+examples that fool one model often fool another model, even if the two models are trained on dif-
+ferent training examples (corresponding to the same task) or have different architectures (Szegedy
+et al., 2014), so an attacker can fool a model without access to it. Attackers can improve their success
+rate by sending inputs to a model, observing its output, and ﬁtting their own own copy of the model
+to the observed input-output pairs (Papernot et al., 2016). Attackers can also improve their success
+rate by searching for adversarial examples that fool multiple different models—such adversarial ex-
+amples are then much more likely to fool the unknown target model (Liu et al., 2016). Szegedy et al.
+(2014) proposed to defend the model using adversarial training (training on adversarial examples as
+well as regular examples) but it was not feasible to generate enough adversarial examples in the in-
+ner loop of the training process for the method to be effective at the time. Szegedy et al. (2014) used
+a large number of iterations of L-BFGS to produce their adversarial examples. Goodfellow et al.
+(2014) developed the fast gradient sign method (FGSM) of generating adversarial examples and
+demonstrated that adversarial training is effective for reducing the error rate on adversarial exam-
+ples. A major difﬁculty of adversarial training is that it tends to overﬁt to the method of adversarial
+example generation used at training time. For example, models trained to resist FGSM adversarial
+examples usually fail to resist L-BFGS adversarial examples. Kurakin et al. (2016) introduced the
+
+∗Equal contribution.
+†Work done as a member of the Google AI Residency program (g.co/airesidency)
+
+1
+
+

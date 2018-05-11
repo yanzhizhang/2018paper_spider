@@ -1,0 +1,72 @@
+Published as a conference paper at ICLR 2018
+
+TOWARDS IMAGE UNDERSTANDING FROM
+DEEP COMPRESSION WITHOUT DECODING
+
+Robert Torfason
+ETH Zurich, Merantix
+robertto@ethz.ch
+
+Fabian Mentzer
+ETH Zurich
+mentzerf@vision.ee.ethz.ch
+
+Eirikur Agustsson
+ETH Zurich
+aeirikur@vision.ee.ethz.ch
+
+Michael Tschannen
+ETH Zurich
+michaelt@nari.ee.ethz.ch
+
+Radu Timofte
+ETH Zurich, Merantix
+radu.timofte@vision.ee.ethz.ch
+
+Luc Van Gool
+ETH Zurich, KU Leuven
+vangool@vision.ee.ethz.ch
+
+ABSTRACT
+
+Motivated by recent work on deep neural network (DNN)-based image compres-
+sion methods showing potential improvements in image quality, savings in stor-
+age, and bandwidth reduction, we propose to perform image understanding tasks
+such as classiﬁcation and segmentation directly on the compressed representa-
+tions produced by these compression methods. Since the encoders and decoders
+in DNN-based compression methods are neural networks with feature-maps as in-
+ternal representations of the images, we directly integrate these with architectures
+for image understanding. This bypasses decoding of the compressed represen-
+tation into RGB space and reduces computational cost. Our study shows that
+accuracies comparable to networks that operate on compressed RGB images can
+be achieved while reducing the computational complexity up to 2×. Furthermore,
+we show that synergies are obtained by jointly training compression networks
+with classiﬁcation networks on the compressed representations, improving image
+quality, classiﬁcation accuracy, and segmentation performance. We ﬁnd that in-
+ference from compressed representations is particularly advantageous compared
+to inference from compressed RGB images for aggressive compression rates.
+
+1
+
+INTRODUCTION
+
+Neural network-based image compression methods have recently emerged as an active area of re-
+search. These methods leverage common neural network architectures such as convolutional au-
+toencoders (Ball´e et al., 2016; Theis et al., 2017; Rippel & Bourdev, 2017; Agustsson et al., 2017;
+Li et al., 2017) or recurrent neural networks (Toderici et al., 2015; 2016; Johnston et al., 2017)
+to compress and reconstruct RGB images, and were shown to outperform JPEG2000 (Taubman
+& Marcellin, 2001) and even BPG (Bellard) on perceptual metrics such as structural similarity
+
+Original RGB image
+
+Compressed representation
+
+Decoded RGB image
+
+Figure 1: We do inference on the learned compressed representation (middle), without decoding.
+
+0.3 bits per pixel
+
+1
+
+

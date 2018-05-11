@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+ON UNIFYING DEEP GENERATIVE MODELS
+
+Zhiting Hu1,2
+Carnegie Mellon University1, Petuum Inc.2
+
+Zichao Yang1
+
+Ruslan Salakhutdinov1
+
+Eric P. Xing1,2
+
+ABSTRACT
+
+Deep generative models have achieved impressive success in recent years. Gen-
+erative Adversarial Networks (GANs) and Variational Autoencoders (VAEs), as
+powerful frameworks for deep generative model learning, have largely been con-
+sidered as two distinct paradigms and received extensive independent studies
+respectively. This paper aims to establish formal connections between GANs and
+VAEs through a new formulation of them. We interpret sample generation in
+GANs as performing posterior inference, and show that GANs and VAEs involve
+minimizing KL divergences of respective posterior and inference distributions
+with opposite directions, extending the two learning phases of classic wake-sleep
+algorithm, respectively. The uniﬁed view provides a powerful tool to analyze a
+diverse set of existing model variants, and enables to transfer techniques across
+research lines in a principled way. For example, we apply the importance weighting
+method in VAE literatures for improved GAN learning, and enhance VAEs with
+an adversarial mechanism that leverages generated samples. Experiments show
+generality and effectiveness of the transfered techniques.
+
+1
+
+INTRODUCTION
+
+Deep generative models deﬁne distributions over a set of variables organized in multiple layers. Early
+forms of such models dated back to works on hierarchical Bayesian models (Neal, 1992) and neural
+network models such as Helmholtz machines (Dayan et al., 1995), originally studied in the context of
+unsupervised learning, latent space modeling, etc. Such models are usually trained via an EM style
+framework, using either a variational inference (Jordan et al., 1999) or a data augmentation (Tanner
+& Wong, 1987) algorithm. Of particular relevance to this paper is the classic wake-sleep algorithm
+dates by Hinton et al. (1995) for training Helmholtz machines, as it explored an idea of minimizing a
+pair of KL divergences in opposite directions of the posterior and its approximation.
+In recent years there has been a resurgence of interests in deep generative modeling. The emerging
+approaches, including Variational Autoencoders (VAEs) (Kingma & Welling, 2013), Generative
+Adversarial Networks (GANs) (Goodfellow et al., 2014), Generative Moment Matching Networks
+(GMMNs) (Li et al., 2015; Dziugaite et al., 2015), auto-regressive neural networks (Larochelle
+& Murray, 2011; Oord et al., 2016), and so forth, have led to impressive results in a myriad of
+applications, such as image and text generation (Radford et al., 2015; Hu et al., 2017; van den Oord
+et al., 2016), disentangled representation learning (Chen et al., 2016; Kulkarni et al., 2015), and
+semi-supervised learning (Salimans et al., 2016; Kingma et al., 2014).
+The deep generative model literature has largely viewed these approaches as distinct model training
+paradigms. For instance, GANs aim to achieve an equilibrium between a generator and a discrimi-
+nator; while VAEs are devoted to maximizing a variational lower bound of the data log-likelihood.
+A rich array of theoretical analyses and model extensions have been developed independently for
+GANs (Arjovsky & Bottou, 2017; Arora et al., 2017; Salimans et al., 2016; Nowozin et al., 2016)
+and VAEs (Burda et al., 2015; Chen et al., 2017; Hu et al., 2017), respectively. A few works
+attempt to combine the two objectives in a single model for improved inference and sample gener-
+ation (Mescheder et al., 2017; Larsen et al., 2015; Makhzani et al., 2015; Sønderby et al., 2017).
+Despite the signiﬁcant progress speciﬁc to each method, it remains unclear how these apparently
+divergent approaches connect to each other in a principled way.
+In this paper, we present a new formulation of GANs and VAEs that connects them under a uniﬁed
+view, and links them back to the classic wake-sleep algorithm. We show that GANs and VAEs
+
+1
+
+

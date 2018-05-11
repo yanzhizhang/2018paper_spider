@@ -1,0 +1,61 @@
+CRITICAL POINTS OF LINEAR NEURAL NETWORKS:
+ANALYTICAL FORMS AND LANDSCAPE PROPERTIES
+
+Yi Zhou & Yingbin Liang
+Department of Electrical and Computer Engineering
+The Ohio State University
+zhou.1172@osu.edu
+
+ABSTRACT
+
+Due to the success of deep learning to solving a variety of challenging machine
+learning tasks, there is a rising interest in understanding loss functions for training
+neural networks from a theoretical aspect. Particularly, the properties of critical
+points and the landscape around them are of importance to determine the con-
+vergence performance of optimization algorithms.
+In this paper, we provide a
+necessary and sufﬁcient characterization of the analytical forms for the critical
+points (as well as global minimizers) of the square loss functions for linear neural
+networks. We show that the analytical forms of the critical points characterize the
+values of the corresponding loss functions as well as the necessary and sufﬁcient
+conditions to achieve global minimum. Furthermore, we exploit the analytical
+forms of the critical points to characterize the landscape properties for the loss
+functions of linear neural networks and shallow ReLU networks. One particu-
+lar conclusion is that: While the loss function of linear networks has no spurious
+local minimum, the loss function of one-hidden-layer nonlinear networks with
+ReLU activation function does have local minimum that is not global minimum.
+
+1
+
+INTRODUCTION
+
+In the past decade, deep neural networks Goodfellow et al. (2016) have become a popular tool that
+has successfully solved many challenging tasks in a variety of areas such as machine learning, ar-
+tiﬁcial intelligence, computer vision, and natural language processing, etc. As the understandings
+of deep neural networks from different aspects are mostly based on empirical studies, there is a
+rising need and interest to develop understandings of neural networks from theoretical aspects such
+as generalization error, representation power, and landscape (also referred to as geometry) proper-
+ties, etc. In particular, the landscape properties of loss functions (that are typically nonconex for
+neural networks) play a central role to determine the iteration path and convergence performance of
+optimization algorithms.
+One major landscape property is the nature of critical points, which can possibly be global minima,
+local minima, saddle points. There have been intensive efforts in the past into understanding such an
+issue for various neural networks. For example, it has been shown that every local minimum of the
+loss function is also a global minimum for shallow linear networks under the autoencoder setting and
+invertibility assumptions Baldi & Hornik (1989) and for deep linear networks Kawaguchi (2016);
+Lu & Kawaguchi (2017); Yun et al. (2017) respectively under different assumptions. The conditions
+on the equivalence between local minimum or critical point and global minimum has also been
+established for various nonlinear neural networks Yu & Chen (1995); Gori & Tesi (1992); Nguyen
+& Hein (2017); Soudry & Carmon (2016); Feizi et al. (2017) under respective assumptions.
+However, most previous studies did not provide characterization of analytical forms for critical
+points of loss functions for neural networks with only very few exceptions.
+In Baldi & Hornik
+(1989), the authors provided an analytical form for the critical points of the square loss function of
+shallow linear networks under certain conditions. Such an analytical form further helps to establish
+the landscape properties around the critical points. Further in Li et al. (2016b), the authors charac-
+terized certain sufﬁcient form of critical points for the square loss function of matrix factorization
+problems and deep linear networks.
+
+1
+
+

@@ -1,0 +1,91 @@
+Published as a conference paper at ICLR 2018
+
+DEBIASING EVIDENCE APPROXIMATIONS:
+ON IMPORTANCE-WEIGHTED AUTOENCODERS AND
+JACKKNIFE VARIATIONAL INFERENCE
+
+Sebastian Nowozin
+Machine Intelligence and Perception
+Microsoft Research, Cambridge, UK
+Sebastian.Nowozin@microsoft.com
+
+ABSTRACT
+
+The importance-weighted autoencoder (IWAE) approach of Burda et al. (2015) de-
+ﬁnes a sequence of increasingly tighter bounds on the marginal likelihood of latent
+variable models. Recently, Cremer et al. (2017) reinterpreted the IWAE bounds
+as ordinary variational evidence lower bounds (ELBO) applied to increasingly
+accurate variational distributions. In this work, we provide yet another perspective
+on the IWAE bounds. We interpret each IWAE bound as a biased estimator of the
+true marginal likelihood where for the bound deﬁned on K samples we show the
+bias to be of order O(K−1). In our theoretical analysis of the IWAE objective we
+derive asymptotic bias and variance expressions. Based on this analysis we develop
+jackknife variational inference (JVI), a family of bias-reduced estimators reducing
+the bias to O(K−(m+1)) for any given m < K while retaining computational
+efﬁciency. Finally, we demonstrate that JVI leads to improved evidence estimates
+in variational autoencoders. We also report ﬁrst results on applying JVI to learning
+variational autoencoders.1
+
+1
+
+INTRODUCTION
+
+Variational autoencoders (VAE) are a class of expressive probabilistic deep learning models useful
+for generative modeling, representation learning, and probabilistic regression. Originally proposed
+in Kingma & Welling (2013) and Rezende et al. (2014), VAEs consist of a probabilistic model as
+well as an approximate method for maximum likelihood estimation. In the generative case, the model
+is deﬁned as
+
+(cid:90)
+
+p(x) =
+
+pθ(x|z) p(z) dz,
+
+where z is a latent variable, typically a high dimensional vector; the corresponding prior distribution
+p(z) is ﬁxed and typically deﬁned as a standard multivariate Normal distribution N (0, I). To achieve
+an expressive marginal distribution p(x), we deﬁne pθ(x|z) through a neural network, making the
+model (1) a deep probabilistic model.
+Maximum likelihood estimation of the parameters θ in (1) is intractable, but Kingma & Welling
+(2013) and Rezende et al. (2014) propose to instead maximize the evidence lower-bound (ELBO),
+
+(1)
+
+(2)
+
+log p(x) ≥ Ez∼qω(z|x)
+
+log
+
+(cid:20)
+
+(cid:21)
+
+pθ(x|z) p(z)
+
+qω(z|x)
+
+(3)
+Here, qω(z|x) is an auxiliary inference network, parametrized by ω. Simultaneous optimization of (2)
+over both θ and ω performs approximate maximum likelihood estimation in the model p(x) of (1)
+and forms the standard VAE estimation method.
+
+=: LE.
+
+1The
+
+implementation
+
+is
+
+available
+
+jackknife-variational-inference
+
+at
+
+https://github.com/Microsoft/
+
+1
+
+

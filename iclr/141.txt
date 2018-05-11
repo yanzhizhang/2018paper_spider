@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+SGD LEARNS OVER-PARAMETERIZED NETWORKS
+THAT PROVABLY GENERALIZE ON LINEARLY SEPARA-
+BLE DATA
+
+Alon Brutzkus & Amir Globerson
+The Blavatnik School of Computer Science
+Tel Aviv University, Israel
+alonbrutzkus@mail.tau.ac.il,amir.globerson@gmail.com
+
+Eran Malach & Shai Shalev-Shwartz
+School of Computer Science
+The Hebrew University, Israel
+eran.malach@mail.huji.ac.il,shais@cs.huji.ac.il
+
+ABSTRACT
+
+Neural networks exhibit good generalization behavior in the over-parameterized
+regime, where the number of network parameters exceeds the number of obser-
+vations. Nonetheless, current generalization bounds for neural networks fail to
+explain this phenomenon. In an attempt to bridge this gap, we study the problem
+of learning a two-layer over-parameterized neural network, when the data is gen-
+erated by a linearly separable function. In the case where the network has Leaky
+ReLU activations and only the ﬁrst layer is trained, we provide both optimization
+and generalization guarantees for over-parameterized networks. Speciﬁcally, we
+prove convergence rates of SGD to a global minimum, and provide generaliza-
+tion guarantees for this global minimum that are independent of the network size.
+Therefore, our result clearly shows that the use of SGD for optimization both ﬁnds
+a global minimum, and avoids overﬁtting despite the high capacity of the model.
+This is the ﬁrst theoretical demonstration that SGD can avoid overﬁtting, when
+learning over-speciﬁed neural network classiﬁers.
+
+1
+
+INTRODUCTION
+
+Neural networks have achieved remarkable performance in many machine learning tasks. Al-
+though recently there have been numerous theoretical contributions to understand their success,
+it is still largely unexplained and remains a mystery. In particular, it is not known why in the over-
+parameterized setting, in which there are far more parameters than training points, stochastic gradi-
+ent descent (SGD) can learn networks that generalize well, as been observed in practice (Neyshabur
+et al., 2014; Zhang et al., 2016).
+In such over-parameterized settings, the loss function can contain multiple global minima that gen-
+eralize poorly. Therefore, learning can in principle lead to models with low training error, but high
+test error. However, as often observed in practice, SGD is in fact able to ﬁnd models with low
+training error and good generalization performance. This suggests that the optimization procedure,
+which depends on the optimization method (SGD) and the training data, introduces some form of
+inductive bias which directs it towards a low complexity solution. Thus, in order to explain the
+success of neural networks, it is crucial to characterize this inductive bias and understand what are
+the guarantees for generalization of over-parameterized neural networks.
+In this work, we address these problems in a binary classiﬁcation setting where SGD optimizes a
+two-layer over-parameterized network with the goal of learning a linearly separable function. We
+study a relatively simple case of SGD where the weights of the second layer are ﬁxed throughout the
+training process, and only the weights of the ﬁrst layer are updated. Clearly, an over-parameterized
+network is not necessary for classifying linearly separable data, since this is possible with linear
+
+1
+
+

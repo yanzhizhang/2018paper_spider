@@ -1,0 +1,77 @@
+Published as a conference paper at ICLR 2018
+
+DORA THE EXPLORER: DIRECTED OUTREACHING
+REINFORCEMENT ACTION-SELECTION
+
+Leshem Choshen∗
+School of Computer Science and Engineering
+and Department of Cognitive Sciences
+The Hebrew University of Jerusalem
+leshem.choshen@mail.huji.ac.il
+
+Lior Fox∗
+The Edmond and Lily Safra Center for Brain Sciences
+The Hebrew University of Jerusalem
+lior.fox@mail.huji.ac.il
+
+Yonatan Loewenstein
+The Edmond and Lily Safra Center for Brain Sciences,
+Departments of Neurobiology and Cognitive Sciences
+and the Federmann Center for the Study of Rationality
+The Hebrew University of Jerusalem
+yonatan@huji.ac.il
+
+ABSTRACT
+
+Exploration is a fundamental aspect of Reinforcement Learning, typically imple-
+mented using stochastic action-selection. Exploration, however, can be more efﬁ-
+cient if directed toward gaining new world knowledge. Visit-counters have been
+proven useful both in practice and in theory for directed exploration. However, a
+major limitation of counters is their locality. While there are a few model-based
+solutions to this shortcoming, a model-free approach is still missing. We propose
+E-values, a generalization of counters that can be used to evaluate the propagat-
+ing exploratory value over state-action trajectories. We compare our approach to
+commonly used RL techniques, and show that using E-values improves learning
+and performance over traditional counters. We also show how our method can be
+implemented with function approximation to efﬁciently learn continuous MDPs.
+We demonstrate this by showing that our approach surpasses state of the art per-
+formance in the Freeway Atari 2600 game.
+
+1
+
+INTRODUCTION
+
+”If there’s a place you gotta go - I’m the one you need to know.“
+
+(Map, Dora The Explorer)
+
+We consider Reinforcement Learning in a Markov Decision Process (MDP). An MDP is a ﬁve-
+tuple M = (S,A, P, R, γ) where S is a set of states and A is a set of actions. The dynamics of
+the process is given by P (s(cid:48)|s, a) which denotes the transition probability from state s to state s(cid:48)
+following action a. Each such transition also has a distribution R (r|s, a) from which the reward for
+such transitions is sampled. Given a policy π : S → A, a function – possibly stochastic – deciding
+which actions to take in each of the states, the state-action value function Qπ : S × A → R satisﬁes:
+
+Qπ (s, a) =
+
+[r + γQπ (s(cid:48), π (s(cid:48)))]
+
+E
+
+r,s(cid:48)∼R×P (·|s,a)
+
+where γ is the discount factor. The agent’s goal is to ﬁnd an optimal policy π∗ that maximizes
+∗ (cid:44) Q∗. There are two main approaches for learning π∗. The ﬁrst
+Qπ (s, π (s)). For brevity, Qπ
+is a model-based approach, where the agent learns an internal model of the MDP (namely P and
+R). Given a model, the optimal policy could be found using dynamic programming methods such
+as Value Iteration (Sutton & Barto, 1998). The alternative is a model-free approach, where the agent
+learns only the value function of states or state-action pairs, without learning a model (Kaelbling
+et al., 1996)1.
+
+∗These authors contributed equally to this work
+1Supplementary code for this paper can be found at https://github.com/borgr/DORA/
+
+1
+
+

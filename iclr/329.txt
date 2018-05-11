@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+LATENT CONSTRAINTS:
+LEARNING TO GENERATE CONDITIONALLY FROM
+UNCONDITIONAL GENERATIVE MODELS
+
+Jesse Engel
+Google Brain
+San Francisco, CA, USA
+
+Matthew D. Hoffman
+Google Inc.
+San Francisco, CA, USA
+
+Adam Roberts
+Google Brain
+San Francisco, CA, USA
+
+ABSTRACT
+
+Deep generative neural networks have proven effective at both conditional and
+unconditional modeling of complex data distributions. Conditional generation en-
+ables interactive control, but creating new controls often requires expensive re-
+training. In this paper, we develop a method to condition generation without re-
+training the model. By post-hoc learning latent constraints, value functions that
+identify regions in latent space that generate outputs with desired attributes, we
+can conditionally sample from these regions with gradient-based optimization or
+amortized actor functions. Combining attribute constraints with a universal “real-
+ism” constraint, which enforces similarity to the data distribution, we generate re-
+alistic conditional images from an unconditional variational autoencoder. Further,
+using gradient-based optimization, we demonstrate identity-preserving transfor-
+mations that make the minimal adjustment in latent space to modify the attributes
+of an image. Finally, with discrete sequences of musical notes, we demonstrate
+zero-shot conditional generation, learning latent constraints in the absence of la-
+beled data or a differentiable reward function.
+
+1
+
+INTRODUCTION
+
+Generative modeling of complicated data such as images and audio is a long-standing challenge in
+machine learning. While unconditional sampling is an interesting technical problem, it is arguably
+of limited practical interest in its own right: if one needs a non-speciﬁc image (or sound, song, doc-
+ument, etc.), one can simply pull something at random from the unfathomably vast media databases
+on the web. But that naive approach may not work for conditional sampling (i.e., generating data
+to match a set of user-speciﬁed attributes), since as more attributes are speciﬁed, it becomes expo-
+nentially less likely that a satisfactory example can be pulled from a database. One might also want
+to modify some attributes of an object while preserving its core identity. These are crucial tasks in
+creative applications, where the typical user desires ﬁne-grained controls (Bernardo et al., 2017).
+One can enforce user-speciﬁed constraints at training time, either by training on a curated subset of
+data or with conditioning variables. These approaches can be effective if there is enough labeled
+data available, but they require expensive model retraining for each new set of constraints and may
+not leverage commonalities between tasks. Deep latent-variable models, such as Generative Adver-
+sarial Networks (GANs; Goodfellow et al., 2014) and Variational Autoencoders (VAEs; Kingma &
+Welling, 2013; Rezende et al., 2014), learn to unconditionally generate realistic and varied outputs
+by sampling from a semantically structured latent space. One might hope to leverage that structure
+in creating new conditional controls for sampling and transformations (Brock et al., 2016).
+Here, we show that new constraints can be enforced post-hoc on pre-trained unsupervised genera-
+tive models. This approach removes the need to retrain the model for each new set of constraints,
+allowing users to more easily deﬁne custom behavior. We separate the problem into (1) creating an
+unsupervised model that learns how to reconstruct data from latent embeddings, and (2) leveraging
+the latent structure exposed in that embedding space as a source of prior knowledge, upon which we
+can impose behavioral constraints.
+Our key contributions are as follows:
+
+1
+
+

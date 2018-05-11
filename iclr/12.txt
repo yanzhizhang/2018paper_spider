@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+AUTOMATICALLY INFERRING DATA QUALITY FOR
+SPATIOTEMPORAL FORECASTING
+
+Sungyong Seo1, Arash Mohegh2, George Ban-Weiss2, Yan Liu1
+
+1 Department of Computer Science and 2 Department of Civil and Environmental Engineering
+University of Southern California
+{sungyons, mohegh, banweiss, yanliu.cs}@usc.edu
+
+ABSTRACT
+
+Spatiotemporal forecasting has become an increasingly important prediction task
+in machine learning and statistics due to its vast applications, such as climate
+modeling, trafﬁc prediction, video caching predictions, and so on. While numer-
+ous studies have been conducted, most existing works assume that the data from
+different sources or across different locations are equally reliable. Due to cost, ac-
+cessibility, or other factors, it is inevitable that the data quality could vary, which
+introduces signiﬁcant biases into the model and leads to unreliable prediction re-
+sults. The problem could be exacerbated in black-box prediction models, such
+as deep neural networks. In this paper, we propose a novel solution that can au-
+tomatically infer data quality levels of different sources through local variations
+of spatiotemporal signals without explicit labels. Furthermore, we integrate the
+estimate of data quality level with graph convolutional networks to exploit their
+efﬁcient structures. We evaluate our proposed method on forecasting temperatures
+in Los Angeles.
+
+1
+
+INTRODUCTION
+
+Recent advances in sensor and satellite technology have facilitated the collection of large spatiotem-
+poral datasets. As the amount of spatiotemporal data increases, many have proposed representing
+this data as time-varying graph signals in various domains, such as sensor networks (Shi et al., 2015;
+Zhu & Rabbat, 2012), climate analysis (Chen et al., 2014; Mei & Moura, 2015), trafﬁc control sys-
+tems (Li et al., 2017; Yu et al., 2017), and biology (Mutlu et al., 2012; Yu et al., 2015).
+While existing work have exploited both spatial structures and temporal signals, most of them
+assume that each signal source in a spatial structure is equally reliable over time. However, a
+large amount of data comes from heterogeneous sensors or equipment leading to various levels of
+noise (Song et al., 2015; Zhang & Chaudhuri, 2015). Moreover, the noises of each source can vary
+over time due to movement of the sensors or abrupt malfunctions. This problem raises signiﬁcantly
+challenges to train and apply complex black box machine learning models, such as deep neural net-
+works, because even a small perturbation in data can deceive the models and lead to unexpected
+behaviors (Goodfellow et al., 2014; Koh & Liang, 2017). Therefore, it is extremely important to
+consider data quality explicitly when designing machine learning models.
+The deﬁnitions of data quality can be varied - high quality data is generally referred to as ﬁtness
+for intended uses in operations, decision making and planning (Redman, 2008). In this paper, we
+narrow down the deﬁnition as a penalizing quantity for high local variations. We consider a learning
+problem of spatiotemporal signals that are represented by time-varying graph signals for different
+data qualities. Given a graph G = (V,E, W) and observations X ∈ RN×M×T where N, M, T are
+the number of vertices, the types of signals, and the length of time-varying signals, respectively.
+We deﬁne the concept of data quality levels at each vertex as latent variables, which are connected
+through a graph using a local variation of the vertex. The local variation at each vertex depends on
+the local spatial structure and neighboring signals. Our deﬁnition of data quality can be easily incor-
+porated into any existing machine learning models through a regularizer in their objective functions.
+In this paper, we develop data quality long short-term memory (DQ-LSTM) neural networks for
+
+1
+
+

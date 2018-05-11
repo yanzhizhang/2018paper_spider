@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+GANITE: ESTIMATION OF INDIVIDUALIZED TREAT-
+MENT EFFECTS USING GENERATIVE ADVERSARIAL
+NETS
+
+Jinsung Yoon
+Department of Electrical and Computer Engineering
+University of California, Los Angeles
+Los Angeles, CA 90095, USA
+jsyoon0823@g.ucla.edu
+
+James Jordon
+Department of Engineering Science
+University of Oxford
+Oxford, UK
+james.jordon@wolfson.ox.ac.uk
+
+Mihaela van der Schaar
+Department of Engineering Science, University of Oxford, Oxford, UK
+Alan Turing Institute, London, UK
+mihaela.vanderschaar@eng.ox.ac.uk
+
+ABSTRACT
+
+Estimating individualized treatment effects (ITE) is a challenging task due to the
+need for an individual’s potential outcomes to be learned from biased data and
+without having access to the counterfactuals. We propose a novel method for
+inferring ITE based on the Generative Adversarial Nets (GANs) framework. Our
+method, termed Generative Adversarial Nets for inference of Individualized Treat-
+ment Effects (GANITE), is motivated by the possibility that we can capture the
+uncertainty in the counterfactual distributions by attempting to learn them using a
+GAN. We generate proxies of the counterfactual outcomes using a counterfactual
+generator, G, and then pass these proxies to an ITE generator, I, in order to train
+it. By modeling both of these using the GAN framework, we are able to infer
+based on the factual data, while still accounting for the unseen counterfactuals.
+We test our method on three real-world datasets (with both binary and multiple
+treatments) and show that GANITE outperforms state-of-the-art methods.
+
+1
+
+INTRODUCTION
+
+Individualized treatment effects (ITE) estimation using observational data is a fundamental problem
+that is applicable in a wide variety of domains. For instance, (1) in understanding the heterogeneous
+effects of drugs (Shalit et al. (2017); Alaa & van der Schaar (2017); Alaa et al. (2017)); (2) in
+evaluating the effect of a policy on unemployment rates (LaLonde (1986); Smith & Todd (2005));
+(3) in verifying which factor causes a certain disease (H¨oﬂer (2005)) and (4) estimating the effects
+of pollution on the weather (Hannart et al. (2016)).
+As explained in Spirtes (2009), the problem of ITE estimation differs from the standard supervised
+learning problem. First, among the potential outcomes, only the factual outcome is actually observed
+(revealed), counterfactual outcomes are not observed and so the entire vector of potential outcomes
+can never be obtained. Second, unlike randomized controlled trials (RCT), observational studies are
+prone to treatment selection bias. For instance, left ventricular assist device (LVAD) treatment is
+mostly applied to high-risk patients with severe cardiovascular diseases before heart transplantation,
+the distribution of features among these patients will be signiﬁcantly different to the distribution
+among non-LVAD treated patients (Kirklin et al. (2010)). The sample distribution can vary drasti-
+cally across different choices of treatments and therefore, if we were to apply a supervised learning
+framework for each treatment separately, the learned models would not generalize well to the entire
+population.
+Classical works in this domain solved the problem of estimating the average treatment effects from
+observational data (Dehejia & Wahba (2002b); Lunceford & Davidian (2004)). These works account
+
+1
+
+

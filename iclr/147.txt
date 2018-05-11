@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+ON THE IMPORTANCE OF SINGLE DIRECTIONS FOR
+GENERALIZATION
+
+Ari S. Morcos1, David G.T. Barrett, Neil C. Rabinowitz, & Matthew Botvinick
+DeepMind
+London, UK
+{arimorcos,barrettdavid,ncr,botvinick}@google.com
+
+ABSTRACT
+
+Despite their ability to memorize large datasets, deep neural networks often
+achieve good generalization performance. However, the differences between the
+learned solutions of networks which generalize and those which do not remain
+unclear. Additionally, the tuning properties of single directions (deﬁned as the
+activation of a single unit or some linear combination of units in response to some
+input) have been highlighted, but their importance has not been evaluated. Here,
+we connect these lines of inquiry to demonstrate that a network’s reliance on single
+directions is a good predictor of its generalization performance, across networks
+trained on datasets with different fractions of corrupted labels, across ensembles
+of networks trained on datasets with unmodiﬁed labels, across different hyper-
+parameters, and over the course of training. While dropout only regularizes this
+quantity up to a point, batch normalization implicitly discourages single direction
+reliance, in part by decreasing the class selectivity of individual units. Finally,
+we ﬁnd that class selectivity is a poor predictor of task importance, suggesting
+not only that networks which generalize well minimize their dependence on indi-
+vidual units by reducing their selectivity, but also that individually selective units
+may not be necessary for strong network performance.
+
+1
+
+INTRODUCTION
+
+Recent work has demonstrated that deep neural networks (DNNs) are capable of memorizing ex-
+tremely large datasets such as ImageNet (Zhang et al., 2017). Despite this capability, DNNs in prac-
+tice achieve low generalization error on tasks ranging from image classiﬁcation (He et al., 2015)
+to language translation (Wu et al., 2016). These observations raise a key question: why do some
+networks generalize while others do not?
+Answers to these questions have taken a variety of forms. A variety of studies have related general-
+ization performance to the ﬂatness of minima and PAC-Bayes bounds (Hochreiter & Schmidhuber,
+1997, Keskar et al., 2017, Neyshabur et al., 2017, Dziugaite & Roy, 2017), though recent work
+has demonstrated that sharp minima can also generalize (Dinh et al., 2017). Others have focused
+on the information content stored in network weights (Achille & Soatto, 2017), while still others
+have demonstrated that stochastic gradient descent itself encourages generalization (Bousquet &
+Elisseeff, 2002, Smith & Le, 2017, Wilson et al., 2017).
+Here, we use ablation analyses to measure the reliance of trained networks on single directions. We
+deﬁne a single direction in activation space as the activation of a single unit or feature map or some
+linear combination of units in response to some input. We ﬁnd that networks which memorize the
+training set are substantially more dependent on single directions than those which do not, and that
+this difference is preserved even across sets of networks with identical topology trained on identical
+data, but with different generalization performance. Moreover, we found that as networks begin to
+overﬁt, they become more reliant on single directions, suggesting that this metric could be used as a
+signal for early stopping.
+
+1Corresponding author: arimorcos@google.com
+
+1
+
+

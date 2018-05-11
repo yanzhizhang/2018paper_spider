@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING TO REPRESENT PROGRAMS WITH GRAPHS
+
+Miltiadis Allamanis
+Microsoft Research
+Cambridge, UK
+miallama@microsoft.com
+
+Mahmoud Khademi∗
+Simon Fraser University
+Burnaby, BC, Canada
+mkhademi@sfu.ca
+
+Marc Brockschmidt
+Microsoft Research
+Cambridge, UK
+mabrocks@microsoft.com
+
+ABSTRACT
+
+Learning tasks on source code (i.e., formal languages) have been considered re-
+cently, but most work has tried to transfer natural language methods and does
+not capitalize on the unique opportunities offered by code’s known sematics. For
+example, long-range dependencies induced by using the same variable or function
+in distant locations are often not considered. We propose to use graphs to represent
+both the syntactic and semantic structure of code and use graph-based deep learning
+methods to learn to reason over program structures.
+In this work, we present how to construct graphs from source code and how to
+scale Gated Graph Neural Networks training to such large graphs. We evaluate
+our method on two tasks: VARNAMING, in which a network attempts to predict
+the name of a variable given its usage, and VARMISUSE, in which the network
+learns to reason about selecting the correct variable that should be used at a given
+program location. Our comparison to methods that use less structured program
+representations shows the advantages of modeling known structure, and suggests
+that our models learn to infer meaningful names and to solve the VARMISUSE
+task in many cases. Additionally, our testing showed that VARMISUSE identiﬁes a
+number of bugs in mature open-source projects.
+
+1
+
+INTRODUCTION
+
+The advent of large repositories of source code as well as scalable machine learning methods naturally
+leads to the idea of “big code”, i.e., largely unsupervised methods that support software engineers by
+generalizing from existing source code (Allamanis et al., 2017). Currently, existing deep learning
+models of source code capture its shallow, textual structure, e.g. as a sequence of tokens (Hindle
+et al., 2012; Raychev et al., 2014; Allamanis et al., 2016), as parse trees (Maddison & Tarlow, 2014;
+Bielik et al., 2016), or as a ﬂat dependency networks of variables (Raychev et al., 2015). Such models
+miss out on the opportunity to capitalize on the rich and well-deﬁned semantics of source code. In
+this work, we take a step to alleviate this by including two additional signal sources in source code:
+data ﬂow and type hierarchies. We do this by encoding programs as graphs, in which edges represent
+syntactic relationships (e.g. “token before/after”) as well as semantic relationships (“variable last
+used/written here”, “formal parameter for argument is called stream”, etc.). Our key insight is
+that exposing these semantics explicitly as structured input to a machine learning model lessens the
+requirements on amounts of training data, model capacity and training regime and allows us to solve
+tasks that are beyond the current state of the art.
+We explore two tasks to illustrate the advantages of exposing more semantic structure of programs.
+First, we consider the VARNAMING task (Allamanis et al., 2014; Raychev et al., 2015), in which
+given some source code, the “correct” variable name is inferred as a sequence of subtokens. This
+requires some understanding of how a variable is used, i.e., requires reasoning about lines of code far
+
+∗Work done as an intern in Microsoft Research, Cambridge, UK.
+
+1
+
+

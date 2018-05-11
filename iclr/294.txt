@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+REINFORCEMENT LEARNING ON WEB INTERFACES
+USING WORKFLOW-GUIDED EXPLORATION
+
+Evan Zheran Liu†∗, Kelvin Guu‡∗, Panupong Pasupat†∗, Tianlin Shi†, Percy Liang†
+†Department of Computer Science, ‡Department of Statistics
+Stanford University, Stanford, CA 94305, USA
+{evanliu,kguu,ppasupat,tianlins}@stanford.edu,pliang@cs.stanford.edu
+
+ABSTRACT
+
+Reinforcement learning (RL) agents improve through trial-and-error, but when re-
+ward is sparse and the agent cannot discover successful action sequences, learning
+stagnates. This has been a notable problem in training deep RL agents to perform
+web-based tasks, such as booking ﬂights or replying to emails, where a single
+mistake can ruin the entire sequence of actions. A common remedy is to “warm-
+start” the agent by pre-training it to mimic expert demonstrations, but this is prone
+to overﬁtting. Instead, we propose to constrain exploration using demonstrations.
+From each demonstration, we induce high-level “workﬂows” which constrain the
+allowable actions at each time step to be similar to those in the demonstration
+(e.g., “Step 1: click on a textbox; Step 2: enter some text”). Our exploration pol-
+icy then learns to identify successful workﬂows and samples actions that satisfy
+these workﬂows. Workﬂows prune out bad exploration directions and accelerate
+the agent’s ability to discover rewards. We use our approach to train a novel neural
+policy designed to handle the semi-structured nature of websites, and evaluate on
+a suite of web tasks, including the recent World of Bits benchmark. We achieve
+new state-of-the-art results, and show that workﬂow-guided exploration improves
+sample efﬁciency over behavioral cloning by more than 100x.
+
+1
+
+INTRODUCTION
+
+We are interested in training reinforcement learning (RL) agents to use the Internet (e.g., to book
+ﬂights or reply to emails) by directly controlling a web browser. Such systems could expand the ca-
+pabilities of AI personal assistants (Stone & Soper, 2014), which are currently limited to interacting
+with machine-readable APIs, rather than the much larger world of human-readable web interfaces.
+Reinforcement learning agents could learn to accomplish tasks using these human-readable web
+interfaces through trial-and-error (Sutton & Barto, 1998). But this learning process can be very slow
+in tasks with sparse reward, where the vast majority of naive action sequences lead to no reward
+signal (Vecerik et al., 2017; Nair et al., 2017). This is the case for many web tasks, which involve a
+large action space (the agent can type or click anything) and require a well-coordinated sequence of
+actions to succeed.
+A common countermeasure in RL is to pre-train the agent to mimic expert demonstrations via behav-
+ioral cloning (Pomerleau, 1991; Kim et al., 2013), encouraging it to take similar actions in similar
+states. But in environments with diverse and complex states such as websites, demonstrations may
+cover only a small slice of the state space, and it is difﬁcult to generalize beyond these states (over-
+ﬁtting). Indeed, previous work has found that warm-starting with behavioral cloning often fails to
+improve over pure RL (Shi et al., 2017). At the same time, simple strategies to combat overﬁtting
+(e.g. using fewer parameters or regularization) cripple the policy’s ﬂexibility (Bitzer et al., 2010),
+which is required for complex spatial and structural reasoning in user interfaces.
+In this work, we propose a different method for leveraging demonstrations. Rather than training an
+agent to directly mimic them, we use demonstrations to constrain exploration. By pruning away bad
+exploration directions, we can accelerate the agent’s ability to discover sparse rewards. Furthermore,
+
+∗First three authors contributed equally
+
+1
+
+

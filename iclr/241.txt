@@ -1,0 +1,79 @@
+Published as a conference paper at ICLR 2018
+
+LATENT SPACE ODDITY: ON THE CURVATURE
+OF DEEP GENERATIVE MODELS
+
+Georgios Arvanitidis, Lars Kai Hansen, Søren Hauberg
+Technical University of Denmark, Section for Cognitive Systems
+{gear,lkai,sohau}@dtu.dk
+
+ABSTRACT
+
+Deep generative models provide a systematic way to learn nonlinear data distri-
+butions through a set of latent variables and a nonlinear “generator” function that
+maps latent points into the input space. The nonlinearity of the generator implies
+that the latent space gives a distorted view of the input space. Under mild condi-
+tions, we show that this distortion can be characterized by a stochastic Rieman-
+nian metric, and we demonstrate that distances and interpolants are signiﬁcantly
+improved under this metric. This in turn improves probability distributions, sam-
+pling algorithms and clustering in the latent space. Our geometric analysis further
+reveals that current generators provide poor variance estimates and we propose a
+new generator architecture with vastly improved variance estimates. Results are
+demonstrated on convolutional and fully connected variational autoencoders, but
+the formalism easily generalizes to other deep generative models.
+
+1
+
+INTRODUCTION
+
+Deep generative models (Goodfellow et al., 2014; Kingma & Welling, 2014; Rezende et al., 2014)
+model the data distribution of observations x ∈ X through corresponding latent variables z ∈ Z
+and a stochastic generator function f : Z → X as
+
+x = f (z).
+
+(1)
+Using reasonably low-dimensional latent variables and highly ﬂexible generator functions allows
+these models to efﬁciently represent a useful distribution over the underlying data manifold. These
+approaches have recently attracted a lot of attention, as deep neural networks are suitable generators
+which lead to the impressive performance of current variational autoencoders (VAEs) (Kingma &
+Welling, 2014) and generative adversarial networks (GANs) (Goodfellow et al., 2014).
+Consider the left panel of Fig. 1, which shows the latent representations of digits 0 and 1 from
+MNIST under a VAE. Three latent points are highlighted: one point (A) far away from the class
+boundary, and two points (B, C) near the boundary, but on opposite sides. Points B and C near the
+boundary seem to be very close to each other, while the third is far away from the others. Intuitively,
+we would hope that points from the same class (A and B) are closer to each other than to members of
+other classes (C), but this is seemingly not the case. In this paper, we argue this seemed conclusion
+is incorrect and only due to a misinterpretation of the latent space — in fact points A and B are
+closer to each other than to C in the latent representation. Correcting this misinterpretation not
+only improves our understanding of generative models, but also improves interpolations, clusterings,
+latent probability distributions, sampling algorithms, interpretability and more.
+In general, latent space distances lack physical units (making them difﬁcult to interpret) and are sen-
+sitive to speciﬁcs of the underlying neural nets. It is therefore more robust to consider inﬁnitesimal
+distances along the data manifold in the input space. Let z be a latent point and let ∆z1 and ∆z2 be
+inﬁnitesimals, then we can compute the squared distance
+(cid:124)
+zJz) (∆z1 − ∆z2), Jz =
+
+(2)
+using Taylor’s Theorem. This implies that the natural distance function in Z changes locally as
+it is governed by the local Jacobian. Mathematically, the latent space should not then be seen
+
+(cid:107)f (z + ∆z1) − f (z + ∆z2)(cid:107)2
+
+(cid:12)(cid:12)(cid:12)(cid:12)z=z
+
+2 = (∆z1 − ∆z2)
+
+(cid:124)
+
+(J
+
+∂f
+∂z
+
+,
+
+1
+
+

@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+DEEP BAYESIAN BANDITS SHOWDOWN
+AN EMPIRICAL COMPARISON OF BAYESIAN DEEP NETWORKS FOR THOMPSON SAMPLING
+
+Carlos Riquelme∗
+Google Brain
+rikel@google.com
+
+George Tucker
+Google Brain
+gjt@google.com
+
+Jasper Snoek
+Google Brain
+jsnoek@google.com
+
+ABSTRACT
+
+Recent advances in deep reinforcement learning have made signiﬁcant strides in
+performance on applications such as Go and Atari games. However, developing
+practical methods to balance exploration and exploitation in complex domains
+remains largely unsolved. Thompson Sampling and its extension to reinforcement
+learning provide an elegant approach to exploration that only requires access
+to posterior samples of the model. At the same time, advances in approximate
+Bayesian methods have made posterior approximation for ﬂexible neural network
+models practical. Thus, it is attractive to consider approximate Bayesian neural
+networks in a Thompson Sampling framework. To understand the impact of using
+an approximate posterior on Thompson Sampling, we benchmark well-established
+and recently developed methods for approximate posterior sampling combined
+with Thompson Sampling over a series of contextual bandit problems. We found
+that many approaches that have been successful in the supervised learning setting
+underperformed in the sequential decision-making scenario. In particular, we
+highlight the challenge of adapting slowly converging uncertainty estimates to the
+online setting.
+
+1
+
+INTRODUCTION
+
+Recent advances in reinforcement learning have sparked renewed interest in sequential decision
+making with deep neural networks. Neural networks have proven to be powerful and ﬂexible function
+approximators, allowing one to learn mappings directly from complex states (e.g., pixels) to estimates
+of expected return. While such models can be accurate on data they have been trained on, quantifying
+model uncertainty on new data remains challenging. However, having an understanding of what is
+not yet known or well understood is critical to some central tasks of machine intelligence, such as
+effective exploration for decision making.
+A fundamental aspect of sequential decision making is the exploration-exploitation dilemma: in order
+to maximize cumulative reward, agents need to trade-off what is expected to be best at the moment,
+(i.e., exploitation), with potentially sub-optimal exploratory actions. Solving this trade-off in an
+efﬁcient manner to maximize cumulative reward is a signiﬁcant challenge as it requires uncertainty
+estimates. Furthermore, exploratory actions should be coordinated throughout the entire decision
+making process, known as deep exploration, rather than performed independently at each state.
+Thompson Sampling (Thompson, 1933) and its extension to reinforcement learning, known as
+Posterior Sampling, provide an elegant approach that tackles the exploration-exploitation dilemma
+by maintaining a posterior over models and choosing actions in proportion to the probability that
+they are optimal. Unfortunately, maintaining such a posterior is intractable for all but the simplest
+models. As such, signiﬁcant effort has been dedicated to approximate Bayesian methods for deep
+neural networks. These range from variational methods (Graves, 2011; Blundell et al., 2015; Kingma
+et al., 2015) to stochastic minibatch Markov Chain Monte Carlo (Neal, 1994; Welling & Teh, 2011;
+Li et al., 2016; Ahn et al., 2012; Mandt et al., 2016), among others. Because the exact posterior is
+intractable, evaluating these approaches is hard. Furthermore, these methods are rarely compared on
+benchmarks that measure the quality of their estimates of uncertainty for downstream tasks.
+
+∗Google AI Resident
+
+1
+
+

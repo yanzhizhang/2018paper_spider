@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+CGANS WITH PROJECTION DISCRIMINATOR
+
+Takeru Miyato1, Masanori Koyama2
+miyato@preferred.jp
+koyama.masanori@gmail.com
+1Preferred Networks, Inc. 2Ritsumeikan University
+
+ABSTRACT
+
+We propose a novel, projection based way to incorporate the conditional infor-
+mation into the discriminator of GANs that respects the role of the conditional
+information in the underlining probabilistic model. This approach is in contrast
+with most frameworks of conditional GANs used in application today, which use
+the conditional information by concatenating the (embedded) conditional vector
+to the feature vectors. With this modiﬁcation, we were able to signiﬁcantly im-
+prove the quality of the class conditional image generation on ILSVRC2012 (Im-
+ageNet) 1000-class image dataset from the current state-of-the-art result, and we
+achieved this with a single pair of a discriminator and a generator. We were
+also able to extend the application to super-resolution and succeeded in producing
+highly discriminative super-resolution images. This new structure also enabled
+high quality category transformation based on parametric functional transforma-
+tion of conditional batch normalization layers in the generator. The code with
+Chainer (Tokui et al., 2015), generated images and pretrained models are available
+at https://github.com/pfnet-research/sngan_projection.
+
+1
+
+INTRODUCTION
+
+Generative Adversarial Networks (GANs) (Goodfellow et al., 2014) are a framework to construct a
+generative model that can mimic the target distribution, and in recent years it has given birth to arrays
+of state-of-the-art algorithms of generative models on image domain (Radford et al., 2016; Salimans
+et al., 2016; Ledig et al., 2017; Zhang et al., 2017; Reed et al., 2016). The most distinctive feature
+of GANs is the discriminator D(x) that evaluates the divergence between the current generative
+distribution pG(x) and the target distribution q(x) (Goodfellow et al., 2014; Nowozin et al., 2016;
+Arjovsky et al., 2017). The algorithm of GANs trains the generator model by iteratively training
+the discriminator and generator in turn, with the discriminator acting as an increasingly meticulous
+critic of the current generator.
+Conditional GANs (cGANs) are a type of GANs that use conditional information (Mirza & Osin-
+dero, 2014) for the discriminator and generator, and they have been drawing attention as a promising
+tool for class conditional image generation (Odena et al., 2017), the generation of the images from
+text (Reed et al., 2016; Zhang et al., 2017), and image to image translation (Kim et al., 2017; Zhu
+et al., 2017). Unlike in standard GANs, the discriminator of cGANs discriminates between the gen-
+erator distribution and the target distribution on the set of the pairs of generated samples x and its
+intended conditional variable y. To the authors’ knowledge, most frameworks of discriminators in
+cGANs at the time of writing feeds the pair the conditional information y into the discriminator
+by naively concatenating (embedded) y to the input or to the feature vector at some middle layer
+(Mirza & Osindero, 2014; Denton et al., 2015; Reed et al., 2016; Zhang et al., 2017; Perarnau et al.,
+2016; Saito et al., 2017; Dumoulin et al., 2017a; Sricharan et al., 2017). We would like to however,
+take into account the structure of the assumed conditional probabilistic models underlined by the
+structure of the discriminator, which is a function that measures the information theoretic distance
+between the generative distribution and the target distribution.
+By construction, any assumption about the form of the distribution would act as a regularization on
+the choice of the discriminator. In this paper, we propose a speciﬁc form of the discriminator, a form
+motivated by a probabilistic model in which the distribution of the conditional variable y given x is
+
+1
+
+

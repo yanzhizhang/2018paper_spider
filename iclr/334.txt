@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+NEURAL MAP: STRUCTURED MEMORY FOR DEEP RE-
+INFORCEMENT LEARNING
+
+Emilio Parisotto & Ruslan Salakhutdinov
+Department of Machine Learning
+Carnegie Mellon University
+Pittsburgh, PA 15213, USA
+{eparisot,rsalakhu}@cs.cmu.edu
+
+ABSTRACT
+
+A critical component to enabling intelligent reasoning in partially observable en-
+vironments is memory. Despite this importance, Deep Reinforcement Learning
+(DRL) agents have so far used relatively simple memory architectures, with the
+main methods to overcome partial observability being either a temporal convo-
+lution over the past k frames or an LSTM layer. More recent work (Oh et al.,
+2016) has went beyond these architectures by using memory networks which can
+allow more sophisticated addressing schemes over the past k frames. But even
+these architectures are unsatisfactory due to the reason that they are limited to
+only remembering information from the last k frames. In this paper, we develop
+a memory system with an adaptable write operator that is customized to the sorts
+of 3D environments that DRL agents typically interact with. This architecture,
+called the Neural Map, uses a spatially structured 2D memory image to learn to
+store arbitrary information about the environment over long time lags. We demon-
+strate empirically that the Neural Map surpasses previous DRL memories on a set
+of challenging 2D and 3D maze environments and show that it is capable of gen-
+eralizing to environments that were not seen during training.
+
+1
+
+INTRODUCTION
+
+Memory is a crucial aspect of an intelligent agent’s ability to plan and reason in partially observable
+environments. Without memory, agents must act reﬂexively according only to their immediate per-
+cepts and cannot execute plans that occur over an extended time interval. Recently, Deep Reinforce-
+ment Learning agents have been capable of solving many challenging tasks such as Atari Arcade
+Games (Mnih et al., 2015), robot control (Levine et al., 2016) and 3D games such as Doom (Lam-
+ple & Chaplot, 2016), but successful behaviours in these tasks have often only been based on a
+relatively short-term temporal context or even just a single frame. On the other hand, many tasks
+require long-term planning, such as a robot gathering objects or an agent searching a level to ﬁnd a
+key in a role-playing game.
+Neural networks that utilized external memories have recently had an explosion in variety, which can
+be distinguished along two main axes: memories with write operators and those without. Writeless
+external memory systems, often referred to as “Memory Networks” (Sukhbaatar et al., 2015; Oh
+et al., 2016), typically ﬁx which memories are stored. For example, at each time step, the memory
+network would store the past M states seen in an environment. What is learnt by the network is
+therefore how to access or read from this ﬁxed memory pool, rather than what contents to store
+within it.
+The memory network approach has been successful in language modeling, question answering
+(Sukhbaatar et al., 2015) and was shown to be a sucessful memory for deep reinforcement learn-
+ing agents in complex 3D environments (Oh et al., 2016). By side-steping the difﬁculty involved
+in learning what information is salient enough to store in memory, the memory network introduces
+two main disadvantages. The ﬁrst disadvantage is that a potentially signiﬁcant amount of redundant
+information could be stored. The second disadvantage is that a domain expert must choose what to
+store in the memory, e.g. for the DRL agent, the expert must set M to a value that is larger than the
+time horizon of the currently considered task.
+
+1
+
+

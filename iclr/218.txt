@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+MANY PATHS TO EQUILIBRIUM: GANS DO NOT NEED
+TO DECREASE A DIVERGENCE AT EVERY STEP
+
+William Fedus∗ 1, Mihaela Rosca∗ 2, Balaji Lakshminarayanan2,
+
+Andrew M. Dai1, Shakir Mohamed2 and Ian Goodfellow1
+
+1Google Brain
+2DeepMind
+
+ABSTRACT
+
+Generative adversarial networks (GANs) are a family of generative models that
+do not minimize a single training criterion. Unlike other generative models, the
+data distribution is learned via a game between a generator (the generative model)
+and a discriminator (a teacher providing training signal) that each minimize their
+own cost. GANs are designed to reach a Nash equilibrium at which each player
+cannot reduce their cost without changing the other players’ parameters. One
+useful approach for the theory of GANs is to show that a divergence between
+the training distribution and the model distribution obtains its minimum value at
+equilibrium. Several recent research directions have been motivated by the idea
+that this divergence is the primary guide for the learning process and that every
+step of learning should decrease the divergence. We show that this view is overly
+restrictive. During GAN training, the discriminator provides learning signal in
+situations where the gradients of the divergences between distributions would not
+be useful. We provide empirical counterexamples to the view of GAN training as
+divergence minimization. Speciﬁcally, we demonstrate that GANs are able to learn
+distributions in situations where the divergence minimization point of view predicts
+they would fail. We also show that gradient penalties motivated from the divergence
+minimization perspective are equally helpful when applied in other contexts in
+which the divergence minimization perspective does not predict they would be
+helpful. This contributes to a growing body of evidence that GAN training may be
+more usefully viewed as approaching Nash equilibria via trajectories that do not
+necessarily minimize a speciﬁc divergence at each step.
+
+1
+
+INTRODUCTION
+
+Generative adversarial networks (GANs) (Goodfellow et al., 2014) are generative models based on a
+competition between a generator network G and a discriminator network D. The generator network
+G represents a probability distribution pmodel(x). To obtain a sample from this distribution, we apply
+the generator network to a noise vector z sampled from pz, that is x = G(z). Typically, z is drawn
+from a Gaussian or uniform distribution, but any distribution with sufﬁcient diversity is possible. The
+discriminator D(x) attempts to distinguish whether an input value x is real (came from the training
+data) or fake (came from the generator).
+The goal of the training process is to recover the true distribution pdata that generated the data.
+Several variants of the GAN training process have been proposed. Different variants of GANs have
+been interpreted as approximately minimizing different divergences or distances between pdata and
+pmodel. However, it has been difﬁcult to understand whether the improvements are caused by a
+change in the underlying divergence or the learning dynamics.
+We conduct several experiments to assess whether the improvements associated with new GAN
+methods are due to the reasons cited in their design motivation. We perform a comprehensive study
+of GANs on simpliﬁed, synthetic tasks for which the true pdata is known and the relevant distances
+
+∗ Equal contribution.
+
+1
+
+

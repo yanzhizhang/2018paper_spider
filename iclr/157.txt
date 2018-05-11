@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+INTERPRETABLE COUNTING FOR VISUAL QUESTION
+ANSWERING
+
+Alexander Trott, Caiming Xiong∗, & Richard Socher
+Salesforce Research
+Palo Alto, CA
+{atrott,cxiong,rsocher}@salesforce.com
+
+ABSTRACT
+
+Questions that require counting a variety of objects in images remain a major
+challenge in visual question answering (VQA). The most common approaches
+to VQA involve either classifying answers based on ﬁxed length representations
+of both the image and question or summing fractional counts estimated from each
+section of the image. In contrast, we treat counting as a sequential decision process
+and force our model to make discrete choices of what to count. Speciﬁcally, the
+model sequentially selects from detected objects and learns interactions between
+objects that inﬂuence subsequent selections. A distinction of our approach is its
+intuitive and interpretable output, as discrete counts are automatically grounded in
+the image. Furthermore, our method outperforms the state of the art architecture
+for VQA on multiple metrics that evaluate counting.
+
+1
+
+INTRODUCTION
+
+Visual question answering (VQA) is an important benchmark to test for context-speciﬁc reasoning
+over complex images. While the ﬁeld has seen substantial progress, counting-based questions have
+seen the least improvement (Chattopadhyay et al., 2017). Intuitively, counting should involve ﬁnding
+the number of distinct scene elements or objects that meet some criteria, see Fig. 1 for an example.
+In contrast, the predominant approach to VQA involves representing the visual input with the ﬁnal
+feature map of a convolutional neural network (CNN), attending to regions based on an encoding of
+the question, and classifying the answer from the attention-weighted image features (Xu & Saenko,
+2015; Yang et al., 2015; Xiong et al., 2016; Lu et al., 2016b; Fukui et al., 2016; Kim et al., 2017).
+Our intuition about counting seems at odds with the effects of attention, where a weighted average
+obscures any notion of distinct elements. As such, we are motivated to re-think the typical approach
+to counting in VQA and propose a method that embraces the discrete nature of the task.
+Our approach is partly inspired by recent work that represents images as a set of distinct objects, as
+identiﬁed by object detection (Anderson et al., 2017), and making use of the relationships between
+these objects (Teney et al., 2016). We experiment with counting systems that build off of the vision
+module used for these two works, which represents each image as a set of detected objects. For
+training and evaluation, we create a new dataset, HowMany-QA. It is taken from the counting-
+speciﬁc union of VQA 2.0 (Goyal et al., 2017) and Visual Genome QA (Krishna et al., 2016).
+We introduce the Interpretable Reinforcement Learning Counter (IRLC), which treats counting as a
+sequential decision process. We treat learning to count as learning to enumerate the relevant objects
+in the scene. As a result, IRLC not only returns a count but also the objects supporting its answer.
+This output is produced through an iterative method. Each step of this sequence has two stages:
+First, an object is selected to be added to the count. Second, the model adjusts the priority given to
+unselected objects based on their conﬁguration with the selected objects (Fig. 1). We supervise only
+the ﬁnal count and train the decision process using reinforcement learning (RL).
+Additional experiments highlight the importance of the iterative approach when using this manner of
+weak supervision. Furthermore, we train the current state of the art model for VQA on HowMany-
+QA and ﬁnd that IRLC achieves a higher accuracy and lower count error. Lastly, we compare the
+
+∗Corresponding author
+
+1
+
+

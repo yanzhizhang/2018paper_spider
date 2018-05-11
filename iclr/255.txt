@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+HEXACONV
+
+Emiel Hoogeboom∗, Jorn W.T. Peters∗& Taco S. Cohen
+University of Amsterdam
+{e.hoogeboom,j.w.t.peters,t.s.cohen}@uva.nl
+
+Max Welling
+University of Amsterdam & CIFAR
+m.welling@uva.nl
+
+ABSTRACT
+
+The effectiveness of convolutional neural networks stems in large part from their
+ability to exploit the translation invariance that is inherent in many learning prob-
+lems. Recently, it was shown that CNNs can exploit other sources of invariance,
+such as rotation invariance, by using group convolutions instead of planar con-
+volutions. However, for reasons of performance and ease of implementation, it
+has been necessary to limit the group convolution to transformations that can be
+applied to the ﬁlters without interpolation. Thus, for images with square pixels,
+only integer translations, rotations by multiples of 90 degrees, and reﬂections are
+admissible.
+Whereas the square tiling provides a 4-fold rotational symmetry, a hexagonal tiling
+of the plane has a 6-fold rotational symmetry. In this paper we show how one can
+efﬁciently implement planar convolution and group convolution over hexagonal
+lattices, by re-using existing highly optimized convolution routines. We ﬁnd that,
+due to the reduced anisotropy of hexagonal ﬁlters, planar HexaConv provides bet-
+ter accuracy than planar convolution with square ﬁlters, given a ﬁxed parameter
+budget. Furthermore, we ﬁnd that the increased degree of symmetry of the hexag-
+onal grid increases the effectiveness of group convolutions, by allowing for more
+parameter sharing. We show that our method signiﬁcantly outperforms conven-
+tional CNNs on the AID aerial scene classiﬁcation dataset, even outperforming
+ImageNet pretrained models.
+
+1
+
+INTRODUCTION
+
+For sensory perception tasks, neural networks have mostly replaced handcrafted features. Instead
+of deﬁning features by hand using domain knowledge, it is now possible to learn them, resulting in
+improved accuracy and saving a considerable amount of work. However, successful generalization
+is still critically dependent on the inductive bias encoded in the network architecture, whether this
+bias is understood by the network architect or not.
+The canonical example of a successful network architecture is the Convolutional Neural Network
+(CNN, ConvNet). Through convolutional weight sharing, these networks exploit the fact that a given
+visual pattern may appear in different locations in the image with approximately equal likelihood.
+Furthermore, this translation symmetry is preserved throughout the network, because a translation
+of the input image leads to a translation of the feature maps at each layer: convolution is translation
+equivariant.
+Very often, the true label function (the mapping from image to label that we wish to learn) is invariant
+to more transformations than just translations. Rotations are an obvious example, but standard
+translational convolutions cannot exploit this symmetry, because they are not rotation equivariant.
+As it turns out, a convolution operation can be deﬁned for almost any group of transformation — not
+just translations. By simply replacing convolutions with group convolutions (wherein ﬁlters are not
+
+∗Equal contribution
+
+1
+
+

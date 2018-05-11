@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+UNSUPERVISED REPRESENTATION LEARNING BY PRE-
+DICTING IMAGE ROTATIONS
+
+Spyros Gidaris, Praveer Singh, Nikos Komodakis
+University Paris-Est, LIGM
+Ecole des Ponts ParisTech
+{spyros.gidaris,praveer.singh,nikos.komodakis}@enpc.fr
+
+ABSTRACT
+
+Over the last years, deep convolutional neural networks (ConvNets) have trans-
+formed the ﬁeld of computer vision thanks to their unparalleled capacity to learn
+high level semantic image features. However, in order to successfully learn those
+features, they usually require massive amounts of manually labeled data, which
+is both expensive and impractical to scale. Therefore, unsupervised semantic fea-
+ture learning, i.e., learning without requiring manual annotation effort, is of crucial
+importance in order to successfully harvest the vast amount of visual data that are
+available today. In our work we propose to learn image features by training Con-
+vNets to recognize the 2d rotation that is applied to the image that it gets as input.
+We demonstrate both qualitatively and quantitatively that this apparently simple
+task actually provides a very powerful supervisory signal for semantic feature
+learning. We exhaustively evaluate our method in various unsupervised feature
+learning benchmarks and we exhibit in all of them state-of-the-art performance.
+Speciﬁcally, our results on those benchmarks demonstrate dramatic improvements
+w.r.t. prior state-of-the-art approaches in unsupervised representation learning and
+thus signiﬁcantly close the gap with supervised feature learning. For instance, in
+PASCAL VOC 2007 detection task our unsupervised pre-trained AlexNet model
+achieves the state-of-the-art (among unsupervised methods) mAP of 54.4% that is
+only 2.4 points lower from the supervised case. We get similarly striking results
+when we transfer our unsupervised learned features on various other tasks, such
+as ImageNet classiﬁcation, PASCAL classiﬁcation, PASCAL segmentation, and
+CIFAR-10 classiﬁcation. The code and models of our paper will be published on:
+https://github.com/gidariss/FeatureLearningRotNet.
+
+1
+
+INTRODUCTION
+
+In recent years, the widespread adoption of deep convolutional neural networks (LeCun et al., 1998)
+(ConvNets) in computer vision, has lead to a tremendous progress in the ﬁeld. Speciﬁcally, by train-
+ing ConvNets on the object recognition (Russakovsky et al., 2015) or the scene classiﬁcation (Zhou
+et al., 2014) tasks with a massive amount of manually labeled data, they manage to learn power-
+ful visual representations suitable for image understanding tasks. For instance, the image features
+learned by ConvNets in this supervised manner have achieved excellent results when they are trans-
+ferred to other vision tasks, such as object detection (Girshick, 2015), semantic segmentation (Long
+et al., 2015), or image captioning (Karpathy & Fei-Fei, 2015). However, supervised feature learning
+has the main limitation of requiring intensive manual labeling effort, which is both expensive and
+infeasible to scale on the vast amount of visual data that are available today.
+Due to that, there is lately an increased interest to learn high level ConvNet based representations
+in an unsupervised manner that avoids manual annotation of visual data. Among them, a promi-
+nent paradigm is the so-called self-supervised learning that deﬁnes an annotation free pretext task,
+using only the visual information present on the images or videos, in order to provide a surrogate
+supervision signal for feature learning. For example, in order to learn features, Zhang et al. (2016a)
+and Larsson et al. (2016) train ConvNets to colorize gray scale images, Doersch et al. (2015) and
+Noroozi & Favaro (2016) predict the relative position of image patches, and Agrawal et al. (2015)
+predict the egomotion (i.e., self-motion) of a moving vehicle between two consecutive frames. The
+
+1
+
+

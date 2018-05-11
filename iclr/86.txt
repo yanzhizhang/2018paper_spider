@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING LATENT REPRESENTATIONS
+IN NEURAL NETWORKS FOR CLUSTERING
+THROUGH PSEUDO SUPERVISION
+AND GRAPH-BASED ACTIVITY REGULARIZATION
+
+Ozsel Kilinc
+Electrical Engineering Department
+University of South Florida
+Tampa, FL 33620
+ozsel@mail.usf.edu
+
+Ismai Uysal
+Electrical Engineering Department
+University of South Florida
+Tampa, FL 33620
+iuysal@usf.edu
+
+ABSTRACT
+
+In this paper, we propose a novel unsupervised clustering approach exploiting the
+hidden information that is indirectly introduced through a pseudo classiﬁcation
+objective. Speciﬁcally, we randomly assign a pseudo parent-class label to each
+observation which is then modiﬁed by applying the domain speciﬁc transformation
+associated with the assigned label. Generated pseudo observation-label pairs are
+subsequently used to train a neural network with Auto-clustering Output Layer
+(ACOL) that introduces multiple softmax nodes for each pseudo parent-class. Due
+to the unsupervised objective based on Graph-based Activity Regularization (GAR)
+terms, softmax duplicates of each parent-class are specialized as the hidden infor-
+mation captured through the help of domain speciﬁc transformations is propagated
+during training. Ultimately we obtain a k-means friendly latent representation.
+Furthermore, we demonstrate how the chosen transformation type impacts per-
+formance and helps propagate the latent information that is useful in revealing
+unknown clusters. Our results show state-of-the-art performance for unsupervised
+clustering tasks on MNIST, SVHN and USPS datasets, with the highest accuracies
+reported to date in the literature.
+
+1
+
+INTRODUCTION
+
+Clustering, the unsupervised process of grouping similar examples together, is one of the most
+fundamental challenges in machine learning research and has been studied extensively in different
+aspects such as feature selection, distance functions, grouping methods, etc. (Aggarwal & Reddy,
+2014). k-means (MacQueen et al., 1967) and Gaussian Mixture Models (GMM) (Bishop, 2007) are
+two well-known conventional clustering algorithms that are applicable to a wide range of problems.
+Traditionally, these methods are applied to low-level features such as raw data or gradient-orientation
+histograms (HOG) for images. Therefore, their distance metrics are limited to local relations in the
+data space and inadequate to represent hidden dependencies in latent spaces. On the other hand,
+spectral clustering (von Luxburg, 2007) is another conventional approach producing more ﬂexible
+distance metrics than k-means and GMM. However, these types of solutions are not scalable to large
+datasets as they need to compute the full graph Laplacian matrix.
+In recent years, researchers have focused on the unsupervised learning of high-level features on
+which to apply clustering and shown that learning good representations is important for the accuracy
+and robustness of the clustering task. Deep Embedding Clustering (DEC) (Xie et al., 2016) was
+proposed to simultaneously learn feature representations and cluster assignments using deep neural
+networks (DNN). In this approach, ﬁrst DNN parameters are initialized with a layer-wise trained
+deep autoencoder (Vincent et al., 2010) and then the initialized DNN is used to obtain the latent
+representation on which to perform k-means clustering for the initialization of cluster centers.
+This complicated initialization is followed by a challenging optimization process that minimizes
+the Kullback–Leibler (KL) divergence between the centroid-based probability distribution and the
+
+1
+
+

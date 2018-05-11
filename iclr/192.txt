@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+CAN RECURRENT NEURAL NETWORKS WARP TIME?
+
+Corentin Tallec
+Laboratoire de Recherche en Informatique
+Université Paris Sud
+Gif-sur-Yvette, 91190, France
+corentin.tallec@u-psud.fr
+
+Yann Ollivier
+Facebook Articial Intelligence Research
+Paris, France
+yol@fb.com
+
+ABSTRACT
+
+Successful recurrent models such as long short-term memories (LSTMs) and
+gated recurrent units (GRUs) use ad hoc gating mechanisms. Empirically these
+models have been found to improve the learning of medium to long term temporal
+dependencies and to help with vanishing gradient issues.
+We prove that learnable gates in a recurrent model formally provide quasi-
+invariance to general time transformations in the input data. We recover part
+of the LSTM architecture from a simple axiomatic approach.
+This result leads to a new way of initializing gate biases in LSTMs and GRUs. Ex-
+perimentally, this new chrono initialization is shown to greatly improve learning
+of long term dependencies, with minimal implementation effort.
+
+Recurrent neural networks (e.g. (Jaeger, 2002)) are a standard machine learning tool to model and
+represent temporal data; mathematically they amount to learning the parameters of a parameterized
+dynamical system so that its behavior optimizes some criterion, such as the prediction of the next
+data in a sequence.
+Handling long term dependencies in temporal data has been a classical issue in the learning of re-
+current networks. Indeed, stability of a dynamical system comes at the price of exponential decay
+of the gradient signals used for learning, a dilemma known as the vanishing gradient problem (Pas-
+canu et al., 2012; Hochreiter, 1991; Bengio et al., 1994). This has led to the introduction of recurrent
+models speciﬁcally engineered to help with such phenomena.
+Use of feedback connections (Hochreiter & Schmidhuber, 1997) and control of feedback weights
+through gating mechanisms (Gers et al., 1999) partly alleviate the vanishing gradient problem. The
+resulting architectures, namely long short-term memories (LSTMs (Hochreiter & Schmidhuber,
+1997; Gers et al., 1999)) and gated recurrent units (GRUs (Chung et al., 2014)) have become a
+standard for treating sequential data.
+Using orthogonal weight matrices is another proposed solution to the vanishing gradient problem,
+thoroughly studied in (Saxe et al., 2013; Le et al., 2015; Arjovsky et al., 2016; Wisdom et al., 2016;
+Henaff et al., 2016). This comes with either computational overhead, or limitation in representa-
+tional power. Furthermore, restricting the weight matrices to the set of orthogonal matrices makes
+forgetting of useless information difﬁcult.
+The contribution of this paper is threefold:
+
+∙ We show that postulating invariance to time transformations in the data (taking invariance
+to time warping as an axiom) necessarily leads to a gate-like mechanism in recurrent mod-
+els (Section 1). This provides a clean derivation of part of the popular LSTM and GRU
+architectures from ﬁrst principles. In this framework, gate values appear as time contrac-
+tion or time dilation coefﬁcients, similar in spirit to the notion of time constant introduced
+in (Mozer, 1992).
+
+∙ From these insights, we provide precise prescriptions on how to initialize gate biases (Sec-
+tion 2) depending on the range of time dependencies to be captured. It has previously been
+advocated that setting the bias of the forget gate of LSTMs to 1 or 2 provides overall good
+performance (Gers & Schmidhuber, 2000; Jozefowicz et al., 2015). The viewpoint here
+
+1
+
+

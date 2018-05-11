@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+ROBUSTNESS OF CLASSIFIERS TO UNIVERSAL PERTUR-
+BATIONS: A GEOMETRIC PERSPECTIVE
+
+Seyed Mohsen Moosavi Dezfooli∗
+École Polytechnique Fédérale de Lausanne
+seyed.moosavi@epfl.ch
+
+Alhussein Fawzi∗†
+University of California, Los Angeles
+fawzi@cs.ucla.edu
+
+Omar Fawzi
+École Normale Supérieure de Lyon
+omar.fawzi@ens-lyon.fr
+
+Pascal Frossard
+École Polytechnique Fédérale de Lausanne
+pascal.frossard@epfl.ch
+
+Stefano Soatto
+University of California, Los Angeles
+soatto@ucla.edu
+
+ABSTRACT
+
+Deep networks have recently been shown to be vulnerable to universal perturbations:
+there exist very small image-agnostic perturbations that cause most natural images
+to be misclassiﬁed by such classiﬁers. In this paper, we provide a quantitative
+analysis of the robustness of classiﬁers to universal perturbations, and draw a formal
+link between the robustness to universal perturbations, and the geometry of the
+decision boundary. Speciﬁcally, we establish theoretical bounds on the robustness
+of classiﬁers under two decision boundary models (ﬂat and curved models). We
+show in particular that the robustness of deep networks to universal perturbations
+is driven by a key property of their curvature: there exist shared directions along
+which the decision boundary of deep networks is systematically positively curved.
+Under such conditions, we prove the existence of small universal perturbations.
+Our analysis further provides a novel geometric method for computing universal
+perturbations, in addition to explaining their properties.
+
+1
+
+INTRODUCTION
+
+Despite the success of deep neural networks in solving complex visual tasks He et al. (2016);
+Krizhevsky et al. (2012), these classiﬁers have recently been shown to be highly vulnerable to
+perturbations in the input space.
+In Moosavi-Dezfooli et al. (2017), state-of-the-art classiﬁers
+are empirically shown to be vulnerable to universal perturbations: there exist very small image-
+agnostic perturbations that cause most natural images to be misclassiﬁed. The existence of universal
+perturbation is further shown in Hendrik Metzen et al. (2017) to extend to other visual tasks, such
+as semantic segmentation. Universal perturbations fundamentally differ from the random noise
+regime, and exploit essential properties of deep networks to misclassify most natural images with
+perturbations of very small magnitude. Why are state-of-the-art classiﬁers highly vulnerable to these
+speciﬁc directions in the input space? What do these directions represent? To answer these questions,
+we follow a theoretical approach and ﬁnd the causes of this vulnerability in the geometry of the
+decision boundaries induced by deep neural networks. For deep networks, we show that the key to
+answering these questions lies in the existence of shared directions (across different datapoints) along
+which the decision boundary is highly curved. This establishes fundamental connections between
+geometry and robustness to universal perturbations, and thereby reveals new properties of the decision
+boundaries induced by deep networks.
+
+∗The ﬁrst two authors contributed equally to this work.
+†Now at Google DeepMind.
+
+1
+
+

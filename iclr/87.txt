@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+RESIDUAL LOSS PREDICTION: REINFORCEMENT
+LEARNING WITH NO INCREMENTAL FEEDBACK
+
+Hal Daum´e III ∗
+University of Maryland &
+Microsoft Research NYC
+me@hal3.name
+
+John Langford
+Microsoft Research NYC
+jcl@microsoft.com
+
+Amr Sharaf
+University of Maryland
+amr@cs.umd.edu
+
+ABSTRACT
+
+We consider reinforcement learning and bandit structured prediction problems
+with very sparse loss feedback: only at the end of an episode. We introduce a novel
+algorithm, RESIDUAL LOSS PREDICTION (RESLOPE), that solves such problems
+by automatically learning an internal representation of a denser reward function.
+RESLOPE operates as a reduction to contextual bandits, using its learned loss rep-
+resentation to solve the credit assignment problem, and a contextual bandit oracle
+to trade-off exploration and exploitation. RESLOPE enjoys a no-regret reduction-
+style theoretical guarantee and outperforms state of the art reinforcement learning
+algorithms in both MDP environments and bandit structured prediction settings.
+
+1
+
+INTRODUCTION
+
+Current state of the art learning-based systems require enormous, costly datasets on which to train
+supervised models. To progress beyond this requirement, we need learning systems that can interact
+with their environments, collect feedback (a loss or reward), and improve continually over time. In
+most real-world settings, such feedback is sparse and delayed: most decisions made by the system
+will not immediately lead to feedback. Any sort of interactive system like this will face at least two
+challenges: the credit assignment problem (which decision(s) did the system make that led to the
+good/bad feedback?); and the exploration/exploitation problem (in order to learn, the system must
+try new things, but these could be bad).
+We consider the question of how to learn in an extremely sparse feedback setting: the environment
+operates episodically, and the only feedback comes at the end of the episode, with no incremen-
+tal feedback to guide learning. This setting naturally arises in many classic reinforcement learning
+problems (§4): a barista robot will only get feedback from a customer after their cappuccino is ﬁn-
+ished1. It also arises in the context of bandit structured prediction (Sokolov et al., 2016; Chang et al.,
+2015) (§2.2), where a structured prediction system must produce a single output (e.g., translation)
+and observes only a scalar loss.
+We introduce a novel reinforcement learning algorithm, RESIDUAL LOSS PREDICTION (RESLOPE)
+(§3), which aims to learn effective representations of the loss signal. By effective we mean effec-
+tive in terms of credit assignment. Intuitively, RESLOPE attempts to learn a decomposition of the
+episodic loss into a sum of per-time-step losses. This process is akin to how a person solving a task
+might realize before the task is complete when and where they are likely to have made suboptimal
+choices. In RESLOPE, the per-step loss estimates are conditioned on all the information available up
+to the current point in time, allowing it to learn a highly non-linear representation for the episodic
+loss (assuming the policy class is sufﬁciently complex; in practice, we use recurrent neural net-
+work policies). When the system receives the ﬁnal episodic loss, it uses the difference between the
+observed loss and the cumulative predicted loss to update its parameters.
+
+∗Authors are listed alphabetically.
+1This problem can be—and to a large degree has been—mitigated through the task-speciﬁc and complex
+process of reward engineering and reward shaping. Indeed, we were surprised to ﬁnd that many classic RL
+algorithms fail badly when incremental rewards disappear. We aim to make such problems disappear.
+
+1
+
+

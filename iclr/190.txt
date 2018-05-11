@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+CAN NEURAL NETWORKS UNDERSTAND LOGICAL
+ENTAILMENT?
+
+Richard Evans∗
+
+David Saxton∗
+
+David Amos
+
+Pushmeet Kohli
+
+Edward Grefenstette∗
+DeepMind
+{richardevans,saxton,davidamos,pushmeet,etg}@google.com
+
+ABSTRACT
+
+We introduce a new dataset of logical entailments for the purpose of measuring
+models’ ability to capture and exploit the structure of logical expressions against
+an entailment prediction task. We use this task to compare a series of architec-
+tures which are ubiquitous in the sequence-processing literature, in addition to a
+new model class—PossibleWorldNets—which computes entailment as a “convo-
+lution over possible worlds”. Results show that convolutional networks present
+the wrong inductive bias for this class of problems relative to LSTM RNNs, tree-
+structured neural networks outperform LSTM RNNs due to their enhanced ability
+to exploit the syntax of logic, and PossibleWorldNets outperform all benchmarks.
+
+1
+
+INTRODUCTION
+
+This paper seeks to answer two questions: “Can neural networks understand logical formulae well
+enough to detect entailment?”, and, more generally, “Which architectures are best at inferring, en-
+coding, and relating features in a purely structural sequence-based problem?”. In answering these
+questions, we aim to better understand the inductive biases of popular architectures with regard to
+structure and abstraction in sequence data. Such understanding would help pave the road to agents
+and classiﬁers that reason structurally, in addition to reasoning on the basis of essentially semantic
+representations. In this paper, we provide a testbed for evaluating some aspects of neural networks’
+ability to reason structurally and abstractly. We use it to compare a variety of popular network
+architectures and a new model we introduce, called PossibleWorldNet.
+Neural network architectures lie at the heart of a variety of applications. They are practically ubiq-
+uitous across vision tasks (LeCun et al., 1995; Krizhevsky et al., 2012; Simonyan & Zisserman,
+2014) and natural language understanding, from machine translation (Kalchbrenner & Blunsom,
+2013; Sutskever et al., 2014; Bahdanau et al., 2014) to textual entailment (Bowman et al., 2015;
+Rockt¨aschel et al., 2015) via sentiment analysis (Socher et al., 2013; Kalchbrenner et al., 2014) and
+reading comprehension (Hermann et al., 2015; Hill et al., 2015; Rajpurkar et al., 2016). They have
+been used to synthesise programs (Ling et al., 2016; Parisotto et al., 2016; Devlin et al., 2017) or
+internalise algorithms (Graves et al., 2016; Grefenstette et al., 2015; Joulin & Mikolov, 2015; Kaiser
+& Sutskever, 2015; Reed & De Freitas, 2015). They form the basis of reinforcement learning agents
+capable of playing video games (Mnih et al., 2015), difﬁcult perfect information games (Silver et al.,
+2016; Tian & Zhu, 2015), and navigating complex environments from raw pixels (Mirowski et al.,
+2016). An important question in this context is to ﬁnd the inductive and generalisation properties
+of different neural architectures, particularly towards the ability to capture structure present in the
+input, an ability that might be important for many language and reasoning tasks. However, there is
+little work on studying these inductive biases in isolation by running these models on tasks that are
+primarily or purely about sequence structure, which we intend to address.
+The paper’s contribution is three-fold. First, we introduce a new dataset for training and evaluating
+models. Second, we provide a thorough evaluation of the existing neural models on this dataset.
+Third, inspired by the semantic (model-theoretic) deﬁnition of entailment, we propose a variant of
+
+∗Equal contribution.
+
+1
+
+

@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+REGULARIZING AND OPTIMIZING LSTM LANGUAGE
+MODELS
+
+Stephen Merity, Nitish Shirish Keskar & Richard Socher
+Salesforce Research
+Palo Alto, CA 94301, USA
+{smerity,nkeskar,rsocher}@salesforce.com
+
+ABSTRACT
+
+In this paper, we consider the speciﬁc problem of word-level language modeling
+and investigate strategies for regularizing and optimizing LSTM-based models.
+We propose the weight-dropped LSTM, which uses DropConnect on hidden-to-
+hidden weights, as a form of recurrent regularization. Further, we introduce NT-
+AvSGD, a non-monotonically triggered (NT) variant of the averaged stochastic
+gradient method (AvSGD), wherein the averaging trigger is determined using a
+NT condition as opposed to being tuned by the user. Using these and other regu-
+larization strategies, our AvSGD Weight-Dropped LSTM (AWD-LSTM) achieves
+state-of-the-art word level perplexities on two data sets: 57.3 on Penn Treebank
+and 65.8 on WikiText-2. In exploring the effectiveness of a neural cache in con-
+junction with our proposed model, we achieve an even lower state-of-the-art per-
+plexity of 52.8 on Penn Treebank and 52.0 on WikiText-2. We also explore the
+viability of the proposed regularization and optimization strategies in the context
+of the quasi-recurrent neural network (QRNN) and demonstrate comparable per-
+formance to the AWD-LSTM counterpart. The code for reproducing the results
+is open sourced and is available at https://github.com/salesforce/
+awd-lstm-lm.
+
+1
+
+INTRODUCTION
+
+Effective regularization techniques for deep learning have been the subject of much research in
+recent years. Given the over-parameterization of neural networks, generalization performance cru-
+cially relies on the ability to regularize the models sufﬁciently. Strategies such as dropout (Srivastava
+et al., 2014) and batch normalization (Ioffe & Szegedy, 2015) have found great success and are now
+ubiquitous in feed-forward and convolutional neural networks. Na¨ıvely applying these approaches
+to the case of recurrent neural networks (RNNs) has not been highly successful however. Many
+recent works have hence been focused on the extension of these regularization strategies to RNNs;
+we brieﬂy discuss some of them below.
+A na¨ıve application of dropout (Srivastava et al., 2014) to an RNN’s hidden state is ineffective
+as it disrupts the RNN’s ability to retain long term dependencies (Zaremba et al., 2014). Gal &
+Ghahramani (2016) propose overcoming this problem by retaining the same dropout mask across
+multiple time steps as opposed to sampling a new binary mask at each timestep. Another approach
+is to regularize the network through limiting updates to the RNN’s hidden state. One such approach
+is taken by Semeniuta et al. (2016) wherein the authors drop updates to network units, speciﬁcally
+the input gates of the LSTM, in lieu of the units themselves. This is reminiscent of zoneout (Krueger
+et al., 2016) where updates to the hidden state may fail to occur for randomly selected neurons.
+Instead of operating on the RNN’s hidden states, one can regularize the network through restric-
+tions on the recurrent matrices as well. This can be done either through restricting the capacity of
+the matrix (Arjovsky et al., 2016; Wisdom et al., 2016; Jing et al., 2016) or through element-wise
+interactions (Balduzzi & Ghifary, 2016; Bradbury et al., 2016; Seo et al., 2016).
+Other forms of regularization explicitly act upon activations such as batch normalization (Ioffe &
+Szegedy, 2015), recurrent batch normalization (Cooijmans et al., 2016), and layer normalization (Ba
+
+1
+
+

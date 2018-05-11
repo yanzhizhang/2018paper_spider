@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+MASTERING THE DUNGEON: GROUNDED LANGUAGE
+LEARNING BY MECHANICAL TURKER DESCENT
+
+Zhilin Yang, Saizheng Zhang, Jack Urbanek, Will Feng, Alexander H. Miller
+Arthur Szlam, Douwe Kiela & Jason Weston
+Facebook AI Research
+
+ABSTRACT
+
+Contrary to most natural language processing research, which makes use of static
+datasets, humans learn language interactively, grounded in an environment.
+In
+this work we propose an interactive learning procedure called Mechanical Turker
+Descent (MTD) and use it to train agents to execute natural language commands
+grounded in a fantasy text adventure game. In MTD, Turkers compete to train
+better agents in the short term, and collaborate by sharing their agents’ skills in
+the long term. This results in a gamiﬁed, engaging experience for the Turkers and
+a better quality teaching signal for the agents compared to static datasets, as the
+Turkers naturally adapt the training data to the agent’s abilities.
+
+1
+
+INTRODUCTION
+
+Research in natural language processing often relies on static benchmark datasets, which are used
+to train models and measure the progress of the ﬁeld. Human language, however, does not emerge
+from training on a language dataset, but from communication, and interaction with an environment.
+Interactive learning offers several advantages over static datasets, such as the ability for teachers
+and learners to control the data distribution according to the learner’s abilities (Bengio et al., 2009),
+and the ability to pair the learning of language with the ability to act. That is, a language learning
+agent can learn to interact and communicate with respect to concepts that are grounded in a shared
+environment (Kiela et al., 2016).
+In this work, we propose a general framework for interactive learning called Mechanical Turker
+Descent (MTD), which gamiﬁes the collaborative training of machine learning agents over multiple
+rounds. MTD is a competitive and collaborative training protocol. It is competitive in that in each
+round, Turkers train their own agent to compete with other Turkers’ agents to win the bonus. Due to
+the engaging nature of the competitive setting, Turkers are incentivized to create the best curriculum
+of training examples for their agents (not too easy, not too hard—but just right). At the same time,
+MTD is also collaborative, as Turkers’ data are merged after each round and shared in the next
+round. As a result, the agents improve their language abilities by interaction with humans and the
+environment in the long term.
+We demonstrate MTD in the setting of grounded language learning, where the goal is to teach
+agents to follow user directions in an interactive game interface called GraphWorld. The world is
+represented as a set of objects, along with directed typed edges indicating the relations between
+them. The set of possible actions of an agent are then deﬁned as updates to the graph structure.
+While MTD is a general-purpose interactive learning procedure, it is particularly well-suited for this
+kind of scenario, where the grounded environment facilitates data efﬁciency and imposes constraints
+that make language learning easier and faster. It also allows for growing the complexity of the task
+as the learning agent improves.
+Based on the GraphWorld interface, we build a text adventure game called Mastering the Dungeon,
+where humans train a dragon which lives in a dungeon and interacts with various objects (e.g. elven
+sword), containers (e.g.
+tower), and non-player characters (e.g.
+trolls). Turkers give training example pairs (x, y), where x is a natural language command and y
+is an action sequence. The task is formulated as a language grounding problem where agents are
+trained to learn the mapping from x to y.
+
+treasure chest), locations (e.g.
+
+1
+
+

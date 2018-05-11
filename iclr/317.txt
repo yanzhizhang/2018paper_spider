@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+KRONECKER-FACTORED CURVATURE APPROXIMA-
+TIONS FOR RECURRENT NEURAL NETWORKS
+
+James Martens
+DeepMind
+jamesmartens@google.com
+
+Matthew Johnson
+Google Brain
+mattjj@google.com
+
+Jimmy Ba
+Department of Computer Science
+University of Toronto
+Toronto, Canada
+jimmy@psi.toronto.edu
+
+ABSTRACT
+
+Kronecker-factor Approximate Curvature (Martens & Grosse, 2015) (K-FAC) is
+a 2nd-order optimization method which has been shown to give state-of-the-art
+performance on large-scale neural network optimization tasks (Ba et al., 2017). It
+is based on an approximation to the Fisher information matrix (FIM) that makes
+assumptions about the particular structure of the network and the way it is pa-
+rameterized. The original K-FAC method was applicable only to fully-connected
+networks, although it has been recently extended by Grosse & Martens (2016)
+to handle convolutional networks as well.
+In this work we extend the method
+to handle RNNs by introducing a novel approximation to the FIM for RNNs.
+This approximation works by modelling the statistical structure between the gra-
+dient contributions at different time-steps using a chain-structured linear Gaussian
+graphical model, summing the various cross-moments, and computing the inverse
+in closed form. We demonstrate in experiments that our method signiﬁcantly out-
+performs general purpose state-of-the-art optimizers like SGD with momentum
+and Adam on several challenging RNN training tasks.
+
+1
+
+INTRODUCTION
+
+As neural networks have become ubiquitous in both research and applications the need to efﬁciently
+train has never been greater. The main workhorses for neural net optimization are stochastic gradient
+descent (SGD) with momentum and various 2nd-order optimizers that use diagonal curvature-matrix
+approximations, such as RMSprop (Tieleman & Hinton, 2012) and Adam (Ba & Kingma, 2015).
+While the latter are typically easier to tune and work better out of the box, they unfortunately only
+offer marginal performance improvements over well-tuned SGD on most problems.
+Because modern neural networks have many millions of parameters it is computationally too ex-
+pensive to compute and invert an entire curvature matrix and so approximations are required. While
+early work on non-diagonal curvature matrix approximations such as TONGA (Le Roux et al., 2008)
+and the Hessian-free (HF) approach (Martens, 2010; Martens & Sutskever, 2011; 2012; Desjardins
+et al., 2013; Sainath et al., 2013) demonstrated the potential of such methods, they never achieved
+wide adoption due to issues of scalability (to large models in the case of the former, and large
+datasets in the case of the latter).
+Motivated in part by these older results and by the more recent success of centering and normaliza-
+tion methods (e.g. Schraudolph, 1998; Vatanen et al., 2013; Ioffe & Szegedy, 2015) a new family
+of methods has emerged that are based on non-diagonal curvature matrix approximations the rely
+on the special structure of neural networks. Such methods, which include Kronecker-factored ap-
+proximated curvature (K-FAC) (Martens & Grosse, 2015), Natural Neural Nets (Desjardins et al.,
+2015), Practical Riemannian Neural Networks (Marceau-Caron & Ollivier, 2016), and others (Povey
+
+1
+
+

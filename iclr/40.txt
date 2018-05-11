@@ -1,0 +1,58 @@
+Published as a conference paper at ICLR 2018
+
+EFFICIENT SPARSE-WINOGRAD
+CONVOLUTIONAL NEURAL NETWORKS
+
+Xingyu Liu∗, Jeff Pool†, Song Han‡§, William J. Dally∗†
+∗Stanford University, † NVIDIA, ‡ Massachusetts Institute of Technology, § Google Brain
+{xyl, dally}@stanford.edu
+
+ABSTRACT
+
+Convolutional Neural Networks (CNNs) are computationally intensive, which
+limits their application on mobile devices. Their energy is dominated by the
+number of multiplies needed to perform the convolutions. Winograd’s minimal
+ﬁltering algorithm (Lavin, 2015) and network pruning (Han et al., 2015) can reduce
+the operation count, but these two methods cannot be directly combined – applying
+the Winograd transform ﬁlls in the sparsity in both the weights and the activations.
+We propose two modiﬁcations to Winograd-based CNNs to enable these methods
+to exploit sparsity. First, we move the ReLU operation into the Winograd domain
+to increase the sparsity of the transformed activations. Second, we prune the
+weights in the Winograd domain to exploit static weight sparsity. For models on
+CIFAR-10, CIFAR-100 and ImageNet datasets, our method reduces the number of
+multiplications by 10.4×, 6.8× and 10.8× respectively with loss of accuracy less
+than 0.1%, outperforming previous baselines by 2.0×-3.0×. We also show that
+moving ReLU to the Winograd domain allows more aggressive pruning.
+
+1
+
+INTRODUCTION
+
+Deep Convolutional Neural Networks (CNNs) have shown signiﬁcant improvement in many machine
+learning applications. However, CNNs are compute-limited. Their performance is dominated by the
+number of multiplies needed to perform the convolutions. Moreover, the computational workload
+of CNNs continues to grow over time. LeCun et al. (1998) proposed a CNN model with less than
+2.3 × 107 multiplies for handwritten digit classiﬁcation. Later, Krizhevsky et al. (2012) developed
+AlexNet, an ImageNet-winning CNN with more than 1.1 × 109 multiplies. In 2014, ImageNet-
+winning and runner up CNNs increased the number of multiplies to 1.4 × 109 (Szegedy et al., 2015)
+and 1.6 × 1010 (Simonyan & Zisserman, 2015) respectively. Despite the powerful representational
+ability of large scale CNNs, their computational workload prohibits deployment on mobile devices.
+Two research directions have been explored to address the problem. Lavin (2015) proposed using
+Winograd’s minimal ﬁltering algorithm (Winograd, 1980) to reduce the number of multiplies needed
+to perform 3 × 3 kernel convolutions. On the other end, pruning the model (Han et al., 2015; 2016b)
+and exploiting the dynamic sparsity of activations due to ReLU also reduces the required multiplies.
+Unfortunately, the above two directions are not compatible: the Winograd transformation ﬁlls in the
+zeros in both the weights and the activations (Figure 1(a)) – eliminating the gain from exploiting
+sparsity. Thus, for a pruned network, Winograd’s algorithm actually increases the number of
+multiplies; the loss of sparsity more than offsets the reduced operation count.
+In this paper, we introduce two modiﬁcations to the original Winograd-based convolution algorithm to
+eliminate this problem. First, we move the ReLU operation to be after the Winograd transform to also
+make the activations sparse at the point where the multiplies are performed. Second, we prune the
+weights after (rather than before) they are transformed. Thus, the weights are sparse when the element-
+wise multiply is performed — reducing the operation count. Together, these two modiﬁcations enable
+the gains of Winograd’s algorithm and of exploiting sparsity to be combined. We open-source our
+code and models at https://github.com/xingyul/Sparse-Winograd-CNN.
+
+1
+
+

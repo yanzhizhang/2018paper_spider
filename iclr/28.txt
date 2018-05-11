@@ -1,0 +1,73 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING DISCRETE WEIGHTS USING THE LOCAL
+REPARAMETERIZATION TRICK
+
+Oran Shayer
+General Motors Advanced Technical Center - Israel
+Department of Electrical Engineering, Technion
+oran.sh@gmail.com
+
+Dan Levi
+General Motors Advanced Technical Center - Israel
+dan.levi@gm.com
+
+Ethan Fetaya
+University of Toronto
+Vector Institute
+ethanf@cs.toronto.edu
+
+ABSTRACT
+
+Recent breakthroughs in computer vision make use of large deep neural networks,
+utilizing the substantial speedup offered by GPUs. For applications running on
+limited hardware, however, high precision real-time processing can still be a chal-
+lenge. One approach to solving this problem is training networks with binary or
+ternary weights, thus removing the need to calculate multiplications and signif-
+icantly reducing memory size. In this work, we introduce LR-nets (Local repa-
+rameterization networks), a new method for training neural networks with dis-
+crete weights using stochastic parameters. We show how a simple modiﬁcation
+to the local reparameterization trick, previously used to train Gaussian distributed
+weights, enables the training of discrete weights. Using the proposed training we
+test both binary and ternary models on MNIST, CIFAR-10 and ImageNet bench-
+marks and reach state-of-the-art results on most experiments.
+
+1
+
+INTRODUCTION
+
+Deep Neural Networks have been the main driving force behind recent advancement in machine
+learning, notably in computer vision applications. While deep learning has become the standard
+approach for many tasks, performing inference on low power and constrained memory hardware is
+still challenging. This is especially challenging in autonomous driving in electric vehicles where
+high precision and high throughput constraints are added on top of the low power requirements.
+One approach for tackling this challenge is by training networks with binary {±1} or ternary
+{−1, 0, 1} weights (Courbariaux et al., 2015; Rastegari et al., 2016) that require an order of mag-
+nitude less memory and no multiplications, leading to signiﬁcantly faster inference on dedicated
+hardware. The problem arises when trying to backpropagate errors as the weights are discrete.
+One heuristic suggested in Courbariaux et al. (2015) is to use stochastic weights w, sample bi-
+nary weights wb according to w for the forward pass and gradient computation and then update the
+stochastic weights w instead. Another idea, used by Hubara et al. (2016) and Rastegari et al. (2016),
+∂r = r1[|r| ≤ 1]. While these ideas were able to pro-
+is to apply a “straight-through” estimator ∂sign
+duce good results, even on reasonably large networks such as ResNet-18 (He et al., 2016), there is
+still a large gap in prediction accuracy between the full-precision network and the discrete networks.
+In this paper, we attempt to train neural networks with discrete weights using a more principled
+approach. Instead of trying to ﬁnd a good “derivative” to a non-continuous function, we show how
+we can ﬁnd a good smooth approximation and use its derivative to train the network. This is based
+on the simple observation that if at layer l we have stochastic (independent) weights wl
+ij, then the
+pre-activations zl
+j are approximately Gaussian according to the (Lyapunov) central
+limit theorem (CLT). This allows us to model the pre-activation using a smooth distribution and use
+the reparameterization trick (Kingma & Welling, 2014) to compute derivatives. The idea of mod-
+
+i = (cid:80)
+
+j wl
+
+ijhl
+
+1
+
+

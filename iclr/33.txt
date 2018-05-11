@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING TO CLUSTER IN ORDER TO TRANSFER
+ACROSS DOMAINS AND TASKS
+
+Yen-Chang Hsu, Zhaoyang Lv
+Georgia Institute of Technology
+Atlanta, GA 30332, USA
+{yenchang.hsu, zhaoyang.lv}@gatech.edu
+
+Zsolt Kira
+Georgia Tech Research Institute
+Atlanta, GA 30318, USA
+zkira@gatech.edu
+
+ABSTRACT
+
+This paper introduces a novel method to perform transfer learning across domains
+and tasks, formulating it as a problem of learning to cluster. The key insight is
+that, in addition to features, we can transfer similarity information and this is sufﬁ-
+cient to learn a similarity function and clustering network to perform both domain
+adaptation and cross-task transfer learning. We begin by reducing categorical
+information to pairwise constraints, which only considers whether two instances
+belong to the same class or not (pairwise semantic similarity). This similarity
+is category-agnostic and can be learned from data in the source domain using a
+similarity network. We then present two novel approaches for performing transfer
+learning using this similarity function. First, for unsupervised domain adaptation,
+we design a new loss function to regularize classiﬁcation with a constrained cluster-
+ing loss, hence learning a clustering network with the transferred similarity metric
+generating the training inputs. Second, for cross-task learning (i.e., unsupervised
+clustering with unseen categories), we propose a framework to reconstruct and
+estimate the number of semantic clusters, again using the clustering network. Since
+the similarity network is noisy, the key is to use a robust clustering algorithm, and
+we show that our formulation is more robust than the alternative constrained and
+unconstrained clustering approaches. Using this method, we ﬁrst show state of
+the art results for the challenging cross-task problem, applied on Omniglot and
+ImageNet. Our results show that we can reconstruct semantic clusters with high
+accuracy. We then evaluate the performance of cross-domain transfer using images
+from the Ofﬁce-31 and SVHN-MNIST tasks and present top accuracy on both
+datasets. Our approach doesn’t explicitly deal with domain discrepancy. If we
+combine with a domain adaptation loss, it shows further improvement.
+
+1
+
+INTRODUCTION
+
+Supervised learning has made signiﬁcant strides in the past decade, with substantial advancements
+arising from the use of deep neural networks. However, a large part of this success has come from
+the existence of extensive labeled datasets. In many situations, it is not practical to obtain such data
+due to the amount of effort required or when the task or data distributions change dynamically. To
+deal with these situations, the ﬁelds of transfer learning and domain adaptation have explored how to
+transfer learned knowledge across tasks or domains. Many approaches have focused on cases where
+the distributions of the features and labels have changed, but the task is the same (e.g., classiﬁcation
+across datasets with the same categories). Cross-task transfer learning strategies, on the other hand,
+have been widely adopted especially in the computer vision community where features learned by a
+deep neural network on a large classiﬁcation task have been applied to a wide variety of other tasks
+(Donahue et al., 2014).
+Most of the prior cross-task transfer learning works, however, require labeled target data to learn
+classiﬁers for the new task. If labels of the target data are absent, there is little choice other than
+to apply unsupervised approaches such as clustering on the target data with pre-trained feature
+representations. In this paper, we focus on the question of what can be transferred (besides features)
+to support both cross-domain and cross-task transfer learning. We address it with a learned similarity
+function as the fundamental component of clustering. Clustering can then be realized using a neural
+
+1
+
+

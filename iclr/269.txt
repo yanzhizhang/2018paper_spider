@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+PREDICTING FLOOR LEVEL FOR 911 CALLS WITH
+NEURAL NETWORKS AND SMARTPHONE SENSOR
+DATA
+
+William Falcon, Henning Schulzrinne
+Department of Computer Science
+Columbia University
+New York, NY 10027, USA
+{waf2107,hgs}@columbia.edu
+
+ABSTRACT
+
+In cities with tall buildings, emergency responders need an accurate ﬂoor level
+location to ﬁnd 911 callers quickly. We introduce a system to estimate a victim’s
+ﬂoor level via their mobile device’s sensor data in a two-step process. First, we
+train a neural network to determine when a smartphone enters or exits a build-
+ing via GPS signal changes. Second, we use a barometer equipped smartphone to
+measure the change in barometric pressure from the entrance of the building to the
+victim’s indoor location. Unlike impractical previous approaches, our system is
+the ﬁrst that does not require the use of beacons, prior knowledge of the building
+infrastructure, or knowledge of user behavior. We demonstrate real-world feasi-
+bility through 63 experiments across ﬁve different tall buildings throughout New
+York City where our system predicted the correct ﬂoor level with 100% accuracy.
+
+1
+
+INTRODUCTION
+
+Indoor caller ﬂoor level location plays a critical role during 911 emergency calls. In one use case,
+it can help pinpoint heart attack victims or a child calling on behalf of an incapacitated adult. In
+another use case, it can help locate ﬁreﬁghters and other emergency personnel within a tall or burning
+building. In cities with tall buildings, traditional methods that rely on GPS or Wi-Fi fail to provide
+reliable accuracy for these situations.
+In these emergency situations knowing the ﬂoor level of
+a victim can speed up the victim search by a factor proportional to the number of ﬂoors in that
+building. In recent years methods that rely on smartphone sensors and Wi-Fi positioning (Xue et al.,
+2017) have been used to formulate solutions to this problem.
+In this paper we introduce a system that delivers an estimated ﬂoor level by combining deep learn-
+ing with barometric pressure data obtained from a Bosch bmp280 sensor designed for ”ﬂoor level
+accuracy” (Bosch, 2016) and available in most smartphones today1. We make two contributions:
+the ﬁrst is an LSTM (Hochreiter & Schmidhuber, 1997) trained to classify a smartphone as either
+indoors or outdoors (IO) using GPS, RSSI, and magnetometer sensor readings. Our model improves
+on a previous classiﬁer developed by (Avinash et al., 2010). We compare the LSTM against feed-
+forward neural networks, logistic regression, SVM, HMM and Random Forests as baselines. The
+second is an algorithm that uses the classiﬁer output to measure the change in barometric pressure of
+the smartphone from the building entrance to the smartphone’s current location within the building.
+The algorithm estimates the ﬂoor level by clustering height measurements through repeated building
+visits or a heuristic value detailed in section 4.5.
+We designed our method to provide the most accurate ﬂoor level estimate without relying on external
+sensors placed inside the building, prior knowledge of the building, or user movement behavior. It
+merely relies on a smartphone equipped with GPS and barometer sensors and assumes an arbitrary
+
+1As of June 2017 the market share of phones in the US is 44% Apple and 29.1% Samsung (ComScore,
+2017). 74% are iPhone 6 or newer (Comscore, 2017). The iPhone 6 has a barometer (Apple, 2017). Models
+after the 6 still continue to have a barometer. For the Samsung phones, the Galaxy s5 is the most popular
+(Piejko, 2017), and has a barometer (Samsung, 2014)
+
+1
+
+

@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+GENERATIVE NETWORKS AS INVERSE PROBLEMS
+WITH SCATTERING TRANSFORMS
+
+Tom´as Angles & St´ephane Mallat
+´Ecole normale sup´erieure, Coll`ege de France, PSL Research University
+75005 Paris, France
+tomas.angles@ens.fr
+
+ABSTRACT
+
+Generative Adversarial Nets (GANs) and Variational Auto-Encoders (VAEs) pro-
+vide impressive image generations from Gaussian white noise, but the underlying
+mathematics are not well understood. We compute deep convolutional network
+generators by inverting a ﬁxed embedding operator. Therefore, they do not require
+to be optimized with a discriminator or an encoder. The embedding is Lipschitz
+continuous to deformations so that generators transform linear interpolations be-
+tween input white noise vectors into deformations between output images. This
+embedding is computed with a wavelet Scattering transform. Numerical experi-
+ments demonstrate that the resulting Scattering generators have similar properties
+as GANs or VAEs, without learning a discriminative network or an encoder.
+
+1
+
+INTRODUCTION
+
+Generative Adversarial Networks (GANs) and Variational Auto-Encoders (VAEs) allow training
+generative networks to synthesize images of remarkable quality and complexity from Gaussian white
+noise. This work shows that one can train generative networks having similar properties to those
+obtained with GANs or VAEs without learning a discriminator or an encoder. The generator is a
+deep convolutional network that inverts a predeﬁned embedding operator. To reproduce relevant
+properties of GAN image synthesis the embedding operator is chosen to be Lipschitz continuous to
+deformations, and it is implemented with a wavelet Scattering transform. Deﬁning image generators
+as the solution of an inverse problem provides a mathematical framework, which is closer to standard
+probabilistic models such as Gaussian autoregressive models.
+GANs were introduced by Goodfellow et al. (2014) as an unsupervised learning framework to esti-
+mate implicit generative models of complex data (such as natural images) by training a generative
+model (the generator) and a discriminative model (the discriminator) simultaneously. An implicit
+
+generative model of the random vector X consists in an operator (cid:98)G which transforms a Gaussian
+white noise random vector Z into a model (cid:98)X = (cid:98)G(Z) of X. The operator (cid:98)G is called a genera-
+formation of the image ˆx = (cid:98)G(z).
+Goodfellow et al. (2014) and Arjovsky et al. (2017) argue that GANs select the generator (cid:98)G by min-
+
+tive network or generator when it is a deep convolutional network. Radford et al. (2016) introduced
+deep convolutional architectures for the generator and the discriminator, which result in high-quality
+image synthesis. They also showed that linearly modifying the vector z results in a progressive de-
+
+imizing the Jensen-Shannon divergence or the Wasserstein distance calculated from empirical esti-
+mations of these distances with generated and training images. However, Arora et al. (2017) prove
+that this explanation fails to pass the curse of dimensionality since estimates of Jensen-Shannon or
+Wasserstein distances do not generalize with a number of training examples which is polynomial on
+the dimension of the images. Therefore, the reason behind the generalization capacities of generative
+networks remains an open problem.
+VAEs, introduced by Kingma & Welling (2014), provide an alternative approach to GANs, by op-
+
+timizing (cid:98)G together with its inverse on the training samples, instead of using a discriminator. The
+
+inverse Φ is an embedding operator (the encoder) that is trained to transform X into a Gaussian
+white noise Z. Therefore, the loss function to train a VAE is based on probabilistic distances which
+
+1
+
+

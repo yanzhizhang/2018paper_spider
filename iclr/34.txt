@@ -1,0 +1,66 @@
+LEARNING HOW TO EXPLAIN NEURAL NETWORKS:
+PATTERNNET AND PATTERNATTRIBUTION
+
+Pieter-Jan Kindermans∗
+Google Brain
+pikinder@google.com
+
+Kristof T. Sch¨utt & Maximilian Alber
+TU Berlin
+{kristof.schuett,maximilian.alber}@tu-berlin.de
+
+Klaus-Robert M¨uller†
+TU Berlin
+klaus-robert.mueller@tu-berlin.de
+
+Dumitru Erhan & Been Kim
+Google Brain
+{dumitru,beenkim}@google.com
+
+Sven D¨ahne‡
+TU Berlin
+sven.daehne@tu-berlin.de
+
+ABSTRACT
+
+DeConvNet, Guided BackProp, LRP, were invented to better understand deep neu-
+ral networks. We show that these methods do not produce the theoretically correct
+explanation for a linear model. Yet they are used on multi-layer networks with
+millions of parameters. This is a cause for concern since linear models are simple
+neural networks. We argue that explanation methods for neural nets should work
+reliably in the limit of simplicity, the linear models. Based on our analysis of
+linear models we propose a generalization that yields two explanation techniques
+(PatternNet and PatternAttribution) that are theoretically sound for linear models
+and produce improved explanations for deep networks.
+
+1
+
+INTRODUCTION
+
+Deep learning made a huge impact on a wide variety of applications (Krizhevsky et al., 2012;
+Sutskever et al., 2014; LeCun et al., 2015; Schmidhuber, 2015; Mnih et al., 2015; Silver et al.,
+2016) and recent neural network classiﬁers have become excellent at detecting relevant signals (e.g.,
+the presence of a cat) contained in input data points such as images by ﬁltering out all other, non-
+relevant and distracting components also present in the data. This separation of signal and distractors
+is achieved by passing the input through many layers with millions of parameters and nonlinear ac-
+tivation functions in between, until ﬁnally at the output layer, these models yield a highly condensed
+version of the signal, e.g. a single number indicating the probability of a cat being in the image.
+While deep neural networks learn efﬁcient and powerful representations, they are often considered a
+‘black-box’. In order to better understand classiﬁer decisions and to gain insight into how these mod-
+els operate, a variety techniques have been proposed (Simonyan et al., 2014; Yosinski et al., 2015;
+Nguyen et al., 2016; Baehrens et al., 2010; Bach et al., 2015; Montavon et al., 2017; Zeiler & Fer-
+gus, 2014; Springenberg et al., 2015; Zintgraf et al., 2017; Sundararajan et al., 2017; Smilkov et al.,
+2017). These methods for explaining classiﬁer decisions operate under the assumption that it is pos-
+sible to propagate the condensed output signal back through the classiﬁer to arrive at something that
+shows how the relevant signal was encoded in the input and thereby explains the classiﬁer decision.
+Simply put, if the classiﬁer detected a cat, the visualization should point to the cat-relevant aspects
+of the input image from the perspective of the network. Techniques that are based on this princi-
+ple include saliency maps from network gradients (Baehrens et al., 2010; Simonyan et al., 2014),
+DeConvNet (Zeiler & Fergus, 2014, DCN), Guided BackProp (Springenberg et al., 2015, GBP),
+∗Part of this work was done at TU Berlin, part of the work was part of the Google Brain Residency program.
+†KRM is also with Korea University and Max Planck Institute for Informatics, Saarbr¨ucken, Germany
+‡Sven D¨ahne is now at Amazon
+
+1
+
+

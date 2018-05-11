@@ -1,0 +1,71 @@
+Accepted as a conference paper at ICLR 2018
+
+A SIMPLE NEURAL ATTENTIVE META-LEARNER
+
+Nikhil Mishra ∗†
+UC Berkeley, Department of Electrical Engineering and Computer Science
+Embodied Intelligence
+{nmishra, rohaninejadm, c.xi, pabbeel}@berkeley.edu
+
+Mostafa Rohaninejad∗
+
+Xi Chen†
+
+Pieter Abbeel†
+
+ABSTRACT
+
+Deep neural networks excel in regimes with large amounts of data, but tend to
+struggle when data is scarce or when they need to adapt quickly to changes in the
+task. In response, recent work in meta-learning proposes training a meta-learner
+on a distribution of similar tasks, in the hopes of generalization to novel but related
+tasks by learning a high-level strategy that captures the essence of the problem it is
+asked to solve. However, many recent meta-learning approaches are extensively
+hand-designed, either using architectures specialized to a particular application, or
+hard-coding algorithmic components that constrain how the meta-learner solves
+the task. We propose a class of simple and generic meta-learner architectures that
+use a novel combination of temporal convolutions and soft attention; the former to
+aggregate information from past experience and the latter to pinpoint speciﬁc pieces
+of information. In the most extensive set of meta-learning experiments to date,
+we evaluate the resulting Simple Neural AttentIve Learner (or SNAIL) on several
+heavily-benchmarked tasks. On all tasks, in both supervised and reinforcement
+learning, SNAIL attains state-of-the-art performance by signiﬁcant margins.
+
+INTRODUCTION
+
+1
+The ability to learn quickly is a key characteristic that distinguishes human intelligence from its
+artiﬁcial counterpart. Humans effectively utilize prior knowledge and experiences to learn new skills
+quickly. However, artiﬁcial learners trained with traditional supervised-learning or reinforcement-
+learning methods generally perform poorly when only a small amount of data is available or when
+they need to adapt to a changing task.
+Meta-learning seeks to resolve this deﬁciency by broadening the learner’s scope to a distribution of
+related tasks. Rather than training the learner on a single task (with the goal of generalizing to unseen
+samples from a similar data distribution) a meta-learner is trained on a distribution of similar tasks,
+with the goal of learning a strategy that generalizes to related but unseen tasks from a similar task
+distribution. Traditionally, a successful learner discovers a rule that generalizes across data points,
+while a successful meta-learner learns an algorithm that generalizes across tasks.
+Many recently-proposed meta-learning methods demonstrate improved performance at the expense of
+being hand-designed at either the architectural or algorithmic level. Some have been engineered with
+a particular application in mind, while others have aspects of a particular high-level strategy already
+built into them. However, the optimal strategy for an arbitrary range of tasks may not be obvious to
+the humans designing a meta-learner, in which case the meta-learner should have the ﬂexibility to
+learn the best way to solve the tasks it is presented with. Such a meta-learner would need to have an
+expressive, versatile model architecture, in order to learn a range of strategies in a variety of domains.
+Meta-learning can be formalized as a sequence-to-sequence problem; in existing approaches that
+adopt this view, the bottleneck is in the meta-learner’s ability to internalize and refer to past experience.
+Thus, we propose a class of model architectures that addresses this shortcoming: we combine temporal
+convolutions, which enable the meta-learner to aggregate contextual information from past experience,
+with causal attention, which allow it to pinpoint speciﬁc pieces of information within that context. We
+evaluate this Simple Neural AttenIve Learner (SNAIL) on several heavily-benchmarked meta-learning
+tasks, including the Omniglot and mini-Imagenet datasets in supervised learning, and multi-armed
+bandits, tabular Markov Decision processes (MDPs), visual navigation, and continuous control in
+reinforcement learning. In all domains, SNAIL achieves state-of-the-art performance by signiﬁcant
+margins, outperforming methods that are domain-speciﬁc or rely on built-in algorithmic priors.
+
+∗Authors contributed equally and are listed in alphabetical order.
+†Part of this work was done at OpenAI.
+
+1
+
+

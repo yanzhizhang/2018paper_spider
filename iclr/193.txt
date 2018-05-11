@@ -1,0 +1,71 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING LATENT PERMUTATIONS WITH GUMBEL-
+SINKHORN NETWORKS
+
+Gonzalo E. Mena ∗
+Department of Statistics,
+Columbia University
+gem2131@columbia.edu
+
+David Belanger
+Google Brain
+
+Scott Linderman
+Department of Statistics,
+Columbia University
+
+Jasper Snoek
+Google Brain
+
+ABSTRACT
+
+Permutations and matchings are core building blocks in a variety of latent vari-
+able models, as they allow us to align, canonicalize, and sort data. Learning in
+such models is difﬁcult, however, because exact marginalization over these com-
+binatorial objects is intractable. In response, this paper introduces a collection
+of new methods for end-to-end learning in such models that approximate discrete
+maximum-weight matching using the continuous Sinkhorn operator. Sinkhorn
+operator is attractive because it functions as a simple, easy-to-implement analog
+of the softmax operator. With this, we can deﬁne the Gumbel-Sinkhorn method,
+an extension of the Gumbel-Softmax method (Jang et al., 2016; Maddison et al.,
+2016) to distributions over latent matchings. We demonstrate the effectiveness
+of our method by outperforming competitive baselines on a range of qualitatively
+different tasks: sorting numbers, solving jigsaw puzzles, and identifying neural
+signals in worms.
+
+1
+
+INTRODUCTION
+
+In principle, deep networks can learn arbitrarily sophisticated mappings from inputs to outputs.
+However, in practice we must encode speciﬁc inductive biases in order to learn accurate models
+from limit data. In a variety of recent research efforts, practitioners have provided models with
+the ability to explicitly manipulate latent combinatorial objects such as stacks (Dyer et al., 2015;
+Joulin & Mikolov, 2015), memory slots (Graves et al., 2014; Sukhbaatar et al., 2015), mathematical
+expressions (Neelakantan et al., 2015), program traces (Gaunt et al., 2016; Boˇsnjak et al., 2017),
+and ﬁrst order logic (Rockt¨aschel & Riedel, 2017). Operations on these discrete objects can be
+approximated using differentiable operations on continuous relaxations of the objects. As such,
+these operations can be included as modules in neural network models that can be trained end-to-
+end by gradient descent.
+Matchings and permutations are a fundamental building block in a variety of applications, as they
+can be used to align, canonicalize, and sort data. Prior work has developed learning algorithms
+for supervised learning where the training data includes annotated matchings (Caetano et al., 2009;
+Petterson et al., 2009; Tang et al., 2016). However, we would like to learn models with latent
+matchings, where the matching is not provided to us as supervision. This is a common and relevant
+setting. For example, Linderman et al. (2017) showed a problem from neuroscience involving the
+identiﬁcation of neurons from the worm C. elegans can be cast as the inference of latent permutation
+on a larger hierarchical structure.
+Unfortunately, maximizing the marginal likelihood for problems with latent matchings is very chal-
+lenging. Unlike for problems with categorical latent variables, we cannot obtain unbiased stochastic
+gradients of the marginal likelihood using the score function estimator (Williams, 1992), as com-
+puting the probability of a given matching requires computing an intractable partition function
+for a structured distribution. Instead, we draw on recent work that obtains biased stochastic gra-
+dients by relaxing the discrete latent variables into continuous random variables that support the
+reparametrization trick (Jang et al., 2016; Maddison et al., 2016).
+
+∗Work done while the author was at Google Brain.
+
+1
+
+

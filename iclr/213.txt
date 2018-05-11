@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+EXPRESSIVE POWER OF RECURRENT NEURAL NET-
+WORKS
+
+Valentin Khrulkov
+Skolkovo Institute of Science and Technology
+valentin.khrulkov@skolkovotech.ru
+
+Alexander Novikov
+National Research University
+Higher School of Economics
+Institute of Numerical Mathematics RAS
+novikov@bayesgroup.ru
+
+Ivan Oseledets
+Skolkovo Institute of Science and Technology
+Institute of Numerical Mathematics RAS
+i.oseledets@skoltech.ru
+
+ABSTRACT
+
+Deep neural networks are surprisingly efﬁcient at solving practical tasks, but the
+theory behind this phenomenon is only starting to catch up with the practice. Nu-
+merous works show that depth is the key to this efﬁciency. A certain class of deep
+convolutional networks – namely those that correspond to the Hierarchical Tucker
+(HT) tensor decomposition – has been proven to have exponentially higher expres-
+sive power than shallow networks. I.e. a shallow network of exponential width
+is required to realize the same score function as computed by the deep architec-
+ture. In this paper, we prove the expressive power theorem (an exponential lower
+bound on the width of the equivalent shallow network) for a class of recurrent
+neural networks – ones that correspond to the Tensor Train (TT) decomposition.
+This means that even processing an image patch by patch with an RNN can be ex-
+ponentially more efﬁcient than a (shallow) convolutional network with one hidden
+layer. Using theoretical results on the relation between the tensor decompositions
+we compare expressive powers of the HT- and TT-Networks. We also implement
+the recurrent TT-Networks and provide numerical evidence of their expressivity.
+
+1
+
+INTRODUCTION
+
+Deep neural networks solve many practical problems both in computer vision via Convolutional
+Neural Networks (CNNs) (LeCun et al. (1995); Szegedy et al. (2015); He et al. (2016)) and in
+audio and text processing via Recurrent Neural Networks (RNNs) (Graves et al. (2013); Mikolov
+et al. (2011); Gers et al. (1999)). However, although many works focus on expanding the theoretical
+explanation of neural networks success (Martens & Medabalimi (2014); Delalleau & Bengio (2011);
+Cohen et al. (2016)), the full theory is yet to be developed.
+One line of work focuses on expressive power, i.e. proving that some architectures are more ex-
+pressive than others. Cohen et al. (2016) showed the connection between Hierarchical Tucker (HT)
+tensor decomposition and CNNs, and used this connection to prove that deep CNNs are exponen-
+tially more expressive than their shallow counterparts. However, no such result exists for Recurrent
+Neural Networks. The contributions of this paper are three-fold.
+
+1. We show the connection between recurrent neural networks and Tensor Train decomposi-
+
+tion (see Sec. 4);
+
+2. We formulate and prove the expressive power theorem for the Tensor Train decomposition
+(see Sec. 5), which – on the language of RNNs – can be interpreted as follows: to (exactly)
+emulate a recurrent neural network, a shallow (non-recurrent) architecture of exponentially
+larger width is required;
+
+1
+
+

@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+BOOSTING DILATED CONVOLUTIONAL NETWORKS
+WITH MIXED TENSOR DECOMPOSITIONS
+
+Nadav Cohen
+Institute for Advanced Study
+cohennadav@ias.edu
+
+Amnon Shashua
+The Hebrew University of Jerusalem
+shashua@cs.huji.ac.il
+
+Ronen Tamari
+The Hebrew University of Jerusalem
+ronent@cs.huji.ac.il
+
+ABSTRACT
+
+The driving force behind deep networks is their ability to compactly represent rich
+classes of functions. The primary notion for formally reasoning about this phe-
+nomenon is expressive efﬁciency, which refers to a situation where one network
+must grow unfeasibly large in order to replicate functions of another. To date, ex-
+pressive efﬁciency analyses focused on the architectural feature of depth, showing
+that deep networks are representationally superior to shallow ones. In this paper
+we study the expressive efﬁciency brought forth by connectivity, motivated by the
+observation that modern networks interconnect their layers in elaborate ways. We
+focus on dilated convolutional networks, a family of deep models delivering state
+of the art performance in sequence processing tasks. By introducing and analyz-
+ing the concept of mixed tensor decompositions, we prove that interconnecting
+dilated convolutional networks can lead to expressive efﬁciency. In particular, we
+show that even a single connection between intermediate layers can already lead
+to an almost quadratic gap, which in large-scale settings typically makes the dif-
+ference between a model that is practical and one that is not. Empirical evaluation
+demonstrates how the expressive efﬁciency of connectivity, similarly to that of
+depth, translates into gains in accuracy. This leads us to believe that expressive
+efﬁciency may serve a key role in developing new tools for deep network design.
+
+INTRODUCTION
+
+1
+One of the key attributes fueling the success of deep learning is the ability of deep networks to
+compactly represent rich classes of functions. This phenomenon has drawn considerable attention
+from the theoretical machine learning community in recent years. The primary notion for formally
+reasoning about the representational abilities of different models is expressive efﬁciency. Given
+two network architectures A and B, with size parameters (typically the width of layers across a
+network) rA and rB, we say that architecture A is expressively efﬁcient w.r.t. architecture B if
+the following two conditions hold: (i) any function realized by B with size rB can be realized (or
+approximated) by A with size rA ∈ O(rB); (ii) there exist functions realized by A with size rA that
+cannot be realized (or approximated) by B unless its size meets rB ∈ Ω(f (rA)) for some super-
+linear function f. The nature of the function f in condition (ii) determines the type of efﬁciency
+taking place – if f is exponential then architecture A is said to be exponentially expressively efﬁcient
+w.r.t. architecture B, and if f is polynomial so is the expressive efﬁciency of A over B.
+To date, works studying expressive efﬁciency in the context of deep learning (e.g. Delalleau and
+Bengio (2011); Pascanu et al. (2013); Montufar et al. (2014); Telgarsky (2015); Eldan and Shamir
+(2015); Poole et al. (2016); Raghu et al. (2016); Cohen et al. (2016b); Cohen and Shashua (2016);
+Poggio et al. (2015); Mhaskar et al. (2016)) have focused on the architectural feature of depth,
+showing instances where deep networks are expressively efﬁcient w.r.t. shallow ones. This theoreti-
+cal focus is motivated by the vast empirical evidence supporting the importance of depth (cf. LeCun
+et al. (2015)). However, it largely overlooks an additional architectural feature that in recent years
+is proving to have great impact on the performance of deep networks – connectivity. Nearly all state
+of the art networks these days (e.g. Szegedy et al. (2015); He et al. (2015); Huang et al. (2016b;a))
+
+1
+
+

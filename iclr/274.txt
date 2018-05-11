@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+SIMULATING ACTION DYNAMICS WITH
+NEURAL PROCESS NETWORKS
+
+Antoine Bosselut†, Omer Levy†, Ari Holtzman†, Corin Ennis‡, Dieter Fox† & Yejin Choi†
+†Paul G. Allen School of Computer Science & Engineering
+University of Washington
+{antoineb,omerlevy,ahai,fox,yejin}@cs.washington.edu
+‡School of Science, Technology, Engineering & Mathematics
+University of Washington - Bothell
+{corin123}@uw.edu
+
+ABSTRACT
+
+Understanding procedural language requires anticipating the causal effects of ac-
+tions, even when they are not explicitly stated. In this work, we introduce Neural
+Process Networks to understand procedural text through (neural) simulation of
+action dynamics. Our model complements existing memory architectures with
+dynamic entity tracking by explicitly modeling actions as state transformers. The
+model updates the states of the entities by executing learned action operators. Em-
+pirical results demonstrate that our proposed model can reason about the unstated
+causal effects of actions, allowing it to provide more accurate contextual infor-
+mation for understanding and generating procedural text, all while offering more
+interpretable internal representations than existing alternatives.
+
+1
+
+INTRODUCTION
+
+Understanding procedural text such as instructions or stories requires anticipating the implicit causal
+effects of actions on entities. For example, given instructions such as “add blueberries to the muf-
+ﬁn mix, then bake for one half hour,” an intelligent agent must be able to anticipate a number of
+entailed facts (e.g., the blueberries are now in the oven; their “temperature” will increase). While
+this common sense reasoning is trivial for humans, most natural language understanding algorithms
+do not have the capacity to reason about causal effects not mentioned directly in the surface strings
+(Levy et al., 2015; Jia & Liang, 2017; Lucy & Gauthier, 2017).
+In this paper, we introduce Neural Process Net-
+works, a procedural language understanding sys-
+tem that tracks common sense attributes through
+neural simulation of action dynamics. Our net-
+work models interpretation of natural language
+instructions as a process of actions and their cu-
+mulative effects on entities. More concretely,
+reading one sentence at a time, our model atten-
+tively selects what actions to execute on which
+entities, and remembers the state changes in-
+duced with a recurrent memory structure.
+In
+Figure 1, for example, our model indexes the
+“tomato” embedding, selects the “wash” and
+“cut” functions and performs a computation that
+changes the “tomato” embedding so that it can
+reason about attributes such as its “SHAPE” and
+“CLEANLINESS”.
+Our model contributes to a recent line of research that aims to model aspects of world state changes,
+such as language models and machine readers with explicit entity representations (Henaff et al.,
+2016; Yang et al., 2016; Ji et al., 2017), as well as other more general purpose memory network
+
+Figure 1: The process is a narrative of entity
+state changes induced by actions. In each sen-
+tence, these state changes are induced by simu-
+lated actions and must be remembered.
+
+1
+
++fwashfcut“Wash and cut  the tomatoes”G()f_,e_etomato•Cookedness(                ) = ? •Cleanliness(                ) = clean •Shape(                ) = separated •Temperature(                ) = ?etomatoetomatoetomatoetomatoLater

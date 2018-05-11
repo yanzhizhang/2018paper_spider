@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+HIERARCHICAL REPRESENTATIONS FOR
+EFFICIENT ARCHITECTURE SEARCH
+
+Hanxiao Liu∗
+Carnegie Mellon University
+hanxiaol@cs.cmu.edu
+
+Karen Simonyan, Oriol Vinyals, Chrisantha Fernando, Koray Kavukcuoglu
+DeepMind
+{simonyan,vinyals,chrisantha,korayk}@google.com
+
+ABSTRACT
+
+We explore efﬁcient neural architecture search methods and show that a simple
+yet powerful evolutionary algorithm can discover new architectures with excellent
+performance. Our approach combines a novel hierarchical genetic representation
+scheme that imitates the modularized design pattern commonly adopted by human
+experts, and an expressive search space that supports complex topologies. Our
+algorithm efﬁciently discovers architectures that outperform a large number of
+manually designed models for image classiﬁcation, obtaining top-1 error of 3.6%
+on CIFAR-10 and 20.3% when transferred to ImageNet, which is competitive with
+the best existing neural architecture search approaches. We also present results
+using random search, achieving 0.3% less top-1 accuracy on CIFAR-10 and 0.1%
+less on ImageNet whilst reducing the search time from 36 hours down to 1 hour.
+
+1
+
+INTRODUCTION
+
+Discovering high-performance neural network architectures required years of extensive research by
+human experts through trial and error. As far as the image classiﬁcation task is concerned, state-of-
+the-art convolutional neural networks are going beyond deep, chain-structured layout (Simonyan &
+Zisserman, 2014; He et al., 2016a) towards increasingly more complex, graph-structured topologies
+(Szegedy et al., 2015; 2016; 2017; Larsson et al., 2016; Xie et al., 2016; Huang et al., 2016). The
+combinatorial explosion in the design space makes handcrafted architectures not only expensive to
+obtain, but also likely to be suboptimal in performance.
+Recently, there has been a surge of interest in using algorithms to automate the manual process of
+architecture design. Their goal can be described as ﬁnding the optimal architecture in a given search
+space such that the validation accuracy is maximized on the given task. Representative architecture
+search algorithms can be categorized as random with weights prediction (Brock et al., 2017), Monte
+Carlo Tree Search (Negrinho & Gordon, 2017), evolution (Stanley & Miikkulainen, 2002; Xie &
+Yuille, 2017; Miikkulainen et al., 2017; Real et al., 2017), and reinforcement learning (Baker et al.,
+2016; Zoph & Le, 2016; Zoph et al., 2017; Zhong et al., 2017), among which reinforcement learning
+approaches have demonstrated the strongest empirical performance so far.
+Architecture search can be computationally very intensive as each evaluation typically requires train-
+ing a neural network. Therefore, it is common to restrict the search space to reduce complexity and
+increase efﬁciency of architecture search. Various constraints that have been used include: growing
+a convolutional “backbone” with skip connections (Real et al., 2017), a linear sequence of ﬁlter
+banks (Brock et al., 2017), or a directed graph where every node has exactly two predecessors
+(Zoph et al., 2017). In this work we constrain the search space by imposing a hierarchical network
+structure, while allowing ﬂexible network topologies (directed acyclic graphs) at each level of the
+hierarchy. Starting from a small set of primitives such as convolutional and pooling operations at
+
+∗Work completed at DeepMind.
+
+1
+
+

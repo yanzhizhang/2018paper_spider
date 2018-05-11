@@ -1,0 +1,60 @@
+Under review as a conference paper at ICLR 2018
+
+IMPLICIT CAUSAL MODELS FOR
+GENOME-WIDE ASSOCIATION STUDIES
+
+Anonymous authors
+Paper under double-blind review
+
+ABSTRACT
+
+Progress in probabilistic generative models has accelerated, developing richer
+models with neural architectures, implicit densities, and with scalable algorithms
+for their Bayesian inference. However, there has been limited progress in mod-
+els that capture causal relationships, for example, how individual genetic factors
+cause major human diseases. In this work, we focus on two challenges in partic-
+ular: How do we build richer causal models, which can capture highly nonlinear
+relationships and interactions between multiple causes? How do we adjust for la-
+tent confounders, which are variables inﬂuencing both cause and effect and which
+prevent learning of causal relationships? To address these challenges, we syn-
+thesize ideas from causality and modern probabilistic modeling. For the ﬁrst, we
+describe implicit causal models, a class of causal models that leverages neural ar-
+chitectures with an implicit density. For the second, we describe an implicit causal
+model that adjusts for confounders by sharing strength across examples. In exper-
+iments, we scale Bayesian inference on up to a billion genetic measurements. We
+achieve state of the art accuracy for identifying causal factors: we signiﬁcantly
+outperform existing genetics methods by an absolute difference of 15-45.3%.
+
+INTRODUCTION
+
+1
+Probabilistic models provide a language for specifying rich and ﬂexible generative processes (Pearl,
+1988; Murphy, 2012). Recent advances expand this language with neural architectures, implicit den-
+sities, and with scalable algorithms for their Bayesian inference (Rezende et al., 2014; Tran et al.,
+2017). However, there has been limited progress in models that capture high-dimensional causal
+relationships (Pearl, 2000; Spirtes et al., 1993; Imbens & Rubin, 2015). Unlike models which learn
+statistical relationships, causal models let us manipulate the generative process and make counter-
+factual statements, that is, what would have happened if the distributions changed.
+As the running example in this work, consider genome-wide association studies (GWAS) (Yu et al.,
+2005; Price et al., 2006; Kang et al., 2010). The goal of GWAS is to understand how genetic factors,
+i.e., single nucleotide polymorphisms (SNPs), cause traits to appear in individuals. Understanding
+this causation both lets us predict whether an individual has a genetic predisposition to a disease and
+also understand how to cure the disease by targeting the individual SNPs that cause it.
+With this example in mind, we focus on two challenges to combining modern probabilistic models
+and causality. The ﬁrst is to develop richer, more expressive causal models. Probabilistic causal
+models represent variables as deterministic functions of noise and other variables, and existing work
+usually focuses on additive noise models (Hoyer et al., 2009) such as linear mixed models (Kang
+et al., 2010). These models apply simple nonlinearities such as polynomials, hand-engineered low
+order interactions between inputs, and assume additive interaction with, e.g., Gaussian noise. In
+GWAS, strong evidence suggests that susceptibility to common diseases is inﬂuenced by epistasis
+(the interaction between multiple genes) (Culverhouse et al., 2002; McKinney et al., 2006). We
+would like to capture and discover such interactions. This requires models with nonlinear, learnable
+interactions among the inputs and the noise.
+The second challenge is how to address latent population-based confounders. In GWAS, both la-
+tent population structure, i.e., subgroups in the population with ancestry differences, and relatedness
+among sample individuals produce spurious correlations among SNPs to the trait of interest. Exist-
+ing methods correct for this correlation in two stages (Yu et al., 2005; Price et al., 2006; Kang et al.,
+
+1
+
+

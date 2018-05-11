@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+LIFELONG LEARNING WITH
+DYNAMICALLY EXPANDABLE NETWORKS
+
+Jaehong Yoon1∗, Eunho Yang1,3, Jeongtae Lee2, Sung Ju Hwang1,3
+KAIST1, Daejeon, South Korea, UNIST2, Ulsan, South Korea, AITrics3, Seoul, South Korea
+jaehong.yoon93@gmail.com, jtlee@unist.ac.kr
+{eunhoy, sjhwang82}@kaist.ac.kr
+
+ABSTRACT
+
+We propose a novel deep network architecture for lifelong learning which we refer
+to as Dynamically Expandable Network (DEN), that can dynamically decide its
+network capacity as it trains on a sequence of tasks, to learn a compact overlapping
+knowledge sharing structure among tasks. DEN is efﬁciently trained in an online
+manner by performing selective retraining, dynamically expands network capacity
+upon arrival of each task with only the necessary number of units, and effectively
+prevents semantic drift by splitting/duplicating units and timestamping them. We
+validate DEN on multiple public datasets under lifelong learning scenarios, on
+which it not only signiﬁcantly outperforms existing lifelong learning methods
+for deep networks, but also achieves the same level of performance as the batch
+counterparts with substantially fewer number of parameters. Further, the obtained
+network ﬁne-tuned on all tasks obtained siginﬁcantly better performance over the
+batch models, which shows that it can be used to estimate the optimal network
+structure even when all tasks are available in the ﬁrst place.
+
+1
+
+INTRODUCTION
+
+Lifelong learning (Thrun, 1995), the problem of continual learning where tasks arrive in sequence, is
+an important topic in transfer learning. The primary goal of lifelong learning is to leverage knowledge
+from earlier tasks for obtaining better performance, or faster convergence/training speed on models
+for later tasks. While there exist many different approaches to tackle this problem, we consider
+lifelong learning under deep learning to exploit the power of deep neural networks. Fortunately, for
+deep learning, storing and transferring knowledge can be done in a straightforward manner through
+the learned network weights. The learned weights can serve as the knowledge for the existing tasks,
+and the new task can leverage this by simply sharing these weights.
+Therefore, we can consider lifelong learning simply as a special case of online or incremental learning,
+in case of deep neural networks. There are multiple ways to perform such incremental learning (Rusu
+et al., 2016; Zhou et al., 2012). The simplest way is to incrementally ﬁne-tune the network to new
+tasks by continuing to train the network with new training data. However, such simple retraining
+of the network can degenerate the performance for both the new tasks and the old ones. If the new
+task is largely different from the older ones, such as in the case where previous tasks are classifying
+images of animals and the new task is to classify images of cars, then the features learned on the
+previous tasks may not be useful for the new one. At the same time, the retrained representations
+for the new task could adversely affect the old tasks, as they may have drifted from their original
+meanings and are no longer optimal for them. For example, the feature describing stripe pattern from
+zebra, may changes its meaning for the later classiﬁcation task for classes such as striped t-shirt or
+fence, which can ﬁt to the feature and drastically change its meaning.
+Then how can we ensure that the knowledge sharing through the network is beneﬁcial for all tasks,
+in the online/incremental learning of a deep neural network? Recent work suggests to either use
+a regularizer that prevents the parameters from drastic changes in their values yet still enables to
+ﬁnd a good solution for the new task (Kirkpatrick et al., 2017), or block any changes to the old task
+
+∗work done while at UNIST
+
+1
+
+

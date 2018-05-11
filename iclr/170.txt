@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+FASTGCN: FAST LEARNING WITH GRAPH CONVOLU-
+TIONAL NETWORKS VIA IMPORTANCE SAMPLING
+
+Jie Chen∗, Tengfei Ma∗, Cao Xiao
+IBM Research
+chenjie@us.ibm.com, Tengfei.Ma1@ibm.com, cxiao@us.ibm.com
+
+ABSTRACT
+
+The graph convolutional networks (GCN) recently proposed by Kipf and Welling
+are an effective graph model for semi-supervised learning. This model, however,
+was originally designed to be learned with the presence of both training and test
+data. Moreover, the recursive neighborhood expansion across layers poses time
+and memory challenges for training with large, dense graphs. To relax the require-
+ment of simultaneous availability of test data, we interpret graph convolutions as
+integral transforms of embedding functions under probability measures. Such an
+interpretation allows for the use of Monte Carlo approaches to consistently esti-
+mate the integrals, which in turn leads to a batched training scheme as we propose
+in this work—FastGCN. Enhanced with importance sampling, FastGCN not only
+is efﬁcient for training but also generalizes well for inference. We show a compre-
+hensive set of experiments to demonstrate its effectiveness compared with GCN
+and related models. In particular, training is orders of magnitude more efﬁcient
+while predictions remain comparably accurate.
+
+1
+
+INTRODUCTION
+
+Graphs are universal representations of pairwise relationship. Many real world data come naturally
+in the form of graphs; e.g., social networks, gene expression networks, and knowledge graphs.
+To improve the performance of graph-based learning tasks, such as node classiﬁcation and link
+prediction, recently much effort is made to extend well-established network architectures, including
+recurrent neural networks (RNN) and convolutional neural networks (CNN), to graph data; see, e.g.,
+Bruna et al. (2013); Duvenaud et al. (2015); Li et al. (2015); Jain et al. (2015); Henaff et al. (2015);
+Niepert et al. (2016); Kipf & Welling (2016a;b).
+Whereas learning feature representations for graphs is an important subject among this effort, here,
+we focus on the feature representations for graph vertices. In this vein, the closest work that applies
+a convolution architecture is the graph convolutional network (GCN) (Kipf & Welling, 2016a;b).
+Borrowing the concept of a convolution ﬁlter for image pixels or a linear array of signals, GCN uses
+the connectivity structure of the graph as the ﬁlter to perform neighborhood mixing. The architecture
+may be elegantly summarized by the following expression:
+
+H (l+1) = σ( ˆAH (l)W (l)),
+
+where ˆA is some normalization of the graph adjacency matrix, H (l) contains the embedding (row-
+wise) of the graph vertices in the lth layer, W (l) is a parameter matrix, and σ is nonlinearity.
+As with many graph algorithms, the adjacency matrix encodes the pairwise relationship for both
+training and test data. The learning of the model as well as the embedding is performed for both
+data simultaneously, at least as the authors proposed. For many applications, however, test data
+may not be readily available, because the graph may be constantly expanding with new vertices
+(e.g. new members of a social network, new products to a recommender system, and new drugs
+for functionality tests). Such scenarios require an inductive scheme that learns a model from only a
+training set of vertices and that generalizes well to any augmentation of the graph.
+
+∗These two authors contribute equally.
+
+1
+
+

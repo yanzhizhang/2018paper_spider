@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+UNIVERSAL AGENT
+FOR DISENTANGLING ENVIRONMENTS AND TASKS
+
+Jiayuan Mao & Honghua Dong ∗
+The Institute for Theoretical Computer Science
+Institute for Interdisciplinary Information Sciences
+Tsinghua University
+Beijing, China
+{mjy14,dhh14}@mails.tsinghua.edu.cn
+
+Joseph J. Lim
+Department of Computer Science
+University of Southern California
+Los Angeles, USA
+limjj@usc.edu
+
+ABSTRACT
+
+Recent state-of-the-art reinforcement learning algorithms are trained under the
+goal of excelling in one speciﬁc task. Hence, both environment and task speciﬁc
+knowledge are entangled into one framework. However, there are often scenarios
+where the environment (e.g. the physical world) is ﬁxed while only the target task
+changes. Hence, borrowing the idea from hierarchical reinforcement learning, we
+propose a framework that disentangles task and environment speciﬁc knowledge
+by separating them into two units. The environment-speciﬁc unit handles how to
+move from one state to the target state; and the task-speciﬁc unit plans for the next
+target state given a speciﬁc task. The extensive results in simulators indicate that
+our method can efﬁciently separate and learn two independent units, and also adapt
+to a new task more efﬁciently than the state-of-the-art methods.
+
+1
+
+INTRODUCTION
+
+Let’s imagine ourselves learning how to play tennis for the ﬁrst time. Even though we have never
+played tennis before, we already have a good understanding of agent and environment dynamics
+related to tennis. For example, we know how to move our arm from one position to another and that
+a ball will slow down and bounce back from the ground. Hence, we just need to learn the tennis
+speciﬁc knowledge (e.g. its game rule and a relationship between an arm control and a tennis racket).
+Just like this example, when we learn to complete a new task, we utilize the prior knowledge that is
+disentangled from the task and acquired over our lifetime.
+
+(a) Speciﬁc Agent
+
+(b) Universal Agent
+
+Figure 1: Our model disentangles environment-speciﬁc information (e.g. transition dynamics) and
+task-speciﬁc knowledge (e.g. task rewards) for training efﬁciency and interpretability.
+
+From a reinforcement learning perspective, this brings a very interesting question – how can agents
+also obtain and utilize such disentangled prior knowledge about the environment? Most of today’s
+deep reinforcement learning (DRL) models Mnih et al. (2015; 2016); Schulman et al. (2015a; 2017)
+are trained with entangled environment-speciﬁc knowledge (e.g. transition dynamics) and task-
+speciﬁc knowledge (e.g. rewards), as described in Figure 1a However, as described earlier, humans
+
+∗Work was done when Jiayuan and Honghua were visiting students at USC.
+
+1
+
+!TransitionDynamicsRewardFunction /Demonstration"StateTraining PhaseInference Phase!TransitionDynamics"StateEnvironment-Specific Training PhaseInference PhaseTransitionDynamicsReward Function / Demonstration			!$Task-Specific Training Phase

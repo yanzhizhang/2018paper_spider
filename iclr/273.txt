@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+THE KANERVA MACHINE:
+A GENERATIVE DISTRIBUTED MEMORY
+
+Yan Wu, Greg Wayne, Alex Graves, Timothy Lillicrap
+DeepMind
+{yanwu,gregwayne,gravesa,countzero}@google.com
+
+ABSTRACT
+
+We present an end-to-end trained memory system that quickly adapts to new
+data and generates samples like them. Inspired by Kanerva’s sparse distributed
+memory, it has a robust distributed reading and writing mechanism. The memory
+is analytically tractable, which enables optimal on-line compression via a Bayesian
+update-rule. We formulate it as a hierarchical conditional generative model, where
+memory provides a rich data-dependent prior distribution. Consequently, the
+top-down memory and bottom-up perception are combined to produce the code
+representing an observation. Empirically, we demonstrate that the adaptive memory
+signiﬁcantly improves generative models trained on both the Omniglot and CIFAR
+datasets. Compared with the Differentiable Neural Computer (DNC) and its
+variants, our memory model has greater capacity and is signiﬁcantly easier to train.
+
+INTRODUCTION
+
+1
+Recent work in machine learning has examined a variety of novel ways to augment neural networks
+with fast memory stores. However, the basic problem of how to most efﬁciently use memory remains
+an open question. For instance, the slot-based external memory in models like Differentiable Neural
+Computers (DNCs Graves et al. (2016)) often collapses reading and writing into single slots, even
+though the neural network controller can in principle learn more distributed strategies. As as result,
+information is not shared across memory slots, and additional slots have to be recruited for new inputs,
+even if they are redundant with existing memories. Similarly, Matching Networks (Vinyals et al.,
+2016; Bartunov & Vetrov, 2016) and the Neural Episodic Controller (Pritzel et al., 2017) directly
+store embeddings of data. They therefore require the volume of memory to increase with the number
+of samples stored. In contrast, the Neural Statistician (Edwards & Storkey, 2016) summarises a
+dataset by averaging over their embeddings. The resulting “statistics” are conveniently small, but
+a large amount of information may be dropped by the averaging process, which is at odds with the
+desire to have large memories that can capture details of past experience.
+Historically developed associative memory architectures provide insight into how to design efﬁcient
+memory structures that store data in overlapping representations. For example, the Hopﬁeld Net
+(Hopﬁeld, 1982) pioneered the idea of storing patterns in low-energy states in a dynamic system. This
+type of model is robust, but its capacity is limited by the number of recurrent connections, which is in
+turn constrained by the dimensionality of the input patterns. The Boltzmann Machine (Ackley et al.,
+1985) lifts this constraint by introducing latent variables, but at the cost of requiring slow reading and
+writing mechanisms (i.e. via Gibbs sampling). This issue is resolved by Kanerva’s sparse distributed
+memory model (Kanerva, 1988), which affords fast reads and writes and dissociates capacity from
+the dimensionality of input by introducing addressing into a distributed memory store whose size is
+independent of the dimension of the data1.
+In this paper, we present a conditional generative memory model inspired by Kanerva’s sparse
+distributed memory. We generalise Kanerva’s original model through learnable addresses and re-
+parametrised latent variables (Rezende et al., 2014; Kingma & Welling, 2013; Bornschein et al.,
+2017). We solve the challenging problem of learning an effective memory writing operation by
+exploiting the analytic tractability of our memory model — we derive a Bayesian memory update rule
+
+1For readers interested in the historically connection, we brieﬂy review Kanerva’s sparse distributed memory
+
+in Appendix B
+
+1
+
+

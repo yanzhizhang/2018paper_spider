@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+ALL-BUT-THE-TOP: SIMPLE AND EFFECTIVE POST-
+PROCESSING FOR WORD REPRESENTATIONS
+
+Jiaqi Mu, Pramod Viswanath
+University of Illinois at Urbana Champaign
+{jiaqimu2, pramodv}@illinois.edu
+
+ABSTRACT
+
+Real-valued word representations have transformed NLP applications; popular
+examples are word2vec and GloVe, recognized for their ability to capture linguistic
+regularities. In this paper, we demonstrate a very simple, and yet counter-intuitive,
+postprocessing technique – eliminate the common mean vector and a few top
+dominating directions from the word vectors – that renders off-the-shelf represen-
+tations even stronger. The postprocessing is empirically validated on a variety of
+lexical-level intrinsic tasks (word similarity, concept categorization, word analogy)
+and sentence-level tasks (semantic textural similarity and text classiﬁcation) on
+multiple datasets and with a variety of representation methods and hyperparameter
+choices in multiple languages; in each case, the processed representations are
+consistently better than the original ones.
+
+1
+
+INTRODUCTION
+
+Words and their interactions (as sentences) are the basic units of natural language. Although words
+are readily modeled as discrete atomic units, this is unable to capture the relation between the
+words. Recent distributional real-valued representations of words (examples: word2vec, GloVe) have
+transformed the landscape of NLP applications – for instance, text classiﬁcation (Socher et al., 2013b;
+Maas et al., 2011; Kim, 2014), machine translation (Sutskever et al., 2014; Bahdanau et al., 2014) and
+knowledge base completion (Bordes et al., 2013; Socher et al., 2013a). The success comes from the
+geometry of the representations that efﬁciently captures linguistic regularities: the semantic similarity
+of words is well captured by the similarity of the corresponding vector representations.
+A variety of approaches have been proposed in recent years to learn the word representations:
+Collobert et al. (2011); Turian et al. (2010) learn the representations via semi-supervised learning by
+jointly training the language model and downstream applications; Bengio et al. (2003); Mikolov et al.
+(2010); Huang et al. (2012) do so by ﬁtting the data into a neural network language model; Mikolov
+et al. (2013); Mnih & Hinton (2007) by log-linear models; and Dhillon et al. (2012); Pennington
+et al. (2014); Levy & Goldberg (2014); Stratos et al. (2015); Arora et al. (2016) by producing a low-
+dimensional representation of the cooccurrence statistics. Despite the wide disparity of algorithms to
+induce word representations, the performance of several of the recent methods is roughly similar on a
+variety of intrinsic and extrinsic evaluation testbeds.
+In this paper, we ﬁnd that a simple processing renders the off-the-shelf existing representations even
+stronger. The proposed algorithm is motivated by the following observation.
+
+Observation Every representation we tested, in many languages, has the following properties:
+
+vector (with norm up to a half of the average norm of word vector).
+
+• The word representations have non-zero mean – indeed, word vectors share a large common
+• After removing the common mean vector, the representations are far from isotropic – indeed,
+much of the energy of most word vectors is contained in a very low dimensional subspace
+(say, 8 dimensions out of 300).
+
+Implication Since all words share the same common vector and have the same dominating direc-
+tions, and such vector and directions strongly inﬂuence the word representations in the same way, we
+
+1
+
+

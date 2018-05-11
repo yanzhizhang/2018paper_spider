@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+RECASTING GRADIENT-BASED META-LEARNING AS
+HIERARCHICAL BAYES
+
+Erin Grant12, Chelsea Finn12, Sergey Levine12, Trevor Darrell12, Thomas Grifﬁths13
+1 Berkeley AI Research (BAIR), University of California, Berkeley
+2 Department of Electrical Engineering & Computer Sciences, University of California, Berkeley
+3 Department of Psychology, University of California, Berkeley
+{eringrant,cbfinn,svlevine,trevor,tom_griffiths}@berkeley.edu
+
+ABSTRACT
+
+Meta-learning allows an intelligent agent to leverage prior learning episodes as a
+basis for quickly improving performance on a novel task. Bayesian hierarchical
+modeling provides a theoretical framework for formalizing meta-learning as infer-
+ence for a set of parameters that are shared across tasks. Here, we reformulate the
+model-agnostic meta-learning algorithm (MAML) of Finn et al. (2017) as a method
+for probabilistic inference in a hierarchical Bayesian model. In contrast to prior
+methods for meta-learning via hierarchical Bayes, MAML is naturally applicable
+to complex function approximators through its use of a scalable gradient descent
+procedure for posterior inference. Furthermore, the identiﬁcation of MAML as
+hierarchical Bayes provides a way to understand the algorithm’s operation as a
+meta-learning procedure, as well as an opportunity to make use of computational
+strategies for efﬁcient inference. We use this opportunity to propose an improve-
+ment to the MAML algorithm that makes use of techniques from approximate
+inference and curvature estimation.
+
+1
+
+INTRODUCTION
+
+A remarkable aspect of human intelligence is the ability to quickly solve a novel problem and to
+be able to do so even in the face of limited experience in a novel domain. Such fast adaptation is
+made possible by leveraging prior learning experience in order to improve the efﬁciency of later
+learning. This capacity for meta-learning also has the potential to enable an artiﬁcially intelligent
+agent to learn more efﬁciently in situations with little available data or limited computational
+resources (Schmidhuber, 1987; Bengio et al., 1991; Naik & Mammone, 1992).
+In machine learning, meta-learning is formulated as the extraction of domain-general information that
+can act as an inductive bias to improve learning efﬁciency in novel tasks (Caruana, 1998; Thrun &
+Pratt, 1998). This inductive bias has been implemented in various ways: as learned hyperparameters
+in a hierarchical Bayesian model that regularize task-speciﬁc parameters (Heskes, 1998), as a learned
+metric space in which to group neighbors (Bottou & Vapnik, 1992), as a trained recurrent neural
+network that allows encoding and retrieval of episodic information (Santoro et al., 2016), or as an
+optimization algorithm with learned parameters (Schmidhuber, 1987; Bengio et al., 1992).
+The model-agnostic meta-learning (MAML) of Finn et al. (2017) is an instance of a learned optimiza-
+tion procedure that directly optimizes the standard gradient descent rule. The algorithm estimates an
+initial parameter set to be shared among the task-speciﬁc models; the intuition is that gradient descent
+from the learned initialization provides a favorable inductive bias for fast adaptation. However, this
+inductive bias has been evaluated only empirically in prior work (Finn et al., 2017).
+In this work, we present a novel derivation of and a novel extension to MAML, illustrating that this
+algorithm can be understood as inference for the parameters of a prior distribution in a hierarchical
+Bayesian model. The learned prior allows for quick adaptation to unseen tasks on the basis of an
+implicit predictive density over task-speciﬁc parameters. The reinterpretation as hierarchical Bayes
+gives a principled statistical motivation for MAML as a meta-learning algorithm, and sheds light on
+the reasons for its favorable performance even among methods with signiﬁcantly more parameters.
+
+1
+
+

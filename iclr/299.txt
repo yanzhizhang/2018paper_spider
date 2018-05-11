@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+DEMYSTIFYING MMD GANS
+
+Mikołaj Bi´nkowski∗
+Department of Mathematics
+Imperial College London
+mikbinkowski@gmail.com
+
+Dougal J. Sutherland∗, Michael Arbel & Arthur Gretton
+Gatsby Computational Neuroscience Unit
+University College London
+{dougal,michael.n.arbel,arthur.gretton}@gmail.com
+
+ABSTRACT
+
+We investigate the training and performance of generative adversarial networks
+using the Maximum Mean Discrepancy (MMD) as critic, termed MMD GANs.
+As our main theoretical contribution, we clarify the situation with bias in GAN
+loss functions raised by recent work: we show that gradient estimators used in the
+optimization process for both MMD GANs and Wasserstein GANs are unbiased,
+but learning a discriminator based on samples leads to biased gradients for the
+generator parameters. We also discuss the issue of kernel choice for the MMD
+critic, and characterize the kernel corresponding to the energy distance used for the
+Cramér GAN critic. Being an integral probability metric, the MMD beneﬁts from
+training strategies recently developed for Wasserstein GANs. In experiments, the
+MMD GAN is able to employ a smaller critic network than the Wasserstein GAN,
+resulting in a simpler and faster-training algorithm with matching performance.
+We also propose an improved measure of GAN convergence, the Kernel Inception
+Distance, and show how to use it to dynamically adapt learning rates during GAN
+training.
+
+1
+
+INTRODUCTION
+
+Generative Adversarial Networks (GANs; Goodfellow et al., 2014) provide a powerful method for
+general-purpose generative modeling of datasets. Given examples from some distribution, a GAN
+attempts to learn a generator function, which maps from some ﬁxed noise distribution to samples
+that attempt to mimic a reference or target distribution. The generator is trained to trick a discrimi-
+nator, or critic, which tries to distinguish between generated and target samples.
+This alternative to standard maximum likelihood approaches for training generative models has
+brought about a rush of interest over the past several years. Likelihoods do not necessarily cor-
+respond well to sample quality (Theis et al., 2016), and GAN-type objectives focus much more
+on producing plausible samples, as illustrated particularly directly by Danihelka et al. (2017). This
+class of models has recently led to many impressive examples of image generation (e.g. Huang et al.,
+2017a;b; Jin et al., 2017; Zhu et al., 2017).
+GANs are, however, notoriously tricky to train (Salimans et al., 2016). This might be understood
+in terms of the discriminator class. Goodfellow et al. (2014) showed that, when the discriminator is
+trained to optimality among a rich enough function class, the generator network attempts to minimize
+the Jensen-Shannon divergence between the generator and target distributions. This result has been
+extended to general f-divergences by Nowozin et al. (2016). According to Arjovsky & Bottou
+(2017), however, it is likely that both the GAN and reference probability measures are supported
+on manifolds within a larger space, as occurs for the set of images in the space of possible pixel
+values. These manifolds might not intersect at all, or at best might intersect on sets of measure zero.
+In this case, the Jensen-Shannon divergence is constant, and the KL and reverse-KL divergences
+
+∗These authors contributed equally.
+
+1
+
+

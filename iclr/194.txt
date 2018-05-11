@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+BEYOND WORD IMPORTANCE: CONTEXTUAL DE-
+COMPOSITION TO EXTRACT INTERACTIONS FROM
+LSTMS
+
+W. James Murdoch ∗
+Department of Statistics
+University of California, Berkeley
+jmurdoch@berkeley.edu
+
+Peter J. Liu
+Google Brain
+Mountain View, CA
+
+Bin Yu
+Department of Statistics
+Department of EECS
+University of California, Berkeley
+
+ABSTRACT
+
+The driving force behind the recent success of LSTMs has been their ability to
+learn complex and non-linear relationships. Consequently, our inability to de-
+scribe these relationships has led to LSTMs being characterized as black boxes.
+To this end, we introduce contextual decomposition (CD), an interpretation algo-
+rithm for analysing individual predictions made by standard LSTMs, without any
+changes to the underlying model. By decomposing the output of a LSTM, CD
+captures the contributions of combinations of words or variables to the ﬁnal pre-
+diction of an LSTM. On the task of sentiment analysis with the Yelp and SST data
+sets, we show that CD is able to reliably identify words and phrases of contrasting
+sentiment, and how they are combined to yield the LSTM’s ﬁnal prediction. Using
+the phrase-level labels in SST, we also demonstrate that CD is able to successfully
+extract positive and negative negations from an LSTM, something which has not
+previously been done.
+
+1
+
+INTRODUCTION
+
+In comparison with simpler linear models, techniques from deep learning have achieved impressive
+accuracy by effectively learning non-linear interactions between features. However, due to our in-
+ability to describe the learned interactions, this improvement in accuracy has come at the cost of
+state of the art predictive algorithms being commonly regarded as black-boxes. In the domain of
+natural language processing (NLP), Long Short Term Memory networks (LSTMs) (Hochreiter &
+Schmidhuber, 1997) have become a basic building block, yielding excellent performance across a
+wide variety of tasks (Sutskever et al., 2014) (Rajpurkar et al., 2016) (Melis et al., 2017), while
+remaining largely inscrutable.
+In this work, we introduce contextual decomposition (CD), a novel interpretation method for ex-
+plaining individual predictions made by an LSTM without any modiﬁcations to the underlying
+model. CD extracts information about not only which words contributed to a LSTM’s prediction, but
+also how they were combined in order to yield the ﬁnal prediction. By mathematically decomposing
+the LSTM’s output, we are able to disambiguate the contributions made at each step by different
+parts of the sentence.
+To validate the CD interpretations extracted from an LSTM, we evaluate on the problem of sentiment
+analysis. In particular, we demonstrate that CD is capable of identifying words and phrases of dif-
+fering sentiment within a given review. CD is also used to successfully extract positive and negative
+negations from an LSTM, something that has not previously been done. As a consequence of this
+analysis, we also show that prior interpretation methods produce scores which have document-level
+information built into them in complex, unspeciﬁed ways. For instance, prior work often identiﬁes
+strongly negative phrases contained within positive reviews as neutral, or even positive.
+
+∗Work started during internship at Google Brain
+
+1
+
+

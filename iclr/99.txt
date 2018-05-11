@@ -1,0 +1,71 @@
+Published as a conference paper at ICLR 2018
+
+ACTIVATION MAXIMIZATION GENERATIVE ADVER-
+SARIAL NETS
+
+Zhiming Zhou, Han Cai
+Shanghai Jiao Tong University
+heyohai,hcai@apex.sjtu.edu.cn
+
+Shu Rong
+Yitu Tech
+shu.rong@yitu-inc.com
+
+Yuxuan Song, Kan Ren
+Shanghai Jiao Tong University
+songyuxuan,kren@apex.sjtu.edu.cn
+
+Jun Wang
+University College London
+j.wang@cs.ucl.ac.uk
+
+Weinan Zhang, Yu Yong
+Shanghai Jiao Tong University
+wnzhang@sjtu.edu.cn, yyu@apex.sjtu.edu.cn
+
+ABSTRACT
+
+Class labels have been empirically shown useful in improving the sample quality
+of generative adversarial nets (GANs). In this paper, we mathematically study the
+properties of the current variants of GANs that make use of class label information.
+With class aware gradient and cross-entropy decomposition, we reveal how class
+labels and associated losses inﬂuence GAN’s training. Based on that, we propose
+Activation Maximization Generative Adversarial Networks (AM-GAN) as an ad-
+vanced solution. Comprehensive experiments have been conducted to validate our
+analysis and evaluate the effectiveness of our solution, where AM-GAN outper-
+forms other strong baselines and achieves state-of-the-art Inception Score (8.91)
+on CIFAR-10. In addition, we demonstrate that, with the Inception ImageNet
+classiﬁer, Inception Score mainly tracks the diversity of the generator, and there is,
+however, no reliable evidence that it can reﬂect the true sample quality. We thus
+propose a new metric, called AM Score, to provide more accurate estimation on
+the sample quality. Our proposed model also outperforms the baseline methods in
+the new metric.
+
+1
+
+INTRODUCTION
+
+Generative adversarial nets (GANs) (Goodfellow et al., 2014) as a new way for learning generative
+models, has recently shown promising results in various challenging tasks, such as realistic image
+generation (Nguyen et al., 2016b; Zhang et al., 2016; Gulrajani et al., 2017), conditional image
+generation (Huang et al., 2016b; Cao et al., 2017; Isola et al., 2016), image manipulation (Zhu et al.,
+2016) and text generation (Yu et al., 2016).
+Despite the great success, it is still challenging for the current GAN models to produce convincing
+samples when trained on datasets with high variability, even for image generation with low resolution,
+e.g., CIFAR-10. Meanwhile, people have empirically found taking advantages of class labels can
+signiﬁcantly improve the sample quality.
+There are three typical GAN models that make use of the label information: CatGAN (Springenberg,
+2015) builds the discriminator as a multi-class classiﬁer; LabelGAN (Salimans et al., 2016) extends
+the discriminator with one extra class for the generated samples; AC-GAN (Odena et al., 2016) jointly
+trains the real-fake discriminator and an auxiliary classiﬁer for the speciﬁc real classes. By taking
+the class labels into account, these GAN models show improved generation quality and stability.
+However, the mechanisms behind them have not been fully explored (Goodfellow, 2016).
+In this paper, we mathematically study GAN models with the consideration of class labels. We derive
+the gradient of the generator’s loss w.r.t. class logits in the discriminator, named as class-aware
+gradient, for LabelGAN (Salimans et al., 2016) and further show its gradient tends to guide each
+generated sample towards being one of the speciﬁc real classes. Moreover, we show that AC-GAN
+(Odena et al., 2016) can be viewed as a GAN model with hierarchical class discriminator. Based on
+
+1
+
+

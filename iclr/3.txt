@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+GRADIENT ESTIMATORS FOR IMPLICIT MODELS
+
+Yingzhen Li & Richard E. Turner
+University of Cambridge
+Cambridge, CB2 1PZ, UK
+{yl494,ret26}@cam.ac.uk
+
+ABSTRACT
+
+Implicit models, which allow for the generation of samples but not for point-wise
+evaluation of probabilities, are omnipresent in real-world problems tackled by ma-
+chine learning and a hot topic of current research. Some examples include data
+simulators that are widely used in engineering and scientiﬁc research, generative
+adversarial networks (GANs) for image synthesis, and hot-off-the-press approxi-
+mate inference techniques relying on implicit distributions. The majority of exist-
+ing approaches to learning implicit models rely on approximating the intractable
+distribution or optimisation objective for gradient-based optimisation, which is
+liable to produce inaccurate updates and thus poor models. This paper allevi-
+ates the need for such approximations by proposing the Stein gradient estimator,
+which directly estimates the score function of the implicitly deﬁned distribution.
+The efﬁcacy of the proposed estimator is empirically demonstrated by examples
+that include gradient-free MCMC, meta-learning for approximate inference and
+entropy regularised GANs that provide improved sample diversity.
+
+1
+
+INTRODUCTION
+
+Modelling is fundamental to the success of technological innovations for artiﬁcial intelligence. A
+powerful model learns a useful representation of the observations for a speciﬁed prediction task,
+and generalises to unknown instances that follow similar generative mechanics. A well established
+area of machine learning research focuses on developing prescribed probabilistic models (Diggle
+& Gratton, 1984), where learning is based on evaluating the probability of observations under the
+model. Implicit probabilistic models, on the other hand, are deﬁned by a stochastic procedure that
+allows for direct generation of samples, but not for the evaluation of model probabilities. These
+are omnipresent in scientiﬁc and engineering research involving data analysis, for instance ecology,
+climate science and geography, where simulators are used to ﬁt real-world observations to produce
+forecasting results. Within the machine learning community there is a recent interest in a speciﬁc
+type of implicit models, generative adversarial networks (GANs) (Goodfellow et al., 2014), which
+has been shown to be one of the most successful approaches to image and text generation (Radford
+et al., 2016; Yu et al., 2017; Arjovsky et al., 2017; Berthelot et al., 2017). Very recently, implicit dis-
+tributions have also been considered as approximate posterior distributions for Bayesian inference,
+e.g. see Liu & Feng (2016); Wang & Liu (2016); Li & Liu (2016); Karaletsos (2016); Mescheder
+et al. (2017); Husz´ar (2017); Li et al. (2017); Tran et al. (2017). These examples demonstrate the su-
+perior ﬂexibility of implicit models, which provide highly expressive means of modelling complex
+data structures.
+Whilst prescribed probabilistic models can be learned by standard (approximate) maximum like-
+lihood or Bayesian inference, implicit probabilistic models require substantially more severe ap-
+proximations due to the intractability of the model distribution. Many existing approaches ﬁrst
+approximate the model distribution or optimisation objective function and then use those approx-
+imations to learn the associated parameters. However, for any ﬁnite number of data points there
+exists an inﬁnite number of functions, with arbitrarily diverse gradients, that can approximate per-
+fectly the objective function at the training datapoints, and optimising such approximations can lead
+to unstable training and poor results. Recent research on GANs, where the issue is highly preva-
+lent, suggest that restricting the representational power of the discriminator is effective in stabilising
+training (e.g. see Arjovsky et al., 2017; Kodali et al., 2017). However, such restrictions often intro-
+
+1
+
+

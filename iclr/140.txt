@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+EIGENOPTION DISCOVERY THROUGH THE
+DEEP SUCCESSOR REPRESENTATION
+
+Marlos C. Machado1∗, Clemens Rosenbaum2, Xiaoxiao Guo3
+Miao Liu3, Gerald Tesauro3, Murray Campbell3
+1 University of Alberta, Edmonton, AB, Canada
+2 University of Massachusetts, Amherst, MA, USA
+3 IBM Research, Yorktown Heights, NY, USA
+
+ABSTRACT
+
+Options in reinforcement learning allow agents to hierarchically decompose a task
+into subtasks, having the potential to speed up learning and planning. However,
+autonomously learning effective sets of options is still a major challenge in the
+ﬁeld. In this paper we focus on the recently introduced idea of using representa-
+tion learning methods to guide the option discovery process. Speciﬁcally, we look
+at eigenoptions, options obtained from representations that encode diffusive infor-
+mation ﬂow in the environment. We extend the existing algorithms for eigenop-
+tion discovery to settings with stochastic transitions and in which handcrafted
+features are not available. We propose an algorithm that discovers eigenoptions
+while learning non-linear state representations from raw pixels. It exploits recent
+successes in the deep reinforcement learning literature and the equivalence be-
+tween proto-value functions and the successor representation. We use traditional
+tabular domains to provide intuition about our approach and Atari 2600 games to
+demonstrate its potential.
+
+1
+
+INTRODUCTION
+
+Sequential decision making usually involves planning, acting, and learning about temporally ex-
+tended courses of actions over different time scales. In the reinforcement learning framework, op-
+tions are a well-known formalization of the notion of actions extended in time; and they have been
+shown to speed up learning and planning when appropriately deﬁned (e.g., Brunskill & Li, 2014;
+Guo et al., 2017; Solway et al., 2014). In spite of that, autonomously identifying good options is
+still an open problem. This problem is known as the problem of option discovery.
+Option discovery has received ample attention over many years, with varied solutions being pro-
+posed (e.g., Bacon et al., 2017; S¸imsek & Barto, 2004; Daniel et al., 2016; Florensa et al., 2017;
+Konidaris & Barto, 2009; Mankowitz et al., 2016; McGovern & Barto, 2001). Recently, Machado
+et al. (2017) and Vezhnevets et al. (2017) proposed the idea of learning options that traverse direc-
+tions of a latent representation of the environment. In this paper we further explore this idea.
+More speciﬁcally, we focus on the concept of eigenoptions (Machado et al., 2017), options learned
+using a model of diffusive information ﬂow in the environment. They have been shown to improve
+agents’ performance by reducing the expected number of time steps a uniform random policy needs
+in order to traverse the state space. Eigenoptions are deﬁned in terms of proto-value functions (PVFs;
+Mahadevan, 2005), basis functions learned from the environment’s underlying state-transition graph.
+PVFs and eigenoptions have been deﬁned and thoroughly evaluated in the tabular case. Currently,
+eigenoptions can be used in environments where it is infeasible to enumerate states only when a
+linear representation of these states is known beforehand.
+In this paper we extend the notion of eigenoptions to stochastic environments with non-enumerated
+states, which are commonly approximated by feature representations. Despite methods that learn
+representations generally being more ﬂexible, more scalable, and often leading to better perfor-
+mance, current algorithms for eigenoption discovery cannot be combined with representation learn-
+
+∗Corresponding author: machado@ualberta.ca
+
+1
+
+

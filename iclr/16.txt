@@ -1,0 +1,60 @@
+DECOUPLING THE LAYERS IN RESIDUAL NETWORKS
+
+Ricky Fok∗, Aijun An, Zana Rashidi
+Department of Electrical Engineering and Computer Science
+York University
+4700 Keele Street, Toronto, M3J 1P3, Canada
+ricky.fok3@gmail.com, aan@cse.yorku.ca, zrashidi@cse.yorku.ca
+
+Xiaogang Wang
+Department of Mathematics and Statistics
+York University
+4700 Keele Street, Toronto, M3J 1P3, Canada
+stevenw@mathstat.yorku.ca
+
+ABSTRACT
+
+We propose a Warped Residual Network (WarpNet) using a parallelizable warp
+operator for forward and backward propagation to distant layers that trains faster
+than the original residual neural network. We apply a perturbation theory on resid-
+ual networks and decouple the interactions between residual units. The resulting
+warp operator is a ﬁrst order approximation of the output over multiple layers. The
+ﬁrst order perturbation theory exhibits properties such as binomial path lengths
+and exponential gradient scaling found experimentally by Veit et al. (2016). We
+demonstrate through an extensive performance study that the proposed network
+achieves comparable predictive performance to the original residual network with
+the same number of parameters, while achieving a signiﬁcant speed-up on the to-
+tal training time. As WarpNet performs model parallelism in residual network
+training in which weights are distributed over different GPUs, it offers speed-up
+and capability to train larger networks compared to original residual networks.
+
+1
+
+INTRODUCTION
+
+Deep Convolution Neural Networks (CNN) have been used in image recognition tasks with great
+success. Since AlexNet (Krizhevsky et al., 2012), many other neural architectures have been pro-
+posed to achieve start-of-the-art results at the time. Some of the notable architectures include,
+VGG (Simonyan & Zisserman, 2015), Inception (Szegedy et al., 2015) and Residual networks
+(ResNet)(He et al., 2015).
+Training a deep neural network is not an easy task. As the gradient at each layer is dependent upon
+those in higher layers multiplicatively, the gradients in earlier layers can vanish or explode, ceasing
+the training process. The gradient vanishing problem is signiﬁcant for neuron activation functions
+such as the sigmoid, where the gradient approaches zero exponentially away from the origin on both
+sides. The standard approach to combat vanishing gradient is to apply Batch Normalization (BN)
+(Ioffe & Szegedy, 2015) followed by the Rectiﬁed Linear Unit (ReLU) (Hahnloser et al., 2000)
+activation. More recently, skip connections (Srivastava et al., 2015) have been proposed to allow
+previous layers propagate relatively unchanged. Using this methodology the authors in (Srivastava
+et al., 2015) were able to train extremely deep networks (hundreds of layers) and about one thousand
+layers were trained in residual networks (He et al., 2015).
+As the number of layers grows large, so does the training time. To evaluate the neural network’s
+output, one needs to propagate the input of the network layer by layer in a procedure known as
+forward propagation. Likewise, during training, one needs to propagate the gradient of the loss
+function from the end of the network to update the model parameters, or weights, in each layer of
+the network using gradient descent. The complexity of forward and propagation is O(K), where
+
+∗Corresponding Author
+
+1
+
+

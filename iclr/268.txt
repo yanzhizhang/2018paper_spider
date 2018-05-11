@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING GENERAL PURPOSE DISTRIBUTED SEN-
+TENCE REPRESENTATIONS VIA LARGE SCALE MULTI-
+TASK LEARNING
+
+Sandeep Subramanian1,2,3∗, Adam Trischler3, Yoshua Bengio1,2,4 & Christopher J Pal1,5
+1 Montr´eal Institute for Learning Algorithms (MILA)
+2 Universit´e de Montr´eal
+3 Microsoft Research Montreal
+4 CIFAR Senior Fellow
+5 ´Ecole Polytechnique de Montr´eal
+
+ABSTRACT
+
+A lot of the recent success in natural language processing (NLP) has been driven
+by distributed vector representations of words trained on large amounts of text
+in an unsupervised manner. These representations are typically used as general
+purpose features for words across a range of NLP problems. However, extend-
+ing this success to learning representations of sequences of words, such as sen-
+tences, remains an open problem. Recent work has explored unsupervised as well
+as supervised learning techniques with different training objectives to learn gen-
+eral purpose ﬁxed-length sentence representations.
+In this work, we present a
+simple, effective multi-task learning framework for sentence representations that
+combines the inductive biases of diverse training objectives in a single model. We
+train this model on several data sources with multiple training objectives on over
+100 million sentences. Extensive experiments demonstrate that sharing a single re-
+current sentence encoder across weakly related tasks leads to consistent improve-
+ments over previous methods. We present substantial improvements in the context
+of transfer learning and low-resource settings using our learned general-purpose
+representations.
+
+1
+
+INTRODUCTION
+
+Transfer learning has driven a number of recent successes in computer vision and NLP. Computer vi-
+sion tasks like image captioning (Xu et al., 2015) and visual question answering typically use CNNs
+pretrained on ImageNet (Krizhevsky et al., 2012; Simonyan & Zisserman, 2014) to extract repre-
+sentations of the image, while several natural language tasks such as reading comprehension and
+sequence labeling (Lample et al., 2016) have beneﬁted from pretrained word embeddings (Mikolov
+et al., 2013; Pennington et al., 2014) that are either ﬁne-tuned for a speciﬁc task or held ﬁxed.
+Many neural NLP systems are initialized with pretrained word embeddings but learn their represen-
+tations of words in context from scratch, in a task-speciﬁc manner from supervised learning signals.
+However, learning these representations reliably from scratch is not always feasible, especially in
+low-resource settings, where we believe that using general purpose sentence representations will be
+beneﬁcial.
+Some recent work has addressed this by learning general-purpose sentence representations (Kiros
+et al., 2015; Wieting et al., 2015; Hill et al., 2016; Conneau et al., 2017; McCann et al., 2017; Jernite
+et al., 2017; Nie et al., 2017; Pagliardini et al., 2017). However, there exists no clear consensus yet
+on what training objective or methodology is best suited to this goal.
+Understanding the inductive biases of distinct neural models is important for guiding progress in
+representation learning. Shi et al. (2016) and Belinkov et al. (2017) demonstrate that neural ma-
+chine translation (NMT) systems appear to capture morphology and some syntactic properties. Shi
+
+∗Work done while author was an intern at Microsoft Research Montreal
+
+1
+
+

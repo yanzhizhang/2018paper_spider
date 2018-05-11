@@ -1,0 +1,67 @@
+Published as a conference paper at ICLR 2018
+
+ADAPTIVE QUANTIZATION OF NEURAL NETWORKS
+
+Soroosh Khoram
+Department of Electrical and Computer Engineering
+University of Wisconsin - Madison
+khoram@wisc.edu
+
+Jing Li
+Department of Electrical and Computer Engineering
+University of Wisconsin - Madison
+jli@ece.wisc.edu
+
+ABSTRACT
+
+Despite the state-of-the-art accuracy of Deep Neural Networks (DNN) in various
+classiﬁcation problems, their deployment onto resource constrained edge comput-
+ing devices remains challenging due to their large size and complexity. Several
+recent studies have reported remarkable results in reducing this complexity through
+quantization of DNN models. However, these studies usually do not consider
+the changes in the loss function when performing quantization, nor do they take
+the different importances of DNN model parameters to the accuracy into account.
+We address these issues in this paper by proposing a new method, called adap-
+tive quantization, which simpliﬁes a trained DNN model by ﬁnding a unique,
+optimal precision for each network parameter such that the increase in loss is
+minimized. The optimization problem at the core of this method iteratively uses
+the loss function gradient to determine an error margin for each parameter and
+assigns it a precision accordingly. Since this problem uses linear functions, it
+is computationally cheap and, as we will show, has a closed-form approximate
+solution. Experiments on MNIST, CIFAR, and SVHN datasets showed that the
+proposed method can achieve near or better than state-of-the-art reduction in model
+size with similar error rates. Furthermore, it can achieve compressions close to
+ﬂoating-point model compression methods without loss of accuracy.
+
+1
+
+INTRODUCTION
+
+Deep Neural Networks (DNNs) have achieved incredible accuracies in applications ranging from
+computer vision (Simonyan & Zisserman, 2014) to speech recognition (Hinton et al., 2012) and natural
+language processing (Devlin et al., 2014). One of the key enablers of the unprecedented success of
+DNNs is the availability of very large model sizes. While the increase in model size improves the
+classiﬁcation accuracy, it inevitably increases the computational complexity and memory requirement
+needed to train and store the network. This poses challenges in deploying these large models in
+resource-constrained edge computing environments, such as mobile devices. These challenges
+motivate neural network compression, which exploits the redundancy of neural networks to achieve
+drastic reductions in model sizes. The state-of-the-art neural network compression techniques include
+weight quantization (Courbariaux et al., 2015), weight pruning (Han et al., 2015), weight sharing
+(Han et al., 2015), and low rank approximation (Zhao et al., 2017). For instance, weight quantization
+has previously shown good accuracy with ﬁxed-point 16-bit and 8-bit precisions (Suda et al., 2016;
+Qiu et al., 2016). Recent works attempt to push that even further towards reduced precision and have
+trained models with 4-bit, 2-bit, and 1-bit parameters using quantized training methods (Hubara et al.,
+2016; Zhou et al., 2016; Courbariaux & Bengio, 2016; Courbariaux et al., 2015).
+Although these quantization methods can signiﬁcantly reduce model complexity, they generally have
+two key constraints. First, they ignore the accuracy degradation resulting from quantization, during
+the quantization, and tend to remedy it, separately, through quantized learning schemes. However,
+such schemes have the disadvantage of converging very slowly compared to full-precision learning
+methods. Second, they treat all network parameters similarly and assign them the same quantization
+width1. This is while previous works (Courbariaux & Bengio, 2016; Hubara et al., 2016; Han et al.,
+2015) have shown different parameters do not contribute to the model accuracy equally. Disregarding
+this variation limits the maximum achievable compression.
+1Number of bits used to store the ﬁxed-point quantized value.
+
+1
+
+

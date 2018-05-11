@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING A NEURAL RESPONSE METRIC
+FOR RETINAL PROSTHESIS
+
+Nishal P. Shah1, 2, Sasidhar Madugula1, E.J. Chichilnisky1, Yoram Singer2, 3, and Jonathon Shlens2
+
+1Stanford University
+
+2Google Brain
+
+3Princeton University
+
+ABSTRACT
+
+Retinal prostheses for treating incurable blindness are designed to electrically
+stimulate surviving retinal neurons, causing them to send artiﬁcial visual signals
+to the brain. However, electrical stimulation generally cannot precisely reproduce
+typical patterns of neural activity in the retina. Therefore, an electrical stimulus
+must be selected so as to produce a neural response as close as possible to the
+desired response. This requires a technique for computing the distance between
+a desired response and an achievable response that is meaningful in terms of the
+visual signal being conveyed. We propose a method to learn a metric on neural
+responses directly from recorded light responses of a population of retinal ganglion
+cells (RGCs) in the primate retina. The learned metric produces a measure of
+similarity of RGC population responses that accurately reﬂects the similarity of
+visual inputs. Using data from electrical stimulation experiments, we demonstrate
+that the learned metric could produce improvements in the performance of a retinal
+prosthesis.
+
+1
+
+INTRODUCTION
+
+An important application of neuroscience research is the development of electronic devices to replace
+the function of diseased or damaged neural circuits (Wilson et al., 1991; Schwartz, 2004). Artiﬁcial
+vision has been a particularly challenging modality due to the richness of visual information, its
+diverse uses in perception and behavior, and the complexity of fabricating a device that can interface
+effectively with neural circuitry (Stingl et al., 2013; Wilke et al., 2011; Jepson et al., 2014a).
+The most advanced example is a retinal prosthesis: a device that replaces the function of neural
+circuitry in the retina lost to degenerative disease. Most of the computational work related to this
+application has focused on building encoding models that use the visual image to accurately predict the
+spiking activity of populations of retinal ganglion cells (RGCs), the output neurons of the retina that
+convey visual information to the brain. Leading models include linear models (Chichilnisky, 2001),
+probabilistic point-process models (Pillow et al., 2008) and recently proposed models employing rich
+nonlinearities (McIntosh et al.; Batty et al.; Shah et al., 2017).
+However, an accurate encoding model, although valuable, is insufﬁcient. Any retinal prosthesis –
+whether based on electrical stimulation (Sekirnjak et al., 2008) or optical stimulation (Boyden et al.,
+2005; Bernstein et al., 2008) – is limited in its ability to create arbitrary desired patterns of neural
+activity, due to inefﬁciencies or lack of speciﬁcity in the stimulation modality (Barrett et al., 2014;
+Jepson et al., 2014a). Thus, a given stimulation system can only achieve a limited vocabulary of
+elicited spike patterns. Although a powerful and accurate encoding model might indicate that a
+particular spike pattern would be the natural biological response to the incident visual stimulus, the
+desired spike pattern might not reside within the feasible set of the stimulation device (Figure 1).
+Previous studies (Jepson et al., 2014b) have addressed this problem by selecting the electrical
+stimulation which minimizes the number of unmatched spikes across cells – equivalent to the
+Hamming distance between two binary vectors. Even though a Hamming distance is easy to compute,
+this solution is not necessarily optimal. The goal of a prosthetics device should be to instead select an
+
+1
+
+

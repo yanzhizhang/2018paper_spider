@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+IMITATION LEARNING FROM VISUAL DATA WITH
+MULTIPLE INTENTIONS
+
+Aviv Tamar*,1, Khashayar Rohanimanesh*,2, Yinlam Chow2, Chris Vigorito2, Ben Goodrich2,
+
+Michael Kahane2, and Derik Pridmore2
+
+1EECS Department, UC Berkeley
+
+avivt@berkeley.edu, {khash,ychow,chris,ben,mk,derik}@osaro.com
+
+2Osaro Inc.
+
+*Equal contribution
+
+ABSTRACT
+
+Recent advances in learning from demonstrations (LfD) with deep neural net-
+works have enabled learning complex robot skills that involve high dimensional
+perception such as raw image inputs. LfD algorithms generally assume learn-
+ing from single task demonstrations.
+In practice, however, it is more efﬁcient
+for a teacher to demonstrate a multitude of tasks without careful task set up,
+labeling, and engineering. Unfortunately in such cases, traditional imitation
+learning techniques fail to represent the multi-modal nature of the data, and of-
+ten result in sub-optimal behavior.
+In this paper we present an LfD approach
+for learning multiple modes of behavior from visual data. Our approach is
+based on a stochastic deep neural network (SNN), which represents the under-
+lying intention in the demonstration as a stochastic activation in the network.
+We present an efﬁcient algorithm for training SNNs, and for learning with vi-
+sion inputs, we also propose an architecture that associates the intention with a
+stochastic attention module. Furthermore, we demonstrate our method on real
+robot visual object reaching tasks, and show that it can reliably learn the mul-
+tiple behavior modes in the demonstration data. Video results are available at
+https://vimeo.com/240212286/fd401241b9.
+
+1
+
+INTRODUCTION
+
+A key problem in robotic control is to simplify the problem of programming a complex behavior.
+Traditional control engineering approaches, which rely on accurate manual modeling of the sys-
+tem environment, are very challenging to apply in modern robotic applications where most sensory
+inputs come from images and other high-dimensional signals such as tactile feedback.
+In contrast, imitation learning, or learning from demonstration (LfD) approaches (Schaal et al.,
+2003) aim to directly learn a control policy from mentor or expert demonstrations. The key ad-
+vantages of LfD are simplicity and data-efﬁciency, and indeed, LfD has been successfully used for
+learning complex robot skills such as locomotion (Schaal et al., 2005), driving (Pomerleau, 1989;
+Ross et al., 2011), ﬂying (Abbeel & Ng, 2004), and manipulation (M¨ulling et al., 2013; Chebotar
+et al., 2016; Pastor et al., 2009). Recently, advances in deep representation learning (Goodfellow
+et al., 2016) have facilitated LfD methods with high dimensional perception, such as mapping raw
+images directly to controls (Giusti et al., 2016). These advances are capable of learning generaliz-
+able skills (Levine et al., 2015), and offer a promising approach for modern industrial challenges
+such as pick and place tasks (Correll et al., 2016).
+One challenge in LfD, however, is learning different modes of the same task. For example, consider
+learning to pick up an object from a pile. The demonstrator can choose to pick up a different object
+each time, yet we expect LfD to understand that these are similar demonstrations of the same pick-
+
+1
+
+

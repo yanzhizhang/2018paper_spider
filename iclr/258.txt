@@ -1,0 +1,73 @@
+Published as a conference paper at ICLR 2018
+
+FIDELITY-WEIGHTED LEARNING
+
+Mostafa Dehghani
+University of Amsterdam MPI for Intelligent Systems
+dehghani@uva.nl
+
+Arash Mehrjou
+
+amehrjou@tuebingen.mpg.de
+
+Stephan Gouws
+Google Brain
+sgouws@google.com
+
+Jaap Kamps
+University of Amsterdam MPI for Intelligent Systems
+bs@tuebingen.mpg.de
+kamps@uva.nl
+
+Bernhard Sch¨olkopf
+
+ABSTRACT
+
+Training deep neural networks requires many training samples, but in practice
+training labels are expensive to obtain and may be of varying quality, as some may
+be from trusted expert labelers while others might be from heuristics or other sources
+of weak supervision such as crowd-sourcing. This creates a fundamental quality-
+versus-quantity trade-off in the learning process. Do we learn from the small amount
+of high-quality data or the potentially large amount of weakly-labeled data? We
+argue that if the learner could somehow know and take the label-quality into account
+when learning the data representation, we could get the best of both worlds. To this
+end, we propose “ﬁdelity-weighted learning” (FWL), a semi-supervised student-
+teacher approach for training deep neural networks using weakly-labeled data. FWL
+modulates the parameter updates to a student network (trained on the task we care
+about) on a per-sample basis according to the posterior conﬁdence of its label-quality
+estimated by a teacher (who has access to the high-quality labels). Both student and
+teacher are learned from the data. We evaluate FWL on two tasks in information
+retrieval and natural language processing where we outperform state-of-the-art
+alternative semi-supervised methods, indicating that our approach makes better use
+of strong and weak labels, and leads to better task-dependent data representations.
+
+1
+
+INTRODUCTION
+
+The success of deep neural networks to date depends strongly on the availability of labeled data
+which is costly and not always easy to obtain. Usually it is much easier to obtain small quantities
+of high-quality labeled data and large quantities of unlabeled data. The problem of how to best
+integrate these two different sources of information during training is an active pursuit in the ﬁeld
+of semi-supervised learning (Chapelle et al., 2006). However, for a large class of tasks it is also easy to
+deﬁne one or more so-called “weak annotators”, additional (albeit noisy) sources of weak supervision
+based on heuristics or “weaker”, biased classiﬁers trained on e.g. non-expert crowd-sourced data or
+data from different domains that are related. While easy and cheap to generate, it is not immediately
+clear if and how these additional weakly-labeled data can be used to train a stronger classiﬁer for the
+task we care about. More generally, in almost all practical applications machine learning systems
+have to deal with data samples of variable quality. For example, in a large dataset of images only
+a small fraction of samples may be labeled by experts and the rest may be crowd-sourced using e.g.
+Amazon Mechanical Turk (Veit et al., 2017). In addition, in some applications, labels are intentionally
+perturbed due to privacy issues (Wainwright et al., 2012; Papernot et al., 2017).
+Assuming we can obtain a large set of weakly-labeled data in addition to a much smaller training set of
+“strong” labels, the simplest approach is to expand the training set by including the weakly-supervised
+samples (all samples are equal). Alternatively, one may pretrain on the weak data and then ﬁne-tune on
+observations from the true function or distribution (which we call strong data). Indeed, it has recently
+been shown that a small amount of expert-labeled data can be augmented in such a way by a large
+set of raw data, with labels coming from a heuristic function, to train a more accurate neural ranking
+model (Dehghani et al., 2017d). The downside is that such approaches are oblivious to the amount
+or source of noise in the labels.
+
+1
+
+

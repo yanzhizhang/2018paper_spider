@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+FLIPOUT: EFFICIENT PSEUDO-INDEPENDENT WEIGHT
+PERTURBATIONS ON MINI-BATCHES
+
+Yeming Wen, Paul Vicol, Jimmy Ba
+University of Toronto
+Vector Institute
+wenyemin,pvicol,jba@cs.toronto.edu
+
+Dustin Tran
+Columbia University
+Google
+trandustin@google.com
+
+Roger Grosse
+University of Toronto
+Vector Institute
+rgrosse@cs.toronto.ca
+
+ABSTRACT
+
+Stochastic neural net weights are used in a variety of contexts, including regular-
+ization, Bayesian neural nets, exploration in reinforcement learning, and evolution
+strategies. Unfortunately, due to the large number of weights, all the examples in
+a mini-batch typically share the same weight perturbation, thereby limiting the
+variance reduction effect of large mini-batches. We introduce ﬂipout, an efﬁcient
+method for decorrelating the gradients within a mini-batch by implicitly sampling
+pseudo-independent weight perturbations for each example. Empirically, ﬂipout
+achieves the ideal linear variance reduction for fully connected networks, con-
+volutional networks, and RNNs. We ﬁnd signiﬁcant speedups in training neural
+networks with multiplicative Gaussian perturbations. We show that ﬂipout is ef-
+fective at regularizing LSTMs, and outperforms previous methods. Flipout also
+enables us to vectorize evolution strategies: in our experiments, a single GPU with
+ﬂipout can handle the same throughput as at least 40 CPU cores using existing
+methods, equivalent to a factor-of-4 cost reduction on Amazon Web Services.
+
+1
+
+INTRODUCTION
+
+Stochasticity is a key component of many modern neural net architectures and training algorithms.
+The most widely used regularization methods are based on randomly perturbing a network’s com-
+putations (Srivastava et al., 2014; Ioffe & Szegedy, 2015). Bayesian neural nets can be trained with
+variational inference by perturbing the weights (Graves, 2011; Blundell et al., 2015). Weight noise
+was found to aid exploration in reinforcement learning (Plappert et al., 2017; Fortunato et al., 2017).
+Evolution strategies (ES) minimizes a black-box objective by evaluating many weight perturbations
+in parallel, with impressive performance on robotic control tasks (Salimans et al., 2017).
+Some methods perturb a network’s activations (Srivastava et al., 2014; Ioffe & Szegedy, 2015),
+while others perturb its weights (Graves, 2011; Blundell et al., 2015; Plappert et al., 2017; Fortunato
+et al., 2017; Salimans et al., 2017). Stochastic weights are appealing in the context of regularization
+or exploration because they can be viewed as a form of posterior uncertainty about the parameters.
+However, compared with stochastic activations, they have a serious drawback: because a network
+typically has many more weights than units, it is very expensive to compute and store separate
+weight perturbations for every example in a mini-batch. Therefore, stochastic weight methods are
+typically done with a single sample per mini-batch. In contrast, activations are easy to sample in-
+dependently for different training examples within a mini-batch. This allows the training algorithm
+to see orders of magnitude more perturbations in a given amount of time, and the variance of the
+stochastic gradients decays as 1/N, where N is the mini-batch size. We believe this is the main
+reason stochastic activations are far more prevalent than stochastic weights for neural net regular-
+ization. In other settings such as Bayesian neural nets and evolution strategies, one is forced to use
+weight perturbations and live with the resulting inefﬁciency.
+
+1
+
+

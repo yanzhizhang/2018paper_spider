@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+GENERATIVE MODELS OF VISUALLY GROUNDED
+IMAGINATION
+
+Ramakrishna Vedantam∗
+Georgia Tech
+vrama@gatech.edu
+
+Ian Fischer
+Google Inc.
+iansf@google.com
+
+Jonathan Huang
+Google Inc.
+jonathanhuang@google.com
+
+Kevin Murphy
+Google Inc.
+kpmurphy@google.com
+
+ABSTRACT
+
+It is easy for people to imagine what a man with pink hair looks like, even if
+they have never seen such a person before. We call the ability to create images of
+novel semantic concepts visually grounded imagination. In this paper, we show
+how we can modify variational auto-encoders to perform this task. Our method
+uses a novel training objective, and a novel product-of-experts inference network,
+which can handle partially speciﬁed (abstract) concepts in a principled and efﬁcient
+way. We also propose a set of easy-to-compute evaluation metrics that capture
+our intuitive notions of what it means to have good visual imagination, namely
+correctness, coverage, and compositionality (the 3 C’s). Finally, we perform a
+detailed comparison of our method with two existing joint image-attribute VAE
+methods (the JMVAE method of Suzuki et al. (2017) and the BiVCCA method of
+Wang et al. (2016b)) by applying them to two datasets: the MNIST-with-attributes
+dataset (which we introduce here), and the CelebA dataset (Liu et al., 2015).
+
+1
+
+INTRODUCTION
+
+Consider the following two-party communication game: a speaker thinks of a visual concept C, such
+as “men with black hair”, and then generates a description y of this concept, which she sends to
+a listener; the listener interprets the description y, by creating an internal representation z, which
+captures its “meaning”. We can think of z as representing a set of “mental images” which depict the
+concept C. To test whether the listener has correctly “understood” the concept, we ask him to draw
+a set of real images S = {xs : s = 1 : S}, which depict the concept C. He then sends these back
+to the speaker, who checks to see if the images correctly match the concept C. We call this process
+visually grounded imagination.
+In this paper, we represent concept descriptions in terms of a ﬁxed length vector of discrete attributes
+A. This allows us to specify an exponentially large set of concepts using a compact, combinatorial
+representation. In particular, by specifying different subsets of attributes, we can generate concepts
+at different levels of granularity or abstraction. We can arrange these concepts into a compositional
+abstraction hierarchy, as shown in Figure 1. This is a directed acyclic graph (DAG) in which nodes
+represent concepts, and an edge from a node to its parent is added whenever we drop one of the
+attributes from the child’s concept deﬁnition. Note that we dont make any assumptions about the
+order in which the attributes are dropped (that is, dropping the attribute “smiling” is just as valid as
+dropping “female” in Figure 1). Thus, the tree shown in the ﬁgure is just a subset extracted from the
+full DAG of concepts, shown for illustration purposes.
+We can describe a concept by creating the attribute vector yO, in which we only specify the value of
+the attributes in the subset O ⊆ A; the remaining attributes are unspeciﬁed, and are assumed to take all
+possible legal values. For example, consider the following concepts, in order of increasing abstraction:
+Cmsb = (male, smiling, blackhair), C∗sb = (∗, smiling, blackhair), and C∗∗b = (∗,∗, blackhair),
+
+∗Work performed during an internship at Google.
+
+1
+
+

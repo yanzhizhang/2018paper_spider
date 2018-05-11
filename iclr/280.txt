@@ -1,0 +1,63 @@
+Published as a conference paper at ICLR 2018
+
+MEMORY-BASED PARAMETER ADAPTATION
+
+Pablo Sprechmann*, Siddhant M. Jayakumar*, Jack W. Rae, Alexander Pritzel
+Adri`a Puigdom`enech Badia, Benigno Uria, Oriol Vinyals
+Demis Hassabis, Razvan Pascanu, Charles Blundell
+DeepMind
+London, UK
+{psprechmann, sidmj, jwrae, apritzel,
+adriap, buria, vinyals,
+dhcontact, razp, cblundell}@google.com
+
+ABSTRACT
+
+Deep neural networks have excelled on a wide range of problems, from vision to
+language and game playing. Neural networks very gradually incorporate informa-
+tion into weights as they process data, requiring very low learning rates. If the
+training distribution shifts, the network is slow to adapt, and when it does adapt, it
+typically performs badly on the training distribution before the shift. Our method,
+Memory-based Parameter Adaptation, stores examples in memory and then uses
+a context-based lookup to directly modify the weights of a neural network. Much
+higher learning rates can be used for this local adaptation, reneging the need for
+many iterations over similar data before good predictions can be made. As our
+method is memory-based, it alleviates several shortcomings of neural networks,
+such as catastrophic forgetting, fast, stable acquisition of new knowledge, learning
+with an imbalanced class labels, and fast learning during evaluation. We demon-
+strate this on a range of supervised tasks:
+large-scale image classiﬁcation and
+language modelling.
+
+1
+
+INTRODUCTION
+
+Neural networks have been proven to be powerful function approximators, as shown in a long list
+of successful applications: image classiﬁcation (e.g. Krizhevsky et al., 2012), audio processing (e.g.
+Oord et al., 2016), game playing (e.g. Mnih et al., 2015; Silver et al., 2017), and machine translation
+(e.g. Wu et al., 2016). Typically these applications apply batch training to large or near-inﬁnite data
+sets, requiring many iterations to obtain satisfactory performance.
+Humans and animals are able to incorporate new knowledge quickly from single examples, contin-
+ually throughout much of their lifetime. In contrast, neural network-based models rely on the data
+distribution being stationary and the training procedure using low learning rates and many passes
+through the training data to obtain good generalisation. This limits their application to life-long
+learning or dynamic environments and tasks.
+Problems in continual learning with neural networks commonly manifest as the phenomenon of
+catastrophic forgetting (McCloskey & Cohen, 1989; French, 1999): a neural network performs badly
+on old tasks having been trained to perform well on a new task. Several recent approaches have
+proven promising at overcoming this, such as elastic weight consolidation (Kirkpatrick et al., 2017).
+Recent work in language modelling has demonstrated how popular neural language models may
+appropriately be adapted to take advantage of rare, recently seen words, as in the neural cache (Grave
+et al., 2016), pointer sentinel networks (Merity et al., 2016) and learning to remember rare events
+(Kaiser et al., 2017). Our work generalises these approaches and we present experimental results
+where we apply our model to both continual or incremental learning tasks, as well as language
+modelling.
+We propose Memory-based Parameter Adaptation (MbPA), a method for augmenting neural net-
+works with an episodic memory to allow for rapid acquisition of new knowledge while preserving
+
+*Denotes equal contribution.
+
+1
+
+

@@ -1,0 +1,59 @@
+AN EFFICIENT FRAMEWORK FOR LEARNING SENTENCE
+REPRESENTATIONS
+
+Lajanugen Logeswaran∗ & Honglak Lee†∗
+∗University of Michigan, Ann Arbor, MI, USA
+†Google Brain, Mountain View, CA, USA
+{llajan,honglak}@umich.edu,honglak@google.com
+
+ABSTRACT
+
+In this work we propose a simple and efﬁcient framework for learning sentence
+representations from unlabelled data. Drawing inspiration from the distributional
+hypothesis and recent work on learning sentence representations, we reformulate
+the problem of predicting the context in which a sentence appears as a classiﬁca-
+tion problem. Given a sentence and the context in which it appears, a classiﬁer
+distinguishes context sentences from other contrastive sentences based on their
+vector representations. This allows us to efﬁciently learn different types of en-
+coding functions, and we show that the model learns high-quality sentence rep-
+resentations. We demonstrate that our sentence representations outperform state-
+of-the-art unsupervised and supervised representation learning methods on sev-
+eral downstream NLP tasks that involve understanding sentence semantics while
+achieving an order of magnitude speedup in training time.
+
+1
+
+INTRODUCTION
+
+Methods for learning meaningful representations of data have received widespread attention in re-
+cent years. It has become common practice to exploit these representations trained on large corpora
+for downstream tasks since they capture a lot of prior knowlege about the domain of interest and
+lead to improved performance. This is especially attractive in a transfer learning setting where only
+a small amount of labelled data is available for supervision.
+Unsupervised learning allows us to learn useful representations from large unlabelled corpora. The
+idea of self-supervision has recently become popular where representations are learned by designing
+learning objectives that exploit labels that are freely available with the data. Tasks such as predicting
+the relative spatial location of nearby image patches (Doersch et al., 2015), inpainting (Pathak et al.,
+2016) and solving image jigsaw puzzles (Noroozi & Favaro, 2016) have been successfully used for
+learning visual feature representations. In the language domain, the distributional hypothesis has
+been integral in the development of learning methods for obtaining semantic vector representations
+of words (Mikolov et al., 2013b). This is the assumption that the meaning of a word is characterized
+by the word-contexts in which it appears. Neural approaches based on this assumption have been
+successful at learning high quality representations from large text corpora.
+Recent methods have applied similar ideas for learning sentence representations (Kiros et al., 2015;
+Hill et al., 2016; Gan et al., 2016). These are encoder-decoder models that learn to predict/re-
+construct the context sentences of a given sentence. Despite their success, several modelling issues
+exist in these methods. There are numerous ways of expressing an idea in the form of a sentence.
+The ideal semantic representation is insensitive to the form in which meaning is expressed. Existing
+models are trained to reconstruct the surface form of a sentence, which forces the model to not only
+predict its semantics, but aspects that are irrelevant to the meaning of the sentence as well.
+The other problem associated with these models is computational cost. These methods have a word
+level reconstruction objective that involves sequentially decoding the words of target sentences.
+Training with an output softmax layer over the entire vocabulary is a signiﬁcant source of slowdown
+in the training process. This further limits the size of the vocabulary and the model (Variations of the
+softmax layer such as hierarchical softmax (Mnih & Hinton, 2009), sampling based softmax (Jean
+et al., 2014) and sub-word representations (Sennrich et al., 2015) can help alleviate this issue).
+
+1
+
+

@@ -1,0 +1,49 @@
+Published as a conference paper at ICLR 2018
+
+DECISION-BASED ADVERSARIAL ATTACKS:
+RELIABLE ATTACKS AGAINST BLACK-BOX MACHINE
+LEARNING MODELS
+
+Wieland Brendel∗, Jonas Rauber∗ & Matthias Bethge
+Werner Reichardt Centre for Integrative Neuroscience,
+Eberhard Karls University T¨ubingen, Germany
+{wieland,jonas,matthias}@bethgelab.org
+
+ABSTRACT
+
+Many machine learning algorithms are vulnerable to almost imperceptible pertur-
+bations of their inputs. So far it was unclear how much risk adversarial pertur-
+bations carry for the safety of real-world machine learning applications because
+most methods used to generate such perturbations rely either on detailed model
+information (gradient-based attacks) or on conﬁdence scores such as class prob-
+abilities (score-based attacks), neither of which are available in most real-world
+In many such cases one currently needs to retreat to transfer-based
+scenarios.
+attacks which rely on cumbersome substitute models, need access to the training
+data and can be defended against. Here we emphasise the importance of attacks
+which solely rely on the ﬁnal model decision. Such decision-based attacks are (1)
+applicable to real-world black-box models such as autonomous cars, (2) need less
+knowledge and are easier to apply than transfer-based attacks and (3) are more ro-
+bust to simple defences than gradient- or score-based attacks. Previous attacks in
+this category were limited to simple models or simple datasets. Here we introduce
+the Boundary Attack, a decision-based attack that starts from a large adversarial
+perturbation and then seeks to reduce the perturbation while staying adversarial.
+The attack is conceptually simple, requires close to no hyperparameter tuning,
+does not rely on substitute models and is competitive with the best gradient-based
+attacks in standard computer vision tasks like ImageNet. We apply the attack on
+two black-box algorithms from Clarifai.com. The Boundary Attack in particu-
+lar and the class of decision-based attacks in general open new avenues to study
+the robustness of machine learning models and raise new questions regarding the
+safety of deployed machine learning systems. An implementation of the attack is
+available as part of Foolbox (https://github.com/bethgelab/foolbox).
+
+Figure 1: (Left) Taxonomy of adversarial attack methods. The Boundary Attack is applicable to real-
+world ML algorithms because it only needs access to the ﬁnal decision of a model (e.g. class-label
+or transcribed sentence) and does not rely on model information like the gradient or the conﬁdence
+scores. (Right) Application to the Clarifai Brand Recognition Model.
+
+∗Equal contribution.
+
+1
+
+Gradient-basedModel MUntargetedFlip to any labelTargetedFlip to target labelFGSM, DeepFoolL-BFGS-B, Houdini, JSMA,Carlini & Wagner, IterativeGradient DescentScore-basedDetailed Model Prediction Y(e.g. probabilities or logits)ZOOLocal SearchDecision-basedFinal Model Prediction Ymax(e.g. max class label)this work(Boundary Attack)Transfer-basedTraining Data TFGSM TransferEnsemble TransferClarifai Brand ClassifierOriginalAdversarialTideNo LogoApple IncNo Logoless information

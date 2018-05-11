@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+ON THE INSUFFICIENCY OF EXISTING MOMENTUM
+SCHEMES FOR STOCHASTIC OPTIMIZATION
+
+Rahul Kidambi∗1, Praneeth Netrapalli2, Prateek Jain2 and Sham M. Kakade1
+1 University of Washington Seattle
+rkidambi@uw.edu, {praneeth, prajain}@microsoft.com,
+sham@cs.washington.edu
+
+2 Microsoft Research India
+
+ABSTRACT
+
+Momentum based stochastic gradient methods such as heavy ball (HB) and Nes-
+terov’s accelerated gradient descent (NAG) method are widely used in practice for
+training deep networks and other supervised learning models, as they often pro-
+vide signiﬁcant improvements over stochastic gradient descent (SGD). Rigorously
+speaking, “fast gradient” methods have provable improvements over gradient de-
+scent only for the deterministic case, where the gradients are exact. In the stochas-
+tic case, the popular explanations for their wide applicability is that when these
+fast gradient methods are applied in the stochastic case, they partially mimic their
+exact gradient counterparts, resulting in some practical gain. This work provides
+a counterpoint to this belief by proving that there exist simple problem instances
+where these methods cannot outperform SGD despite the best setting of its pa-
+rameters. These negative problem instances are, in an informal sense, generic;
+they do not look like carefully constructed pathological instances. These results
+suggest (along with empirical evidence) that HB or NAG’s practical performance
+gains are a by-product of mini-batching.
+Furthermore, this work provides a viable (and provable) alternative, which, on the
+same set of problem instances, signiﬁcantly improves over HB, NAG, and SGD’s
+performance. This algorithm, referred to as Accelerated Stochastic Gradient De-
+scent (ASGD), is a simple to implement stochastic algorithm, based on a relatively
+less popular variant of Nesterov’s Acceleration. Extensive empirical results in this
+paper show that ASGD has performance gains over HB, NAG, and SGD. The code
+implementing the ASGD Algorithm can be found here1.
+
+1
+
+INTRODUCTION
+
+First order optimization methods, which access a function (to be optimized) through its gradient or
+an unbiased approximation of its gradient, are the workhorses for modern large scale optimization
+problems, which include training the current state-of-the-art deep neural networks. Gradient de-
+scent (Cauchy, 1847) is the simplest ﬁrst order method that is used heavily in practice. However,
+it is known that for the class of smooth convex functions as well as some simple non-smooth prob-
+lems (Nesterov, 2012a)), gradient descent is suboptimal (Nesterov, 2004) and there exists a class of
+algorithms called fast gradient/momentum based methods which achieve optimal convergence guar-
+antees. The heavy ball method (Polyak, 1964) and Nesterov’s accelerated gradient descent (Nes-
+terov, 1983) are two of the most popular methods in this category.
+On the other hand, training deep neural networks on large scale datasets have been possible through
+the use of Stochastic Gradient Descent (SGD) (Robbins & Monro, 1951), which samples a random
+subset of training data to compute gradient estimates that are then used to optimize the objective
+function. The advantages of SGD for large scale optimization and the related issues of tradeoffs
+between computational and statistical efﬁciency was highlighted in Bottou & Bousquet (2007).
+
+∗part of the work was done during an internship at Microsoft Research, India.
+1link to the ASGD code: https://github.com/rahulkidambi/AccSGD
+
+1
+
+

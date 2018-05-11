@@ -1,0 +1,57 @@
+Published as a conference paper at ICLR 2018
+
+SELF-ENSEMBLING FOR VISUAL DOMAIN ADAPTATION
+
+Geoff French, Michal Mackiewicz & Mark Fisher
+School of Computing Sciences
+University of East Anglia
+Norwich
+UK{g.french,m.mackiewicz,m.fisher}@uea.ac.uk
+
+ABSTRACT
+
+This paper explores the use of self-ensembling for visual domain adaptation prob-
+lems. Our technique is derived from the mean teacher variant (Tarvainen &
+Valpola (2017)) of temporal ensembling (Laine & Aila (2017)), a technique that
+achieved state of the art results in the area of semi-supervised learning. We intro-
+duce a number of modiﬁcations to their approach for challenging domain adapta-
+tion scenarios and evaluate its effectiveness. Our approach achieves state of the
+art results in a variety of benchmarks, including our winning entry in the VISDA-
+2017 visual domain adaptation challenge. In small image benchmarks, our algo-
+rithm not only outperforms prior art, but can also achieve accuracy that is close to
+that of a classiﬁer trained in a supervised fashion.
+
+1
+
+INTRODUCTION
+
+The strong performance of deep learning in computer vision tasks comes at the cost of requiring
+large datasets with corresponding ground truth labels for training. Such datasets are often expensive
+to produce, owing to the cost of the human labour required to produce the ground truth labels.
+Semi-supervised learning is an active area of research that aims to reduce the quantity of ground
+truth labels required for training. It is aimed at common practical scenarios in which only a small
+subset of a large dataset has corresponding ground truth labels. Unsupervised domain adaptation
+is a closely related problem in which one attempts to transfer knowledge gained from a labeled
+source dataset to a distinct unlabeled target dataset, within the constraint that the objective (e.g.digit
+classiﬁcation) must remain the same. Domain adaptation offers the potential to train a model using
+labeled synthetic data – that is often abundantly available – and unlabeled real data. The scale of the
+problem can be seen in the VisDA-17 domain adaptation challenge images shown in Figure 1. We
+will present our winning solution in Section 4.2.
+Recent work (Tarvainen & Valpola (2017)) has demonstrated the effectiveness of self-ensembling
+with random image augmentations to achieve state of the art performance in semi-supervised learn-
+ing benchmarks.
+We have developed the approach proposed by Tarvainen & Valpola (2017) to work in a domain
+adaptation scenario. We will show that this can achieve excellent results in speciﬁc small image
+domain adaptation benchmarks. More challenging scenarios, notably MNIST → SVHN and the
+VisDA-17 domain adaptation challenge required further modiﬁcations. To this end, we developed
+conﬁdence thresholding and class balancing that allowed us to achieve state of the art results in
+a variety of benchmarks, with some of our results coming close to those achieved by traditional
+supervised learning. Our approach is sufﬁciently ﬂexble to be applicable to a variety of network
+architectures, both randomly initialized and pre-trained.
+Our paper is organised as follows; in Section 2 we will discuss related work that provides context
+and forms the basis of our technique; our approach is described in Section 3 with our experiments
+and results in Section 4; and ﬁnally we present our conclusions in Section 5.
+
+1
+
+

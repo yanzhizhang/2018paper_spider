@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+HIERARCHICAL DENSITY ORDER EMBEDDINGS
+
+Ben Athiwaratkun, Andrew Gordon Wilson
+Cornell University
+Ithaca, NY 14850, USA
+
+ABSTRACT
+
+By representing words with probability densities rather than point vectors, proba-
+bilistic word embeddings can capture rich and interpretable semantic information
+and uncertainty (Vilnis & McCallum, 2014; Athiwaratkun & Wilson, 2017). The
+uncertainty information can be particularly meaningful in capturing entailment
+relationships – whereby general words such as “entity” correspond to broad dis-
+tributions that encompass more speciﬁc words such as “animal” or “instrument”.
+We introduce density order embeddings, which learn hierarchical representations
+through encapsulation of probability distributions. In particular, we propose simple
+yet effective loss functions and distance metrics, as well as graph-based schemes
+to select negative samples to better learn hierarchical probabilistic representations.
+Our approach provides state-of-the-art performance on the WORDNET hypernym
+relationship prediction task and the challenging HYPERLEX lexical entailment
+dataset – while retaining a rich and interpretable probabilistic representation.
+
+1
+
+INTRODUCTION
+
+Learning feature representations of natural data such as text and images has become increasingly
+important for understanding real-world concepts. These representations are useful for many tasks,
+ranging from semantic understanding of words and sentences (Mikolov et al., 2013; Kiros et al.,
+2015), image caption generation (Vinyals et al., 2015), textual entailment prediction (Rocktäschel
+et al., 2015), to language communication with robots (Bisk et al., 2016).
+Meaningful representations of text and images capture visual-semantic information, such as hier-
+archical structure where certain entities are abstractions of others. For instance, an image caption
+“A dog and a frisbee” is an abstraction of many images with possible lower-level details such as
+a dog jumping to catch a frisbee or a dog sitting with a frisbee (Figure 1a). A general word such
+as “object” is also an abstraction of more speciﬁc words such as “house” or “pool”. Recent work
+by Vendrov et al. (2015) proposes learning such asymmetric relationships with order embeddings –
+vector representations of non-negative coordinates with partial order structure. These embeddings are
+shown to be effective for word hypernym classiﬁcation, image-caption ranking and textual entailment
+(Vendrov et al., 2015).
+Another recent line of work uses probability distributions as rich feature representations that can
+capture the semantics and uncertainties of concepts, such as Gaussian word embeddings (Vilnis &
+McCallum, 2014), or extract multiple meanings via multimodal densities (Athiwaratkun & Wilson,
+2017). Probability distributions are also natural at capturing orders and are suitable for tasks that
+involve hierarchical structures. An abstract entity such as “animal” that can represent speciﬁc entities
+such as “insect”, “dog”, “bird” corresponds to a broad distribution, encapsulating the distributions for
+these speciﬁc entities. For example, in Figure 1c, the distribution for “insect” is more concentrated
+than for “animal”, with a high density occupying a small volume in space.
+Such entailment patterns can be observed from density word embeddings through unsupervised
+training based on word contexts (Vilnis & McCallum, 2014; Athiwaratkun & Wilson, 2017). In the
+unsupervised settings, density embeddings are learned via maximizing the similarity scores between
+nearby words. The density encapsulation behavior arises due to the word occurrence pattern that a
+general word can often substitute more speciﬁc words; for instance, the word “tea” in a sentence
+“I like iced tea” can be substituted by “beverages”, yielding another natural sentence “I like iced
+beverages”. Therefore, the probability density of a general concept such as “beverages” tends to have
+
+1
+
+

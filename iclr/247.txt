@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+MATRIX CAPSULES WITH EM ROUTING
+
+Geoffrey Hinton, Sara Sabour, Nicholas Frosst
+Google Brain
+Toronto, Canada
+{geoffhinton, sasabour, frosst}@google.com
+
+ABSTRACT
+
+A capsule is a group of neurons whose outputs represent different properties of
+the same entity. Each layer in a capsule network contains many capsules. We de-
+scribe a version of capsules in which each capsule has a logistic unit to represent
+the presence of an entity and a 4x4 matrix which could learn to represent the rela-
+tionship between that entity and the viewer (the pose). A capsule in one layer votes
+for the pose matrix of many different capsules in the layer above by multiplying
+its own pose matrix by trainable viewpoint-invariant transformation matrices that
+could learn to represent part-whole relationships. Each of these votes is weighted
+by an assignment coefﬁcient. These coefﬁcients are iteratively updated for each
+image using the Expectation-Maximization algorithm such that the output of each
+capsule is routed to a capsule in the layer above that receives a cluster of similar
+votes. The transformation matrices are trained discriminatively by backpropagat-
+ing through the unrolled iterations of EM between each pair of adjacent capsule
+layers. On the smallNORB benchmark, capsules reduce the number of test errors
+by 45% compared to the state-of-the-art. Capsules also show far more resistance
+to white box adversarial attacks than our baseline convolutional neural network.
+
+1
+
+INTRODUCTION
+
+Convolutional neural nets are based on the simple fact that a vision system needs to use the same
+knowledge at all locations in the image. This is achieved by tying the weights of feature detectors so
+that features learned at one location are available at other locations. Convolutional capsules extend
+the sharing of knowledge across locations to include knowledge about the part-whole relationships
+that characterize a familiar shape. Viewpoint changes have complicated effects on pixel intensities
+but simple, linear effects on the pose matrix that represents the relationship between an object or
+object-part and the viewer. The aim of capsules is to make good use of this underlying linearity,
+both for dealing with viewpoint variations and for improving segmentation decisions.
+Capsules use high-dimensional coincidence ﬁltering: a familiar object can be detected by looking for
+agreement between votes for its pose matrix. These votes come from parts that have already been
+detected. A part produces a vote by multiplying its own pose matrix by a learned transformation
+matrix that represents the viewpoint invariant relationship between the part and the whole. As the
+viewpoint changes, the pose matrices of the parts and the whole will change in a coordinated way
+so that any agreement between votes from different parts will persist.
+Finding tight clusters of high-dimensional votes that agree in a mist of irrelevant votes is one way
+of solving the problem of assigning parts to wholes. This is non-trivial because we cannot grid
+the high-dimensional pose space in the way the low-dimensional translation space is gridded to
+facilitate convolutions. To solve this challenge, we use a fast iterative process called “routing-
+by-agreement” that updates the probability with which a part is assigned to a whole based on the
+proximity of the vote coming from that part to the votes coming from other parts that are assigned
+to that whole. This is a powerful segmentation principle that allows knowledge of familiar shapes to
+derive segmentation, rather than just using low-level cues such as proximity or agreement in color
+or velocity. An important difference between capsules and standard neural nets is that the activation
+of a capsule is based on a comparison between multiple incoming pose predictions whereas in a
+standard neural net it is based on a comparison between a single incoming activity vector and a
+learned weight vector.
+
+1
+
+

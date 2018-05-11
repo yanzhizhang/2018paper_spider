@@ -1,0 +1,70 @@
+Published as a conference paper at ICLR 2018
+
+WASSERSTEIN AUTO-ENCODERS
+
+Ilya Tolstikhin
+MPI for Intelligent Systems
+T¨ubingen, Germany
+ilya@tue.mpg.de
+
+Olivier Bousquet
+Google Brain
+Z¨urich, Switzerland
+obousquet@google.com
+
+Sylvain Gelly
+Google Brain
+Z¨urich, Switzerland
+sylvaingelly@google.com
+
+Bernhard Sch¨olkopf
+MPI for Intelligent Systems
+T¨ubingen, Germany
+bs@tue.mpg.de
+
+ABSTRACT
+
+We propose the Wasserstein Auto-Encoder (WAE)—a new algorithm for building
+a generative model of the data distribution. WAE minimizes a penalized form of
+the Wasserstein distance between the model distribution and the target distribu-
+tion, which leads to a different regularizer than the one used by the Variational
+Auto-Encoder (VAE) (Kingma & Welling, 2014). This regularizer encourages
+the encoded training distribution to match the prior. We compare our algorithm
+with several other techniques and show that it is a generalization of adversarial
+auto-encoders (AAE) (Makhzani et al., 2016). Our experiments show that WAE
+shares many of the properties of VAEs (stable training, encoder-decoder architec-
+ture, nice latent manifold structure) while generating samples of better quality, as
+measured by the FID score.
+
+1
+
+INTRODUCTION
+
+The ﬁeld of representation learning was initially driven by supervised approaches, with impressive
+results using large labelled datasets. Unsupervised generative modeling, in contrast, used to be a
+domain governed by probabilistic approaches focusing on low-dimensional data. Recent years have
+seen a convergence of those two approaches. In the new ﬁeld that formed at the intersection, vari-
+ational auto-encoders (VAEs) (Kingma & Welling, 2014) constitute one well-established approach,
+theoretically elegant yet with the drawback that they tend to generate blurry samples when applied
+to natural images. In contrast, generative adversarial networks (GANs) (Goodfellow et al., 2014)
+turned out to be more impressive in terms of the visual quality of images sampled from the model,
+but come without an encoder, have been reported harder to train, and suffer from the “mode col-
+lapse” problem where the resulting model is unable to capture all the variability in the true data
+distribution. There has been a ﬂurry of activity in assaying numerous conﬁgurations of GANs as
+well as combinations of VAEs and GANs. A unifying framework combining the best of GANs and
+VAEs in a principled way is yet to be discovered.
+This work builds up on the theoretical analysis presented in Bousquet et al. (2017). Following
+Arjovsky et al. (2017); Bousquet et al. (2017), we approach generative modeling from the opti-
+mal transport (OT) point of view. The OT cost (Villani, 2003) is a way to measure a distance
+between probability distributions and provides a much weaker topology than many others, including
+f-divergences associated with the original GAN algorithms (Nowozin et al., 2016). This is partic-
+ularly important in applications, where data is usually supported on low dimensional manifolds in
+the input space X . As a result, stronger notions of distances (such as f-divergences, which capture
+the density ratio between distributions) often max out, providing no useful gradients for training. In
+contrast, OT was claimed to have a nicer behaviour (Arjovsky et al., 2017; Gulrajani et al., 2017)
+although it requires, in its GAN-like implementation, the addition of a constraint or a regularization
+term into the objective.
+
+1
+
+

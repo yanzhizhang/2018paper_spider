@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+VARIATIONAL CONTINUAL LEARNING
+
+Cuong V. Nguyen, Yingzhen Li, Thang D. Bui, Richard E. Turner
+Department of Engineering, University of Cambridge
+{vcn22,yl494,tdb40,ret26}@cam.ac.uk
+
+ABSTRACT
+
+This paper develops variational continual learning (VCL), a simple but general
+framework for continual learning that fuses online variational inference (VI) and
+recent advances in Monte Carlo VI for neural networks. The framework can suc-
+cessfully train both deep discriminative models and deep generative models in
+complex continual learning settings where existing tasks evolve over time and en-
+tirely new tasks emerge. Experimental results show that VCL outperforms state-
+of-the-art continual learning methods on a variety of tasks, avoiding catastrophic
+forgetting in a fully automatic way.
+
+1
+
+INTRODUCTION
+
+Continual learning (also called life-long learning and incremental learning) is a very general form of
+online learning in which data continuously arrive in a possibly non i.i.d. way, tasks may change over
+time (e.g. new classes may be discovered), and entirely new tasks can emerge (Schlimmer & Fisher,
+1986; Sutton & Whitehead, 1993; Ring, 1997). What is more, continual learning systems must adapt
+to perform well on the entire set of tasks in an incremental way that avoids revisiting all previous data
+at each stage. This is a key problem in machine learning since real world tasks continually evolve
+over time (e.g. they suffer from covariate and dataset shift) and the size of datasets often prohibits
+frequent batch updating. Moreover, practitioners are often interested in solving a set of related tasks
+that beneﬁt from being handled jointly in order to leverage multi-task transfer. Continual learning is
+also of interest to cognitive science, being an intrinsic human ability.
+The ubiquity of deep learning means that it is important to develop deep continual learning meth-
+ods. However, it is challenging to strike a balance between adapting to recent data and retaining
+knowledge from old data. Too much plasticity leads to the infamous catastrophic forgetting prob-
+lem (McCloskey & Cohen, 1989; Ratcliff, 1990; Goodfellow et al., 2014a) and too much stability
+leads to an inability to adapt. Recently there has been a resurgence of interest in this area. One
+approach trains individual models on each task and then carries out a second stage of training to
+combine them (Lee et al., 2017). A more elegant and more ﬂexible approach maintains a single
+model and uses a single type of regularized training that prevents drastic changes in the parameters
+which have a large inﬂuence on prediction, but allows other parameters to change more freely (Li
+& Hoiem, 2016; Kirkpatrick et al., 2017; Zenke et al., 2017). The approach developed here follows
+this venerable work, but is arguably more principled, extensible and automatic.
+This paper is built on the observation that there already exists an extremely general framework for
+continual learning: Bayesian inference. Critically, Bayesian inference retains a distribution over
+model parameters that indicates the plausibility of any setting given the observed data. When new
+data arrive, we combine what previous data have told us about the model parameters (the previous
+posterior) with what the current data are telling us (the likelihood). Multiplying and renormalizing
+yields the new posterior, from which point we can recurse. Critically, the previous posterior con-
+strains parameters that strongly inﬂuence prediction, preventing them from changing drastically, but
+it allows other parameters to change. The wrinkle is that exact Bayesian inference is typically in-
+tractable and so approximations are required. Fortunately, there is an extensive literature on approx-
+imate inference for neural networks. We merge online variational inference (VI) (Ghahramani &
+Attias, 2000; Sato, 2001; Broderick et al., 2013) with Monte Carlo VI for neural networks (Blundell
+et al., 2015) to yield variational continual learning (VCL). In addition, we extend VCL to include
+a small episodic memory by combining VI with the coreset data summarization method (Bachem
+
+1
+
+

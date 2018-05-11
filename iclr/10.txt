@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+DISTRIBUTED FINE-TUNING OF LANGUAGE MODELS
+ON PRIVATE DATA
+
+Vadim Popov, Mikhail Kudinov, Irina Piontkovskaya, Petr Vytovtov & Alex Nevidomsky
+Samsung R&D Institute Russia
+Moscow, Russia
+v.popov@samsung.com,m.kudinov@samsung.com,
+p.irina@samsung.com,p.vytovtov@partner.samsung.com,
+a.nevidomsky@samsung.com
+
+ABSTRACT
+
+One of the big challenges in machine learning applications is that training data can
+be different from the real-world data faced by the algorithm. In language model-
+ing, users’ language (e.g.
+in private messaging) could change in a year and be
+completely different from what we observe in publicly available data. At the same
+time, public data can be used for obtaining general knowledge (i.e. general model
+of English). We study approaches to distributed ﬁne-tuning of a general model on
+user private data with the additional requirements of maintaining the quality on the
+general data and minimization of communication costs. We propose a novel tech-
+nique that signiﬁcantly improves prediction quality on users’ language compared
+to a general model and outperforms gradient compression methods in terms of
+communication efﬁciency. The proposed procedure is fast and leads to an almost
+70% perplexity reduction and 8.7 percentage point improvement in keystroke sav-
+ing rate on informal English texts. Finally, we propose an experimental framework
+for evaluating differential privacy of distributed training of language models and
+show that our approach has good privacy guarantees.
+
+1
+
+INTRODUCTION
+
+Two common problems arising after deployment of a machine learning model on user devices are
+discrepancy between training data and actual data stored on user devices, and the need of regular
+model updates. In the case of language modeling, it corresponds to the difference between language
+and style of the training corpus mined in the Internet and messages of the user, which account for
+most of the text generated on the device. Even if the training corpus includes a substantial part of
+informal texts (tweets, forum threads, etc.), real user data can be very different. This is a challenge
+for word prediction algorithms in software keyboard applications. The most general approach to
+improvement of customer experience in typing is integrating a separate user language model trained
+on device in an on-line fashion. In the simplest case it is a smoothed n-gram (e.g. Kneser-Ney
+n-gram model (Goodman (2001))).
+In Yoon et al. (2017) continuously learned personalized language model based on LSTM was pro-
+posed but as far as each user generates only a small portion of textual data, such data by itself cannot
+be used for updates of the general model. Thus, for a model update, a collection of potentially
+sensitive data from many users is needed. As shown in McMahan et al. (2016), collecting data for
+training may be avoided. We propose a similar approach for distributed ﬁne-tuning of language
+models on private data. In this sense our method can be considered as “federated ﬁne-tuning“ but
+we prefer to take more traditional term. In this setting we start with a language model trained on a
+large text corpus representing the general language. This model G will be updated continuously on
+user devices but with an additional requirement that the model must not go too far from the general
+language model, i.e. we don’t overﬁt on user data.
+We pursue two goals: 1) to develop an algorithm of distributed ﬁne-tuning that is fast, communica-
+tion efﬁcient and doesn’t need collecting sensitive user data; and 2) to prevent the language model
+from forgetting “general English“. Besides, we provide analysis of possibility of privacy violation
+
+1
+
+

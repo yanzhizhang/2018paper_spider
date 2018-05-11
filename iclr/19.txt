@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+CONSEQUENTIALIST CONDITIONAL COOPERATION IN
+SOCIAL DILEMMAS WITH IMPERFECT INFORMATION
+
+Alexander Peysakhovich & Adam Lerer ∗
+Facebook AI Research
+New York, NY
+{alexpeys,alerer}@fb.com
+
+ABSTRACT
+
+Social dilemmas, where mutual cooperation can lead to high payoffs but partici-
+pants face incentives to cheat, are ubiquitous in multi-agent interaction. We wish to
+construct agents that cooperate with pure cooperators, avoid exploitation by pure
+defectors, and incentivize cooperation from the rest. However, often the actions
+taken by a partner are (partially) unobserved or the consequences of individual
+actions are hard to predict. We show that in a large class of games good strategies
+can be constructed by conditioning one’s behavior solely on outcomes (ie. one’s
+past rewards). We call this consequentialist conditional cooperation. We show
+how to construct such strategies using deep reinforcement learning techniques
+and demonstrate, both analytically and experimentally, that they are effective in
+social dilemmas beyond simple matrix games. We also show the limitations of
+relying purely on consequences and discuss the need for understanding both the
+consequences of and the intentions behind an action.
+
+1
+
+INTRODUCTION
+
+Deep reinforcement learning (RL) is concerned with constructing agents that start as blank slates
+and can learn to behave in optimal ways in complex environments.1 A recent stream of research
+has taken a particular interest in social dilemmas, situations where individuals have incentives to act
+in ways that undermine socially optimal outcomes (Leibo et al., 2017; Perolat et al., 2017; Lerer &
+Peysakhovich, 2017; Kleiman-Weiner et al., 2016). In this paper we consider RL-based strategies for
+social dilemmas in which information about a partner’s actions or the underlying environment is only
+partially observed.
+The simplest social dilemma is the Prisoner’s Dilemma (PD) in which two players choose between
+one of two actions: cooperate or defect. Mutual cooperation yields the highest payoffs, but no matter
+what one’s partner is doing, one can get a higher reward by defecting. A well studied strategy for
+maintaining cooperation when the PD is repeated is tit-for-tat (TFT, Axelrod (2006)). TFT behaves by
+copying the prior behavior of their partner, rewarding cooperation today with cooperation tomorrow.
+Thus, if an agent commits to TFT it makes cooperation the best strategy for the agent’s partner. TFT
+has proven to be a heavily studied strategy because it has intuitive appeal: 1) it is easily explainable,
+2) it begins cooperating, 3) it rewards a cooperative partner, 4) it avoids being exploited, 5) it is
+forgiving.
+In Markov games cooperation and defection are not single actions, but rather temporally extended
+policies. Recent work has considered expanding TFT to more complex Markov games either as a
+heuristic, by learning cooperative and selﬁsh policies and switching between them as needed (Lerer
+& Peysakhovich, 2017), or as an outcome of an end-to-end procedure (Foerster et al., 2017c). TFT is
+
+∗Both authors contributed equally to this paper. Author ordering was determined at random.
+1This approach has been applied to domains including: single agent decision problems (Mnih et al., 2015),
+board and card-based zero-sum games (Tesauro, 1995; Silver et al., 2016; Heinrich & Silver, 2016), video games
+(Kempka et al., 2016; Wu & Tian, 2016; Ontanón et al., 2013; Usunier et al., 2016; Foerster et al., 2017a),
+multi-agent coordination problems (Lowe et al., 2017; Foerster et al., 2017b; Riedmiller et al., 2009; Tampuu
+et al., 2017; Peysakhovich & Lerer, 2017), and the emergence of language (Lazaridou et al., 2017; Das et al.,
+2017; Evtimova et al., 2017; Havrylov & Titov, 2017; Jorge et al., 2016).
+
+1
+
+

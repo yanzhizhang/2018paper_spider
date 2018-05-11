@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+DETECTING STATISTICAL INTERACTIONS
+FROM NEURAL NETWORK WEIGHTS
+
+Michael Tsang, Dehua Cheng, Yan Liu
+Department of Computer Science
+University of Southern California
+{tsangm,dehuache,yanliu.cs}@usc.edu
+
+ABSTRACT
+
+Interpreting neural networks is a crucial and challenging task in machine learning.
+In this paper, we develop a novel framework for detecting statistical interactions
+captured by a feedforward multilayer neural network by directly interpreting its
+learned weights. Depending on the desired interactions, our method can achieve
+signiﬁcantly better or similar interaction detection performance compared to the
+state-of-the-art without searching an exponential solution space of possible in-
+teractions. We obtain this accuracy and efﬁciency by observing that interactions
+between input features are created by the non-additive effect of nonlinear acti-
+vation functions, and that interacting paths are encoded in weight matrices. We
+demonstrate the performance of our method and the importance of discovered
+interactions via experimental results on both synthetic datasets and real-world ap-
+plication datasets.
+
+1
+
+INTRODUCTION
+
+Despite their strong predictive power, neural networks have traditionally been treated as “black
+box” models, preventing their adoption in many application domains. It has been noted that com-
+plex machine learning models can learn unintended patterns from data, raising signiﬁcant risks to
+stakeholders (Varshney & Alemzadeh, 2016). Therefore, in applications where machine learning
+models are intended for making critical decisions, such as healthcare or ﬁnance, it is paramount to
+understand how they make predictions (Caruana et al., 2015; Goodman & Flaxman, 2016).
+Existing approaches to interpreting neural networks can be summarized into two types. One type is
+direct interpretation, which focuses on 1) explaining individual feature importance, for example by
+computing input gradients (Simonyan et al., 2013; Ross et al., 2017; Sundararajan et al., 2017) or by
+decomposing predictions (Bach et al., 2015; Shrikumar et al., 2017), 2) developing attention-based
+models, which illustrate where neural networks focus during inference (Itti et al., 1998; Mnih et al.,
+2014; Xu et al., 2015), and 3) providing model-speciﬁc visualizations, such as feature map and gate
+activation visualizations (Yosinski et al., 2015; Karpathy et al., 2015). The other type is indirect
+interpretation, for example post-hoc interpretations of feature importance (Ribeiro et al., 2016) and
+knowledge distillation to simpler interpretable models (Che et al., 2016).
+It has been commonly believed that one major advantage of neural networks is their capability of
+modeling complex statistical interactions between features for automatic feature learning. Statistical
+interactions capture important information on where features often have joint effects with other
+features on predicting an outcome. The discovery of interactions is especially useful for scientiﬁc
+discoveries and hypothesis validation. For example, physicists may be interested in understanding
+what joint factors provide evidence for new elementary particles; doctors may want to know what
+interactions are accounted for in risk prediction models, to compare against known interactions from
+existing medical literature.
+In this paper, we propose an accurate and efﬁcient framework, called Neural Interaction Detection
+(NID), which detects statistical interactions of any order or form captured by a feedforward neural
+network, by examining its weight matrices. Our approach is efﬁcient because it avoids searching
+over an exponential solution space of interaction candidates by making an approximation of hidden
+unit importance at the ﬁrst hidden layer via all weights above and doing a 2D traversal of the input
+
+1
+
+

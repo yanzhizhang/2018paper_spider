@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+FEARNET: BRAIN-INSPIRED MODEL FOR
+INCREMENTAL LEARNING
+
+Ronald Kemker and Christopher Kanan∗
+Carlson Center for Imaging Science
+Rochester Institute of Technology
+Rochester, NY 14623, USA
+{rmk6217,kanan}@rit.edu
+
+ABSTRACT
+
+Incremental class learning involves sequentially learning classes in bursts of ex-
+amples from the same class. This violates the assumptions that underlie methods
+for training standard deep neural networks, and will cause them to suffer from
+catastrophic forgetting. Arguably, the best method for incremental class learning
+is iCaRL, but it requires storing training examples for each class, making it chal-
+lenging to scale. Here, we propose FearNet for incremental class learning. Fear-
+Net is a generative model that does not store previous examples, making it mem-
+ory efﬁcient. FearNet uses a brain-inspired dual-memory system in which new
+memories are consolidated from a network for recent memories inspired by the
+mammalian hippocampal complex to a network for long-term storage inspired by
+medial prefrontal cortex. Memory consolidation is inspired by mechanisms that
+occur during sleep. FearNet also uses a module inspired by the basolateral amyg-
+dala for determining which memory system to use for recall. FearNet achieves
+state-of-the-art performance at incremental class learning on image (CIFAR-100,
+CUB-200) and audio classiﬁcation (AudioSet) benchmarks.
+
+1
+
+INTRODUCTION
+
+In incremental classiﬁcation, an agent must sequentially learn to classify training examples, without
+necessarily having the ability to re-study previously seen examples. While deep neural networks
+(DNNs) have revolutionized machine perception (Krizhevsky et al., 2012), off-the-shelf DNNs can-
+not incrementally learn classes due to catastrophic forgetting. Catastrophic forgetting is a phe-
+nomenon in which a DNN completely fails to learn new data without forgetting much of its pre-
+viously learned knowledge (McCloskey & Cohen, 1989). While methods have been developed to
+try and mitigate catastrophic forgetting, as shown in Kemker et al. (2018), these methods are not
+sufﬁcient and perform poorly on larger datasets. In this paper, we propose FearNet, a brain-inspired
+system for incrementally learning categories that signiﬁcantly outperforms previous methods.
+The standard way for dealing with catastrophic forgetting in DNNs is to avoid it altogether by
+mixing new training examples with old ones and completely re-training the model ofﬂine. For large
+datasets, this may require weeks of time, and it is not a scalable solution. An ideal incremental
+learning system would be able to assimilate new information without the need to store the entire
+training dataset. A major application for incremental learning includes real-time operation on-board
+embedded platforms that have limited computing power, storage, and memory, e.g., smart toys,
+smartphone applications, and robots. For example, a toy robot may need to learn to recognize objects
+within its local environment and of interest to its owner. Using cloud computing to overcome these
+resource limitations may pose privacy risks and may not be scalable to a large number of embedded
+devices. A better solution is on-device incremental learning, which requires the model to use less
+storage and computational power.
+In this paper, we propose an incremental learning framework called FearNet (see Fig. 1). FearNet
+has three brain-inspired sub-systems: 1) a recent memory system for quick recall, 2) a memory
+
+∗Corresponding author.
+
+1
+
+

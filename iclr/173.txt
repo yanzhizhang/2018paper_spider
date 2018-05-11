@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+CAUSALGAN: LEARNING CAUSAL IMPLICIT GENER-
+ATIVE MODELS WITH ADVERSARIAL TRAINING
+
+Murat Kocaoglu∗, Christopher Snyder∗, Alexandros G. Dimakis,
+
+Sriram Vishwanath
+
+Department of Electrical and Computer Engineering
+
+The University of Texas at Austin
+
+Austin, TX, USA
+
+mkocaoglu@utexas.edu,22csnyder@gmail.com,
+
+dimakis@austin.utexas.edu,sriram@austin.utexas.edu
+
+ABSTRACT
+
+We introduce causal implicit generative models (CiGMs): models that allow sam-
+pling from not only the true observational but also the true interventional distri-
+butions. We show that adversarial training can be used to learn a CiGM, if the
+generator architecture is structured based on a given causal graph. We consider the
+application of conditional and interventional sampling of face images with binary
+feature labels, such as mustache, young. We preserve the dependency structure
+between the labels with a given causal graph. We devise a two-stage procedure
+for learning a CiGM over the labels and the image. First we train a CiGM over
+the binary labels using a Wasserstein GAN where the generator neural network
+is consistent with the causal graph between the labels. Later, we combine this
+with a conditional GAN to generate images conditioned on the binary labels. We
+propose two new conditional GAN architectures: CausalGAN and CausalBEGAN.
+We show that the optimal generator of the CausalGAN, given the labels, samples
+from the image distributions conditioned on these labels. The conditional GAN
+combined with a trained CiGM for the labels is then a CiGM over the labels and the
+generated image. We show that the proposed architectures can be used to sample
+from observational and interventional image distributions, even for interventions
+which do not naturally occur in the dataset.
+
+1
+
+INTRODUCTION
+
+An implicit generative model (Mohamed & Lakshminarayanan (2016)) is a mechanism that can sam-
+ple from a probability distribution without an explicit parameterization of the likelihood. Generative
+adversarial networks (GANs) arguably provide one of the most successful ways to train implicit
+generative models. GANs are neural generative models that can be trained using backpropagation
+to sample from very high dimensional nonparametric distributions (Goodfellow et al. (2014)). A
+generator network models the sampling process through feedforward computation given a noise
+vector. The generator output is constrained and reﬁned through feedback by a competitive adversary
+network, called the discriminator, that attempts to distinguish between the generated and real samples.
+The objective of the generator is to maximize the loss of the discriminator (convince the discriminator
+that it outputs samples from the real data distribution). GANs have shown tremendous success in
+generating samples from distributions such as image and video (Vondrick et al. (2016)).
+An extension of GANs is to enable sampling from the class conditional data distributions by feeding
+class labels to the generator alongside the noise vectors. Various neural network architectures have
+been proposed for solving this problem (Mirza & Osindero (2014); Odena et al. (2016); Antipov et al.
+
+∗Equal contribution
+
+1
+
+

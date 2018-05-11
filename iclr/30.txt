@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+SKIP RNN: LEARNING TO SKIP STATE UPDATES IN
+RECURRENT NEURAL NETWORKS
+V´ıctor Campos∗†, Brendan Jou‡, Xavier Gir´o-i-Nieto§, Jordi Torres†, Shih-Fu ChangΓ
+†Barcelona Supercomputing Center, ‡Google Inc,
+§Universitat Polit`ecnica de Catalunya, ΓColumbia University
+{victor.campos, jordi.torres}@bsc.es, bjou@google.com,
+xavier.giro@upc.edu, shih.fu.chang@columbia.edu
+
+ABSTRACT
+
+Recurrent Neural Networks (RNNs) continue to show outstanding performance
+in sequence modeling tasks. However, training RNNs on long sequences often
+face challenges like slow inference, vanishing gradients and difﬁculty in capturing
+long term dependencies. In backpropagation through time settings, these issues
+are tightly coupled with the large, sequential computational graph resulting from
+unfolding the RNN in time. We introduce the Skip RNN model which extends
+existing RNN models by learning to skip state updates and shortens the effective
+size of the computational graph. This model can also be encouraged to perform
+fewer state updates through a budget constraint. We evaluate the proposed model
+on various tasks and show how it can reduce the number of required RNN updates
+while preserving, and sometimes even improving, the performance of the baseline
+RNN models. Source code is publicly available at https://imatge-upc.
+github.io/skiprnn-2017-telecombcn/.
+
+1
+
+INTRODUCTION
+
+Recurrent Neural Networks (RNNs) have become the standard approach for practitioners when ad-
+dressing machine learning tasks involving sequential data. Such success has been enabled by the
+appearance of larger datasets, more powerful computing resources and improved architectures and
+training algorithms. Gated units, such as the Long Short-Term Memory (Hochreiter & Schmidhu-
+ber, 1997) (LSTM) and the Gated Recurrent Unit (Cho et al., 2014) (GRU), were designed to deal
+with the vanishing gradients problem commonly found in RNNs (Bengio et al., 1994). These ar-
+chitectures have been popularized, in part, due to their impressive results on a variety of tasks in
+machine translation (Bahdanau et al., 2015), language modeling (Zaremba et al., 2015) and speech
+recognition (Graves et al., 2013).
+Some of the main challenges of RNNs are in their training and deployment when dealing with
+long sequences, due to their inherently sequential behaviour. These challenges include throughput
+degradation, slower convergence during training and memory leakage, even for gated architectures
+(Neil et al., 2016). Sequence shortening techniques, which can be seen as a sort of conditional
+computation (Bengio et al., 2013; Bengio, 2013; Davis & Arel, 2013) in time, can alleviate these
+issues. The most common approaches, such as cropping discrete signals or reducing the sampling
+rate in continuous signals, are based on heuristics and can be suboptimal. In contrast, we propose
+a model that is able to learn which samples (i.e., elements in the input sequence) need to be used
+in order to solve the target task. Consider a video understanding task as an example: scenes with
+large motion may beneﬁt from high frame rates, whereas only a few frames are needed to capture
+the semantics of a mostly static scene.
+The main contribution of this work is a novel modiﬁcation for existing RNN architectures that al-
+lows them to skip state updates, decreasing the number of sequential operations performed, without
+requiring any additional supervision signal. This model, called Skip RNN, adaptively determines
+whether the state needs to be updated or copied to the next time step. We show how the network can
+
+∗Work done while V´ıctor Campos was a visiting scholar at Columbia University.
+
+1
+
+

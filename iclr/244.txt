@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+MULTI-VIEW DATA GENERATION WITHOUT VIEW
+SUPERVISION
+
+Micka¨el Chen
+Sorbonne Universit´e, CNRS, Laboratoire d’Informatique de Paris 6, LIP6, F-75005, Paris, France
+mickael.chen@lip6.fr
+
+Ludovic Denoyer
+Sorbonne Universit´e, CNRS, Laboratoire d’Informatique de Paris 6, LIP6, F-75005, Paris, France
+Criteo Research
+ludovic.denoyer@lip6.fr
+
+Thierry Arti`eres
+Aix Marseille Univ, Universit´e de Toulon, CNRS, LIS, Marseille, France
+Ecole Centrale Marseille
+thierry.artiere@centrale-marseille.fr
+
+ABSTRACT
+
+The development of high-dimensional generative models has recently gained a
+great surge of interest with the introduction of variational auto-encoders and gen-
+erative adversarial neural networks. Different variants have been proposed where
+the underlying latent space is structured, for example, based on attributes describ-
+ing the data to generate. We focus on a particular problem where one aims at gen-
+erating samples corresponding to a number of objects under various views. We
+assume that the distribution of the data is driven by two independent latent fac-
+tors: the content, which represents the intrinsic features of an object, and the view,
+which stands for the settings of a particular observation of that object. There-
+fore, we propose a generative model and a conditional variant built on such a
+disentangled latent space. This approach allows us to generate realistic samples
+corresponding to various objects in a high variety of views. Unlike many multi-
+view approaches, our model doesn’t need any supervision on the views but only on
+the content. Compared to other conditional generation approaches that are mostly
+based on binary or categorical attributes, we make no such assumption about the
+factors of variations. Our model can be used on problems with a huge, potentially
+inﬁnite, number of categories. We experiment it on four image datasets on which
+we demonstrate the effectiveness of the model and its ability to generalize.
+
+1
+
+INTRODUCTION
+
+Multi-view learning aims at developing models that are trained over datasets composed of multiple
+views over different objects. The problem of handling multi-view inputs has mainly been studied
+from the predictive point of view where one wants, for example, to learn a model able to pre-
+dict/classify over multiple views of the same object (Su et al. (2015); Qi et al. (2016)). For example,
+using deep learning approaches, different strategies have been explored to aggregate multiple views
+but a common general idea is based on the (early or late) fusion of the different views at a particular
+level of a deep architecture. Few other studies have proposed to predict missing views from one or
+multiple remaining views as in Arsalan Soltani et al. (2017).
+Recent research has focused on identifying factors of variations from multiview datasets. The under-
+lying idea is to consider that a particular data sample may be thought as the mix of a content infor-
+mation (e.g. related to its class label like a given person in a face dataset) and of a side information,
+the view, which accounts for factors of variability (e.g. exposure, viewpoint, with/wo glasses...). All
+
+1
+
+

@@ -1,0 +1,71 @@
+Published as a conference paper at ICLR 2018
+
+SEMANTICALLY DECOMPOSING THE LATENT SPACES
+OF GENERATIVE ADVERSARIAL NETWORKS
+
+Chris Donahue
+Department of Music
+University of California, San Diego
+cdonahue@ucsd.edu
+
+Akshay Balsubramani
+Department of Genetics
+Stanford University
+abalsubr@stanford.edu
+
+Zachary C. Lipton
+Carnegie Mellon University
+Amazon AI
+zlipton@cmu.edu
+
+Julian McAuley
+Department of Computer Science
+University of California, San Diego
+jmcauley@eng.ucsd.edu
+
+ABSTRACT
+
+We propose a new algorithm for training generative adversarial networks that jointly
+learns latent codes for both identities (e.g. individual humans) and observations
+(e.g. speciﬁc photographs). By ﬁxing the identity portion of the latent codes, we
+can generate diverse images of the same subject, and by ﬁxing the observation
+portion, we can traverse the manifold of subjects while maintaining contingent
+aspects such as lighting and pose. Our algorithm features a pairwise training
+scheme in which each sample from the generator consists of two images with a
+common identity code. Corresponding samples from the real dataset consist of two
+distinct photographs of the same subject. In order to fool the discriminator, the
+generator must produce pairs that are photorealistic, distinct, and appear to depict
+the same individual. We augment both the DCGAN and BEGAN approaches with
+Siamese discriminators to facilitate pairwise training. Experiments with human
+judges and an off-the-shelf face veriﬁcation system demonstrate our algorithm’s
+ability to generate convincing, identity-matched photographs.
+
+1
+
+INTRODUCTION
+
+In many domains, a suitable generative process might consist of several stages. To generate a
+photograph of a product, we might wish to ﬁrst sample from the space of products, and then from
+the space of photographs of that product. Given such disentangled representations in a multistage
+generative process, an online retailer might diversify its catalog, depicting products in a wider variety
+of settings. A retailer could also ﬂip the process, imagining new products in a ﬁxed setting. Datasets
+for such domains often contain many labeled identities with fewer observations of each (e.g. a
+collection of face portraits with thousands of people and ten photos of each). While we may know the
+identity of the subject in each photograph, we may not know the contingent aspects of the observation
+(such as lighting, pose and background). This kind of data is ubiquitous; given a set of commonalities,
+we might want to incorporate this structure into our latent representations.
+Generative adversarial networks (GANs) learn mappings from latent codes z in some low-dimensional
+space Z to points in the space of natural data X (Goodfellow et al., 2014). They achieve this
+power through an adversarial training scheme pitting a generative model G : Z (cid:55)→ X against a
+discriminative model D : X (cid:55)→ [0, 1] in a minimax game. While GANs are popular, owing to their
+ability to generate high-ﬁdelity images, they do not, in their original form, explicitly disentangle the
+latent factors according to known commonalities.
+In this paper, we propose Semantically Decomposed GANs (SD-GANs), which encourage a spec-
+iﬁed portion of the latent space to correspond to a known source of variation.1,2 The technique
+
+1Web demo: https://chrisdonahue.github.io/sdgan
+2Source code: https://github.com/chrisdonahue/sdgan
+
+1
+
+

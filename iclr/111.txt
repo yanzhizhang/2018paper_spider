@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+OVERCOMING CATASTROPHIC INTERFERENCE USING
+CONCEPTOR-AIDED BACKPROPAGATION
+
+Xu He, Herbert Jaeger
+Department of Computer Science and Electrical Engineering
+Jacobs University Bremen
+Bremen, 28759, Germany
+{x.he,h.jaeger}@jacobs-university.de
+
+ABSTRACT
+
+Catastrophic interference has been a major roadblock in the research of con-
+tinual learning. Here we propose a variant of the back-propagation algorithm,
+“conceptor-aided backprop” (CAB), in which gradients are shielded by concep-
+tors against degradation of previously learned tasks. Conceptors have their ori-
+gin in reservoir computing, where they have been previously shown to overcome
+catastrophic forgetting. CAB extends these results to deep feedforward networks.
+On the disjoint and permuted MNIST tasks, CAB outperforms two other methods
+for coping with catastrophic interference that have recently been proposed.
+
+1
+
+INTRODUCTION
+
+Agents with general artiﬁcial intelligence are supposed to learn and perform well on multiple tasks.
+Continual learning refers to the scenarios where a machine learning system can retain previously
+acquired skills while learning new ones. However, when trained on a sequence of tasks, neural
+networks usually forget about previous tasks after their weights are adjusted for a new task. This
+notorious problem known as catastrophic interference (CI) (McCloskey & Cohen, 1989; Ratcliff,
+1990; French, 1999; Kumaran et al., 2016) poses a serious challenge towards continual learning.
+Many approaches have been proposed to overcome or mitigate the problem of CI in the last three
+decades (Hinton & Plaut, 1987; French, 1991; Ans & Rousset, 1997; French, 1997; Srivastava et al.,
+2014). Especially recently, an avalanche of new methods in the deep learning ﬁeld has brought
+about dramatic improvements in continual learning in neural networks. Kirkpatrick et al. (2017)
+introduced a regularization-based method called elastic weight consolidation (EWC), which uses
+the posterior distribution of parameters for the old tasks as a prior for the new task. They approx-
+imated the posterior by a Gaussian distribution with the parameters for old tasks as the mean and
+the inverse diagonal of the Fisher information matrix as the variance. Lee et al. (2017) introduced
+two incremental moment matching (IMM) methods called mean-IMM and mode-IMM. Mean-IMM
+approximates the distribution of parameters for both old and new tasks by a Gaussian distribution,
+which is estimated by minimizing its KL-divergence from the mixture of two Gaussian posteriors,
+one for the old task and the other one for the new task. Mode-IMM estimates the mode of this
+mixture of two Gaussians and uses it as the optimal parameters for both tasks.
+In the ﬁeld of Reservoir Computing (Jaeger, 2001; Maass et al., 2002), an effective solution to CI
+using conceptors was proposed by Jaeger (2014) to incrementally train a recurrent neural network
+to generate spatial-temporal signals. Conceptors are a general-purpose neuro-computational mecha-
+nism that can be used in a diversity of neural information processing tasks including temporal pattern
+classiﬁcation, one-shot learning, human motion pattern generation, de-noising and signal separation
+(Jaeger, 2017).
+In this paper, we adopt and extend the method introduced in Jaeger (2014) and
+propose a conceptor-aided backpropagation (CAB) algorithm to train feed-forward networks. For
+each layer of a network, CAB computes a conceptor to characterize the linear subspace spanned by
+the neural activations in that layer that have appeared in already learned tasks. When the network
+is trained on a new task, CAB uses the conceptor to adjust the gradients given by backpropagation
+so that the linear transformation restricted to the characterized subspace will be preserved after the
+
+1
+
+

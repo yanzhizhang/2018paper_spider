@@ -1,0 +1,72 @@
+Published as a conference paper at ICLR 2018
+
+CERTIFYING SOME DISTRIBUTIONAL ROBUSTNESS
+WITH PRINCIPLED ADVERSARIAL TRAINING
+
+Aman Sinha∗,1, Hongseok Namkoong∗,2, John Duchi1,3
+Departments of 1Electrical Engineering, 2Management Science & Engineering, 3Statistics
+Stanford University
+Stanford, CA 94305
+{amans,hnamk,jduchi}@stanford.edu
+
+ABSTRACT
+
+Neural networks are vulnerable to adversarial examples and researchers have pro-
+posed many heuristic attack and defense mechanisms. We address this problem
+through the principled lens of distributionally robust optimization, which guar-
+antees performance under adversarial input perturbations. By considering a La-
+grangian penalty formulation of perturbing the underlying data distribution in a
+Wasserstein ball, we provide a training procedure that augments model param-
+eter updates with worst-case perturbations of training data. For smooth losses,
+our procedure provably achieves moderate levels of robustness with little compu-
+tational or statistical cost relative to empirical risk minimization. Furthermore,
+our statistical guarantees allow us to efﬁciently certify robustness for the popu-
+lation loss. For imperceptible perturbations, our method matches or outperforms
+heuristic approaches.
+
+1
+
+INTRODUCTION
+
+Consider the classical supervised learning problem,
+in which we minimize an expected loss
+EP0[(cid:96)(θ; Z)] over a parameter θ ∈ Θ, where Z ∼ P0, P0 is a distribution on a space Z, and (cid:96)
+is a loss function. In many systems, robustness to changes in the data-generating distribution P0 is
+desirable, whether they be from covariate shifts, changes in the underlying domain (Ben-David et al.,
+2010), or adversarial attacks (Goodfellow et al., 2015; Kurakin et al., 2016). As deep networks be-
+come prevalent in modern performance-critical systems (perception for self-driving cars, automated
+detection of tumors), model failure is increasingly costly; in these situations, it is irresponsible to
+deploy models whose robustness and failure modes we do not understand or cannot certify.
+Recent work shows that neural networks are vulnerable to adversarial examples; seemingly imper-
+ceptible perturbations to data can lead to misbehavior of the model, such as misclassiﬁcation of the
+output (Goodfellow et al., 2015; Nguyen et al., 2015; Kurakin et al., 2016; Moosavi-Dezfooli et al.,
+2016). Consequently, researchers have proposed adversarial attack and defense mechanisms (Pa-
+pernot et al., 2016a;b;c; Rozsa et al., 2016; Carlini & Wagner, 2017; He et al., 2017; Madry et al.,
+2017; Tram`er et al., 2017). These works provide an initial foundation for adversarial training, but it
+is challenging to rigorously identify the classes of attacks against which they can defend (or if they
+exist). Alternative approaches that provide formal veriﬁcation of deep networks (Huang et al., 2017;
+Katz et al., 2017a;b) are NP-hard in general; they require prohibitive computational expense even on
+small networks. Recently, researchers have proposed convex relaxations of the NP-hard veriﬁcation
+problem with some success (Kolter & Wong, 2017; Raghunathan et al., 2018), though they may be
+difﬁcult to scale to large networks. In this context, our work is situated between these agendas: we
+develop efﬁcient procedures with rigorous guarantees for small to moderate amounts of robustness.
+We take the perspective of distributionally robust optimization and provide an adversarial training
+procedure with provable guarantees on its computational and statistical performance. We postulate
+a class P of distributions around the data-generating distribution P0 and consider the problem
+
+∗Equal contribution
+
+minimize
+
+θ∈Θ
+
+sup
+P∈P
+
+1
+
+EP [(cid:96)(θ; Z)].
+
+(1)
+
+

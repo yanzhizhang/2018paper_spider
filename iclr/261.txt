@@ -1,0 +1,80 @@
+Published as a conference paper at ICLR 2018
+
+NEURAL-GUIDED DEDUCTIVE SEARCH FOR REAL-
+TIME PROGRAM SYNTHESIS FROM EXAMPLES
+
+Ashwin K. Vijayakumar∗† & Dhruv Batra
+School of Interactive Computing
+Georgia Tech
+Atlanta, GA 30308, USA
+{ashwinkv,dbatra}@gatech.edu
+
+Abhishek Mohta† & Prateek Jain
+Microsoft Research India
+Bengaluru, Karnataka 560001, India
+{t-abmoht,prajain}@microsoft.com
+
+Oleksandr Polozov & Sumit Gulwani
+Microsoft Research Redmond
+Redmond, WA 98052, USA
+{polozov,sumitg}@microsoft.com
+
+ABSTRACT
+
+Synthesizing user-intended programs from a small number of input-output exam-
+ples is a challenging problem with several important applications like spreadsheet
+manipulation, data wrangling and code refactoring. Existing synthesis systems
+either completely rely on deductive logic techniques that are extensively hand-
+engineered or on purely statistical models that need massive amounts of data, and in
+general fail to provide real-time synthesis on challenging benchmarks. In this work,
+we propose Neural Guided Deductive Search (NGDS), a hybrid synthesis technique
+that combines the best of both symbolic logic techniques and statistical models.
+Thus, it produces programs that satisfy the provided speciﬁcations by construction
+and generalize well on unseen examples, similar to data-driven systems. Our
+technique effectively utilizes the deductive search framework to reduce the learning
+problem of the neural component to a simple supervised learning setup. Further,
+this allows us to both train on sparingly available real-world data and still leverage
+powerful recurrent neural network encoders. We demonstrate the effectiveness
+of our method by evaluating on real-world customer scenarios by synthesizing
+accurate programs with up to 12× speed-up compared to state-of-the-art systems.
+
+1
+
+INTRODUCTION
+
+Automatic synthesis of programs that satisfy a given speciﬁcation is a classical problem in
+AI (Waldinger & Lee, 1969), with extensive literature in both machine learning and programming
+languages communities. Recently, this area has gathered widespread interest, mainly spurred by
+the emergence of a sub-area – Programming by Examples (PBE) (Gulwani, 2011). A PBE system
+synthesizes programs that map a given set of example inputs to their speciﬁed example outputs. Such
+systems make many tasks accessible to a wider audience as example-based speciﬁcations can be
+easily provided even by end users without programming skills. See Figure 1 for an example. PBE
+systems are usually evaluated on three key criteria: (a) correctness: whether the synthesized program
+
+Output
+Y LeCunn
+
+Input
+Yann LeCunn
+Hugo Larochelle H Larochelle
+Tara Sainath
+Yoshua Bengio
+
+T Sainath
+
+?
+
+Figure 1: An example input-output spec; the goal is to learn a
+program that maps the given inputs to the corresponding outputs
+and generalizes well to new inputs. Both programs below
+satisfy the spec: (i) Concat(1st letter of 1st word, 2nd word), (ii)
+Concat(4th-last letter of 1st word, 2nd word). However, program
+(i) clearly generalizes better: for instance, its output on “Yoshua
+Bengio” is “Y Bengio” while program (ii) produces “s Bengio”.
+
+∗Work done during an internship at Microsoft Research.
+†Equal contribution.
+
+1
+
+

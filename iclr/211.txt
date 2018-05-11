@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+INITIALIZATION MATTERS: ORTHOGONAL
+PREDICTIVE STATE RECURRENT NEURAL NETWORKS
+
+Krzysztof Choromanski∗
+Google Brain
+kchoro@google.com
+
+Carlton Downey∗†
+Carnegie Mellon University
+cmdowney@cs.cmu.edu
+
+Byron Boots ‡
+Georgia Tech
+bboots@cc.gatech.edu
+
+ABSTRACT
+
+Learning to predict complex time-series data is a fundamental challenge in a range
+of disciplines including Machine Learning, Robotics, and Natural Language Pro-
+cessing. Predictive State Recurrent Neural Networks (PSRNNs) (Downey et al.,
+2017) are a state-of-the-art approach for modeling time-series data which com-
+bine the beneﬁts of probabilistic ﬁlters and Recurrent Neural Networks into a
+single model. PSRNNs leverage the concept of Hilbert Space Embeddings of
+distributions (Smola et al., 2007) to embed predictive states into a Reproducing
+Kernel Hilbert Space, then estimate, predict, and update these embedded states
+using Kernel Bayes Rule. Practical implementations of PSRNNs are made pos-
+sible by the machinery of Random Features, where input features are mapped
+into a new space where dot products approximate the kernel well. Unfortunately
+PSRNNs often require a large number of RFs to obtain good results, resulting
+in large models which are slow to execute and slow to train. Orthogonal Random
+Features (ORFs)(Yu et al., 2016) is an improvement on RFs which has been shown
+to decrease the number of RFs required for pointwise kernel approximation. Un-
+fortunately, it is not clear that ORFs can be applied to PSRNNs, as PSRNNs rely
+on Kernel Ridge Regression as a core component of their learning algorithm, and
+the theoretical guarantees of ORF do not apply in this setting. In this paper, we
+extend the theory of ORFs to Kernel Ridge Regression and show that ORFs can
+be used to obtain Orthogonal PSRNNs (OPSRNNs), which are smaller and faster
+than PSRNNs. In particular, we show that OPSRNN models clearly outperform
+LSTMs and furthermore, can achieve accuracy similar to PSRNNs with an order
+of magnitude smaller number of features needed.
+
+1
+
+INTRODUCTION
+
+Learning to predict temporal sequences of observations is a fundamental challenge in a range of
+disciplines including machine learning, robotics, and natural language processing. There exist a
+wide variety of approaches to modeling time series data, however recurrent neural networks (RNNs)
+have emerged as the clear frontrunner, achieving state-of-the-art performance in applications such
+as speech recognition (Heigold et al., 2016), language modeling (Mikolov et al., 2010), translation
+(Cho et al., 2014b), and image captioning (Xu et al., 2015).
+Predictive State Recurrent Neural Networks (PSRNNs) are a state-of-the-art RNN architecture re-
+cently introduced by Downey et al. (2017) that combine the strengths of probabilistic models and
+RNNs in a single model. Speciﬁcally PSRNNs offer strong statistical theory, globally consistent
+model initializations, and a rich functional form which is none-the-less amenable to reﬁnement via
+backpropogation through time (BPTT). Despite consisting of a simple bi-linear operations, PSRNNs
+have been shown to signiﬁcantly outperform more complex RNN architectures (Downey et al.,
+2017), such as the widely used LSTMs (Hochreiter & Schmidhuber, 1997) and GRUs (Cho et al.,
+2014a).
+
+∗Equal Contribution
+†Work done while at Google
+‡Work done while at Google Brain
+
+1
+
+

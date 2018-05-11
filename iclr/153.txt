@@ -1,0 +1,70 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING SPARSE NEURAL NETWORKS
+THROUGH L0 REGULARIZATION
+
+Christos Louizos∗
+University of Amsterdam
+TNO, Intelligent Imaging
+c.louizos@uva.nl
+
+Max Welling
+University of Amsterdam
+CIFAR
+m.welling@uva.nl
+
+Diederik P. Kingma
+OpenAI
+dpkingma@openai.com
+
+ABSTRACT
+
+We propose a practical method for L0 norm regularization for neural networks:
+pruning the network during training by encouraging weights to become exactly
+zero. Such regularization is interesting since (1) it can greatly speed up training
+and inference, and (2) it can improve generalization. AIC and BIC, well-known
+model selection criteria, are special cases of L0 regularization. However, since
+the L0 norm of weights is non-differentiable, we cannot incorporate it directly
+as a regularization term in the objective function. We propose a solution through
+the inclusion of a collection of non-negative stochastic gates, which collectively
+determine which weights to set to zero. We show that, somewhat surprisingly,
+for certain distributions over the gates, the expected L0 regularized objective is
+differentiable with respect to the distribution parameters. We further propose the
+hard concrete distribution for the gates, which is obtained by “stretching” a binary
+concrete distribution and then transforming its samples with a hard-sigmoid. The
+parameters of the distribution over the gates can then be jointly optimized with the
+original network parameters. As a result our method allows for straightforward and
+efﬁcient learning of model structures with stochastic gradient descent and allows
+for conditional computation in a principled way. We perform various experiments
+to demonstrate the effectiveness of the resulting approach and regularizer.
+
+1
+
+INTRODUCTION
+
+Deep neural networks are ﬂexible function approximators that have been very successful in a
+broad range of tasks. They can easily scale to millions of parameters while allowing for tractable
+optimization with mini-batch stochastic gradient descent (SGD), graphical processing units (GPUs)
+and parallel computation. Nevertheless they do have drawbacks. Firstly, it has been shown in
+recent works (Han et al., 2015; Ullrich et al., 2017; Molchanov et al., 2017) that they are greatly
+overparametrized as they can be pruned signiﬁcantly without any loss in accuracy; this exhibits
+unnecessary computation and resources. Secondly, they can easily overﬁt and even memorize random
+patterns in the data (Zhang et al., 2016), if not properly regularized. This overﬁtting can lead to poor
+generalization in practice.
+A way to address both of these issues is by employing model compression and sparsiﬁcation tech-
+niques. By sparsifying the model, we can avoid unnecessary computation and resources, since
+irrelevant degrees of freedom are pruned away and do not need to be computed. Furthermore, we
+reduce its complexity, thus penalizing memorization and alleviating overﬁtting.
+A conceptually attractive approach is the L0 norm regularization of (blocks of) parameters; this
+explicitly penalizes parameters for being different than zero with no further restrictions. However,
+the combinatorial nature of this problem makes for an intractable optimization for large models.
+In this paper we propose a general framework for surrogate L0 regularized objectives. It is realized
+by smoothing the expected L0 regularized objective with continuous distributions in a way that can
+maintain the exact zeros in the parameters while still allowing for efﬁcient gradient based optimization.
+This is achieved by transforming continuous random variables (r.v.s) with a hard nonlinearity, the
+
+∗Work done while interning at OpenAI.
+
+1
+
+

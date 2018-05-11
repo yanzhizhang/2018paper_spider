@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+DEEP LEARNING FOR PHYSICAL PROCESSES:
+INCORPORATING PRIOR SCIENTIFIC KNOWLEDGE
+
+Emmanuel de B´ezenac ∗, Arthur Pajot ∗, Patrick Gallinari
+{emmanuel.de-bezenac, arthur.pajot, patrick.gallinari}@lip6.fr
+Sorbonne Universit´es, UMR 7606, LIP6, F-75005 Paris, France
+
+ABSTRACT
+
+We consider the use of Deep Learning methods for modeling complex phenomena
+like those occurring in natural physical processes. With the large amount of data
+gathered on these phenomena the data intensive paradigm could begin to chal-
+lenge more traditional approaches elaborated over the years in ﬁelds like maths
+or physics. However, despite considerable successes in a variety of application
+domains, the machine learning ﬁeld is not yet ready to handle the level of com-
+plexity required by such problems. Using an example application, namely Sea
+Surface Temperature Prediction, we show how general background knowledge
+gained from the physics could be used as a guideline for designing efﬁcient Deep
+Learning models. In order to motivate the approach and to assess its generality
+we demonstrate a formal link between the solution of a class of differential equa-
+tions underlying a large family of physical phenomena and the proposed model.
+Experiments and comparison with series of baselines including a state of the art
+numerical approach is then provided.
+
+1
+
+INTRODUCTION
+
+A physical process is a sustained phenomenon marked by gradual changes through a series of states
+occurring in the physical world. Physicists and environmental scientists attempt to model these
+processes in a principled way through analytic descriptions of the scientist’s prior knowledge of
+the underlying processes. Conservation laws, physical principles or phenomenological behaviors
+are generally formalized using differential equations. This physical paradigm has been, and still is
+the main framework for modeling complex natural phenomena like e.g. those involved in climate.
+With the availability of very large datasets captured via different types of sensors, this physical
+modeling paradigm is being challenged by the statistical Machine Learning (ML) paradigm, which
+offers a prior-agnostic approach. However, despite impressive successes in a variety of domains
+as demonstrated by the deployment of Deep Learning methods in ﬁelds such as vision, language,
+speech, etc, the statistical approach is not yet ready to challenge the physical paradigm for modeling
+complex natural phenomena, or at least it has not demonstrated how to. This is a new challenge for
+this ﬁeld and an emerging research direction in the ML community. We believe that knowledge and
+techniques accumulated for modeling physical processes in well developed ﬁelds such as maths or
+physics could be useful as a guideline to design efﬁcient learning systems and conversely, that the
+ML paradigm could open new directions for modeling such complex phenomena. In this paper we
+then raise two issues: 1) are modern ML techniques ready to be used to model complex physical
+phenomena, and 2) how general knowledge gained from the physical modeling paradigm could help
+designing efﬁcient ML models.
+In this work, we tackle these questions by considering a speciﬁc physical modeling problem: fore-
+casting sea surface temperature (SST). SST plays a signiﬁcant role in analyzing and assessing the
+dynamics of weather and other biological systems. Accurately modeling and predicting such dynam-
+ics is critical in various applications such as weather forecasting, or planning of coastal activities.
+Since 1982, weather satellites have made huge quantities of very high resolution SST data available
+Bernstein (1982). Standard physical methods for forecasting SST use coupled ocean-atmosphere
+prediction systems, based on the Navier Stokes equations. These models rely on multiple physical
+
+∗equal contribution
+
+1
+
+

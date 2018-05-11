@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+LEAVE NO TRACE: LEARNING TO RESET FOR SAFE
+AND AUTONOMOUS REINFORCEMENT LEARNING
+
+Benjamin Eysenbach∗ †, Shixiang Gu† ‡ ††, Julian Ibarz†, Sergey Levine† ‡‡
+†Google Brain
+‡University of Cambridge
+††Max Planck Institute for Intelligent Systems
+‡‡UC Berkeley
+{eysenbach,shanegu,julianibarz,slevine}@google.com
+
+ABSTRACT
+
+Deep reinforcement learning algorithms can learn complex behavioral skills, but
+real-world application of these methods requires a large amount of experience to be
+collected by the agent. In practical settings, such as robotics, this involves repeat-
+edly attempting a task, resetting the environment between each attempt. However,
+not all tasks are easily or automatically reversible. In practice, this learning process
+requires extensive human intervention. In this work, we propose an autonomous
+method for safe and efﬁcient reinforcement learning that simultaneously learns
+a forward and reset policy, with the reset policy resetting the environment for a
+subsequent attempt. By learning a value function for the reset policy, we can
+automatically determine when the forward policy is about to enter a non-reversible
+state, providing for uncertainty-aware safety aborts. Our experiments illustrate
+that proper use of the reset policy can greatly reduce the number of manual resets
+required to learn a task, can reduce the number of unsafe actions that lead to
+non-reversible states, and can automatically induce a curriculum.1
+
+1
+
+INTRODUCTION
+
+Deep reinforcement learning (RL) algorithms have the potential to automate acquisition of complex
+behaviors in a variety of real-world settings. Recent results have shown success on games (Mnih et al.
+(2013)), locomotion (Schulman et al. (2015)), and a variety of robotic manipulation skills (Pinto &
+Gupta (2017); Schulman et al. (2016); Gu et al. (2017)). However, the complexity of tasks achieved
+with deep RL in simulation still exceeds the complexity of the tasks learned in the real world. Why
+have real-world results lagged behind the simulated accomplishments of deep RL algorithms?
+One challenge with real-world application of deep RL is the scaffolding required for learning: a
+bad policy can easily put the system into an unrecoverable state from which no further learning is
+possible. For example, an autonomous car might collide at high speed, and a robot learning to clean
+glasses might break them. Even in cases where failures are not catastrophic, some degree of human
+intervention is often required to reset the environment between attempts (e.g., Chebotar et al. (2017)).
+Most RL algorithms require sampling from the initial state distribution at the start of each episode.
+On real-world tasks, this operation often corresponds to a manual reset of the environment after every
+episode, an expensive solution for complex environments. Even when tasks are designed so that
+these resets are easy (e.g., Levine et al. (2016) and Gu et al. (2017)), manual resets are necessary
+when the robot or environment breaks (e.g., Gandhi et al. (2017)). The bottleneck for learning
+many real-world tasks is not that the agent collects data too slowly, but rather that data collection
+stops entirely when the agent is waiting for a manual reset. To avoid manual resets caused by the
+environment breaking, task designers often add negative rewards to dangerous states and intervene to
+prevent agents from taking dangerous actions. While this works well for simple tasks, scaling to more
+complex environments requires writing large numbers of rules for types of actions the robot should
+avoid. For example, a robot should avoid hitting itself, except when clapping. One interpretation of
+
+∗Work done as a member of the Google AI Residency Program (g.co/brainresidency)
+1Videos of our experiments: https://sites.google.com/site/mlleavenotrace/
+
+1
+
+

@@ -1,0 +1,61 @@
+Published as a conference paper at ICLR 2018
+
+SYNTHESIZING REALISTIC NEURAL
+POPULATION ACTIVITY PATTERNS USING
+GENERATIVE ADVERSARIAL NETWORKS
+
+Manuel Molano-Mazon1,+, Arno Onken1,2, Eugenio Piasini1,3,∗, Stefano Panzeri1,∗
+1Laboratory of Neural Computation, Istituto Italiano di Tecnologia, 38068 Rovereto (TN), Italy
+2University of Edinburgh, Edinburgh EH8 9AB, UK
+3University of Pennsylvania, Philadelphia, PA 19104
++Corresponding author
+∗Equal contribution
+manuel.molano@iit.it, aonken@inf.ed.ac.uk, epiasini@sas.upenn.edu,
+stefano.panzeri@iit.it
+
+ABSTRACT
+
+The ability to synthesize realistic patterns of neural activity is crucial for studying
+neural information processing. Here we used the Generative Adversarial Net-
+works (GANs) framework to simulate the concerted activity of a population of
+neurons. We adapted the Wasserstein-GAN variant to facilitate the generation of
+unconstrained neural population activity patterns while still beneﬁting from pa-
+rameter sharing in the temporal domain. We demonstrate that our proposed GAN,
+which we termed Spike-GAN, generates spike trains that match accurately the
+ﬁrst- and second-order statistics of datasets of tens of neurons and also approxi-
+mates well their higher-order statistics. We applied Spike-GAN to a real dataset
+recorded from salamander retina and showed that it performs as well as state-of-
+the-art approaches based on the maximum entropy and the dichotomized Gaus-
+sian frameworks. Importantly, Spike-GAN does not require to specify a priori the
+statistics to be matched by the model, and so constitutes a more ﬂexible method
+than these alternative approaches. Finally, we show how to exploit a trained Spike-
+GAN to construct ’importance maps’ to detect the most relevant statistical struc-
+tures present in a spike train. Spike-GAN provides a powerful, easy-to-use tech-
+nique for generating realistic spiking neural activity and for describing the most
+relevant features of the large-scale neural population recordings studied in modern
+systems neuroscience.
+
+1
+
+INTRODUCTION
+
+Understanding how to generate synthetic spike trains simulating the activity of a population of neu-
+rons is crucial for systems neuroscience. In computational neuroscience, important uses of faithfully
+generated spike trains include creating biologically consistent inputs needed for the simulation of
+realistic neural networks, generating large datasets to be used for the development and validation
+of new spike train analysis techniques, and estimating the probabilities of neural responses in order
+to extrapolate the information coding capacity of neurons beyond what can be computed from the
+neural data obtained experimentally (Ince et al., 2013; Moreno-Bote et al., 2014). In experimental
+systems neuroscience, the ability to develop models that produce realistic neural population pat-
+terns and that identify the key sets of features in these patterns is fundamental to disentangling the
+encoding strategies used by neurons for sensation or behavior (Panzeri et al., 2017) and to design
+closed-loop experiments (Kim et al., 2017) in which synthetic patterns, representing salient features
+of neural information, are fed to systems of electrical micro-stimulation (Tehovnik et al., 2006) or
+patterned light optogenetics (Panzeri et al., 2017; Bovetti & Fellin, 2015) for naturalistic intervention
+on neural circuits.
+One successful way to generate realistic spike trains is that of using a bottom-up approach, focusing
+explicitly on replicating selected low-level aspects of spike trains statistics. Popular methods include
+
+1
+
+

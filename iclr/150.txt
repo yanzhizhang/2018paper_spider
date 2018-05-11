@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+FIX YOUR CLASSIFIER: THE MARGINAL VALUE OF
+TRAINING THE LAST WEIGHT LAYER
+
+Elad Hoffer, Itay Hubara, Daniel Soudry
+Department of Electrical Engineering
+Technion
+Haifa, 320003, Israel
+elad.hoffer, itay.hubara, daniel.soudry@gmail.com
+
+ABSTRACT
+
+Neural networks are commonly used as models for classiﬁcation for a wide variety
+of tasks. Typically, a learned afﬁne transformation is placed at the end of such
+models, yielding a per-class value used for classiﬁcation. This classiﬁer can have
+a vast number of parameters, which grows linearly with the number of possible
+classes, thus requiring increasingly more resources.
+In this work we argue that this classiﬁer can be ﬁxed, up to a global scale con-
+stant, with little or no loss of accuracy for most tasks, allowing memory and com-
+putational beneﬁts. Moreover, we show that by initializing the classiﬁer with a
+Hadamard matrix we can speed up inference as well. We discuss the implications
+for current understanding of neural network models.
+
+1
+
+INTRODUCTION
+
+Deep neural network have become a widely used model for machine learning, achieving state-of-
+the-art results on many tasks. The most common task these models are used for is to perform
+classiﬁcation, as in the case of convolutional neural networks (CNNs) used to classify images to a
+semantic category. CNN models are currently considered the standard for visual tasks, allowing far
+better accuracy than preceding approaches (Krizhevsky et al., 2012; He et al., 2016; Szegedy et al.,
+2015).
+Training NN models and using them for inference requires large amounts of memory and compu-
+tational resources, thus, extensive amount of research has been done lately to reduce the size of
+networks. Han et al. (2015) used weight sharing and speciﬁcation, Micikevicius et al. (2017) used
+mixed precision to reduce the size of the neural networks by half. Tai et al. (2015) and Jaderberg
+et al. (2014) used low rank approximations to speed up NNs.
+Hubara et al. (2016b), Li et al. (2016) and Zhou et al. (2016), used a more aggressive approach, in
+which weights, activations and gradients were quantized to further reduce computation during train-
+ing. Although aggressive quantization beneﬁts from smaller model size, the extreme compression
+rate comes with a loss of accuracy.
+Past work noted the fact that predeﬁned (Park & Sandberg, 1991) and random (Huang et al., 2006)
+projections can be used together with a learned afﬁne transformation to achieve competitive results
+on several tasks. In this study suggest the reversed proposal - that common NN models used can
+learn useful representation even without modifying the ﬁnal output layer, which often holds a large
+number of parameters that grows linearly with number of classes.
+
+1.1 CLASSIFIERS IN CONVOLUTIONAL NEURAL NETWORKS
+
+Convolutional neural networks (CNNs) are commonly used to solve a variety of spatial and temporal
+tasks. CNNs are usually composed of a stack of convolutional parameterized layers, spatial pooling
+layers and fully connected layers, separated by non-linear activation functions. Earlier architectures
+of CNNs (LeCun et al., 1998; Krizhevsky et al., 2012) used a set of fully-connected layers at later
+stage of the network, presumably to allow classiﬁcation based on global features of an image. The
+
+1
+
+

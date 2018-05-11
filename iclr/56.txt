@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+CRITICAL PERCOLATION AS A FRAMEWORK TO
+ANALYZE THE TRAINING OF DEEP NETWORKS
+
+Zohar Ringel
+Racah Institute of Physics
+The Hebrew University of Jerusalem
+zohar.ringel@mail.huji.ac.il.
+
+Rodrigo de Bem∗
+Department of Engineering Science
+University of Oxford
+rodrigo@robots.ox.ac.uk
+
+ABSTRACT
+
+In this paper we approach two relevant deep learning topics: i) tackling of graph
+structured input data and ii) a better understanding and analysis of deep networks
+and related learning algorithms. With this in mind we focus on the topological
+classiﬁcation of reachability in a particular subset of planar graphs (Mazes). Doing
+so, we are able to model the topology of data while staying in Euclidean space, thus
+allowing its processing with standard CNN architectures. We suggest a suitable
+architecture for this problem and show that it can express a perfect solution to
+the classiﬁcation task. The shape of the cost function around this solution is also
+derived and, remarkably, does not depend on the size of the maze in the large maze
+limit. Responsible for this behavior are rare events in the dataset which strongly
+regulate the shape of the cost function near this global minimum. We further
+identify an obstacle to learning in the form of poorly performing local minima in
+which the network chooses to ignore some of the inputs. We further support our
+claims with training experiments and numerical analysis of the cost function on
+networks with up to 128 layers.
+
+1
+
+INTRODUCTION
+
+Deep convolutional networks have achieved great success in the last years by presenting human and
+super-human performance on many machine learning problems such as image classiﬁcation, speech
+recognition and natural language processing (LeCun et al. (2015)). Importantly, the data in these
+common tasks presents particular statistical properties and it normally rests on regular lattices (e.g.
+images) in Euclidean space (Bronstein et al. (2016)). Recently, more attention has been given to other
+highly relevant problems in which the input data belongs to non-Euclidean spaces. Such kind of data
+may present a graph structure when it represents, for instance, social networks, knowledge bases,
+brain activity, protein-interaction, 3D shapes and human body poses. Although some works found in
+the literature propose methods and network architectures speciﬁcally tailored to tackle graph-like
+input data (Bronstein et al. (2016); Bruna et al. (2013); Henaff et al. (2015); Li et al. (2015); Masci
+et al. (2015a;b)), in comparison with other topics in the ﬁeld this one is still not vastly investigated.
+Another recent focus of interest of the machine learning community is in the detailed analysis of
+the functioning of deep networks and related algorithms (Daniely et al. (2016); Ghahramani (2015)).
+The minimization of high dimensional non-convex loss function by means of stochastic gradient
+descent techniques is theoretically unlikely, however the successful practical achievements suggest
+the contrary. The hypothesis that very deep neural nets do not suffer from local minima (Dauphin
+et al. (2014)) is not completely proven (Swirszcz et al. (2016)). The already classical adversarial
+examples (Nguyen et al. (2015)), as well as new doubts about supposedly well understood questions,
+such as generalization (Zhang et al. (2016)), bring even more relevance to a better understanding of
+the methods.
+In the present work we aim to advance simultaneously in the two directions described above. To
+accomplish this goal we focus on the topological classiﬁcation of graphs (Perozzi et al. (2014);
+∗Rodrigo de Bem is also Assistant Professor at the Federal University of Rio Grande, Rio Grande, Brazil
+
+(rodrigobem@furg.br).
+
+1
+
+

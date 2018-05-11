@@ -1,0 +1,73 @@
+Published as a conference paper at ICLR 2018
+
+COMPOSITIONAL ATTENTION NETWORKS
+FOR MACHINE REASONING
+
+Drew A. Hudson
+Department of Computer Science
+Stanford University
+dorarad@cs.stanford.edu
+
+Christopher D. Manning
+Department of Computer Science
+Stanford University
+manning@cs.stanford.edu
+
+ABSTRACT
+
+We present Compositional Attention Networks, a novel fully differentiable neu-
+ral network architecture, designed to facilitate explicit and expressive reasoning.
+While many types of neural networks are effective at learning and generalizing
+from massive quantities of data, this model moves away from monolithic black-
+box architectures towards a design that provides a strong prior for iterative rea-
+soning, allowing it to support explainable and structured learning, as well as
+generalization from a modest amount of data. The model builds on the great
+success of existing recurrent cells such as LSTMs: It sequences a single recur-
+rent Memory, Attention, and Control (MAC) cell, and by careful design imposes
+structural constraints on the operation of each cell and the interactions between
+them, incorporating explicit control and soft attention mechanisms into their in-
+terfaces. We demonstrate the model’s strength and robustness on the challenging
+CLEVR dataset for visual reasoning, achieving a new state-of-the-art 98.9% accu-
+racy, halving the error rate of the previous best model. More importantly, we show
+that the new model is more computationally efﬁcient and data-efﬁcient, requiring
+an order of magnitude less time and/or data to achieve good results.
+
+1
+
+INTRODUCTION
+
+This paper considers how best to design neural networks to perform the iterative reasoning necessary
+for complex problem solving. Putting facts and observations together to arrive at conclusions is a
+central necessary ability as we work to move neural networks beyond their current great success with
+sensory perception tasks (LeCun et al., 1998; Krizhevsky et al., 2012) towards displaying Artiﬁcial
+General Intelligence.
+Concretely, we develop a novel model that we apply to the CLEVR
+dataset (Johnson et al., 2016) for visual question answering (VQA).
+VQA (Antol et al., 2015; Gupta, 2017) is a challenging multimodal
+task that requires responding to natural language questions about
+images. However, Agrawal et al. (2016) show how the ﬁrst gen-
+eration of successful models on VQA tasks tend to acquire only
+superﬁcial comprehension of both the image and the question, ex-
+ploiting dataset biases rather than capturing a sound perception and
+reasoning process that would lead to the correct answer (Sturm,
+2014). CLEVR was created to address this problem. As illus-
+trated in ﬁgure 1, instances in the dataset consist of rendered im-
+ages featuring 3D objects of several shapes, colors, materials and
+sizes, coupled with unbiased, compositional questions that require
+an array of challenging reasoning skills such as following transitive
+relations, counting objects and comparing their properties, without
+allowing any shortcuts around such reasoning. Notably, each in-
+stance in CLEVR is also accompanied by a tree-structured functional program that was both used to
+construct the question and reﬂects its reasoning procedure – a series of predeﬁned operations – that
+can be composed together to answer it.
+
+Figure 1: A sample im-
+age from the CLEVR dataset,
+with a question: “There is a
+purple cube behind a metal
+object left to a large ball; what
+material is it?”
+
+1
+
+

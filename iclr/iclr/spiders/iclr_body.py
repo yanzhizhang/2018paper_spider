@@ -2,14 +2,14 @@ import scrapy
 import re
 import numpy as np
 import csv
+from urllib.parse import urlparse
+from scrapy.http import Request
+from subprocess import call
+import os
 
-class PapersFile(scrapy.Item):
-    author = scrapy.Field()
-    title = scrapy.Field()
-    href = scrapy.Field()
+COUNTER = 0
 
-
-class CvprSpider(scrapy.Spider):
+class IclrSpider(scrapy.Spider):
     name = "iclr_body"
 
     def start_requests(self):
@@ -18,6 +18,23 @@ class CvprSpider(scrapy.Spider):
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
+
+        yield scrapy.Request(url="https://openreview.net/forum?id=H1T2hmZAb", callback=self.parse_pdf)
+
+    def parse_pdf(self, response):
+        href_pdf = response.selector.xpath('//meta').re(r'"citation_pdf_url" content="(.*)"')[0]
+        yield Request(url=response.urljoin(href_pdf), callback=self.save_pdf)
+
+    def save_pdf(self, response):
+        global COUNTER
+        path = str(COUNTER) +".pdf"
+        COUNTER += 1
+        self.logger.info('Saving PDF %s', path)
+        with open(path, 'wb') as f:
+            f.write(response.body)
+        str(COUNTER)+".txt"
+        call(["python", "pdf2txt.py", path, "-o", str(COUNTER)+".txt", "-p", "1"])
+
 
 
     def parse(self, response):
@@ -29,10 +46,15 @@ class CvprSpider(scrapy.Spider):
         titles_list = response.css("div.maincardBody").re(r'Body">(.*)</div>')
         hrefs_list = response.selector.xpath('//a[contains(@href,"open")]').re('(https://openreview.net/forum\?id=.*)" class="btn b')
 
+        for counter, href in enumerate(hrefs_list):
+            yield Request(url=response.urljoin(href),callback=self.parse_pdf)
 
         with open(filename, 'wb') as f:
             f.write(response.body)
         self.log('Saved file %s' % filename)
+
+        for i in range(COUNTER):
+            os.remove(str(i)+".pdf")
 
 
         with open('output.csv', 'w', newline='') as csvfile:

@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+DIVIDE AND CONQUER NETWORKS
+
+Alex Nowak
+Courant Institute of Mathematical Sciences
+Center for Data Science
+New York University
+New York, NY 10012, USA
+alexnowakvila@gmail.com
+
+David Folqué
+Courant Institute of Mathematical Sciences
+Center for Data Science
+New York University
+New York, NY 10012, USA
+david.folque@gmail.com
+
+Joan Bruna
+Courant Institute of Mathematical Sciences
+Center for Data Science
+New York, NY 10012, USA
+bruna@cims.nyu.edu
+
+ABSTRACT
+
+We consider the learning of algorithmic tasks by mere observation of input-output
+pairs. Rather than studying this as a black-box discrete regression problem with
+no assumption whatsoever on the input-output mapping, we concentrate on tasks
+that are amenable to the principle of divide and conquer, and study what are its
+implications in terms of learning.
+This principle creates a powerful inductive bias that we leverage with neural
+architectures that are deﬁned recursively and dynamically, by learning two scale-
+invariant atomic operations: how to split a given input into smaller sets, and how
+to merge two partially solved tasks into a larger partial solution. Our model can be
+trained in weakly supervised environments, namely by just observing input-output
+pairs, and in even weaker environments, using a non-differentiable reward signal.
+Moreover, thanks to the dynamic aspect of our architecture, we can incorporate
+the computational complexity as a regularization term that can be optimized by
+backpropagation. We demonstrate the ﬂexibility and efﬁciency of the Divide-
+and-Conquer Network on several combinatorial and geometric tasks: convex hull,
+clustering, knapsack and euclidean TSP. Thanks to the dynamic programming
+nature of our model, we show signiﬁcant improvements in terms of generalization
+error and computational complexity.
+
+1
+
+INTRODUCTION
+
+Algorithmic tasks can be described as discrete input-output mappings deﬁned over variable-sized
+inputs, but this “black-box" vision hides all the fundamental questions that explain how the task can
+be optimally solved and generalized to arbitrary inputs. Indeed, many tasks have some degree of scale
+invariance or self-similarity, meaning that there is a mechanism to solve it that is somehow independent
+of the input size. This principle is the basis of recursive solutions and dynamic programming, and
+is ubiquitous in most areas of discrete mathematics, from geometry to graph theory. In the case
+of images and audio signals, invariance principles are also critical for success: CNNs exploit both
+translation invariance and scale separation with multilayer, localized convolutional operators. In our
+scenario of discrete algorithmic tasks, we build our model on the principle of divide and conquer,
+which provides us with a form of parameter sharing across scales akin to that of CNNs across space
+or RNNs across time.
+Whereas CNN and RNN models deﬁne algorithms with linear complexity, attention mechanisms
+(Bahdanau et al., 2014) generally correspond to quadratic complexity, with notable exceptions
+(Andrychowicz & Kurach, 2016). This can result in a mismatch between the intrinsic complexity
+required to solve a given task and the complexity that is given to the neural network to solve it, which
+
+1
+
+

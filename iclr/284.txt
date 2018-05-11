@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+ROUTING NETWORKS: ADAPTIVE SELECTION OF
+NON-LINEAR FUNCTIONS FOR MULTI-TASK LEARN-
+ING
+
+Clemens Rosenbaum
+College of Information and Computer Sciences
+University of Massachusetts Amherst
+140 Governors Dr., Amherst, MA 01003
+cgbr@cs.umass.edu
+
+Tim Klinger & Matthew Riemer
+IBM Research AI
+1101 Kitchawan Rd, Yorktown Heights, NY 10598
+{tklinger,mdriemer}@us.ibm.com
+
+ABSTRACT
+
+Multi-task learning (MTL) with neural networks leverages commonalities in tasks
+to improve performance, but often suffers from task interference which reduces
+the beneﬁts of transfer. To address this issue we introduce the routing network
+paradigm, a novel neural network and training algorithm. A routing network is
+a kind of self-organizing neural network consisting of two components: a router
+and a set of one or more function blocks. A function block may be any neural net-
+work – for example a fully-connected or a convolutional layer. Given an input the
+router makes a routing decision, choosing a function block to apply and passing
+the output back to the router recursively, terminating when a ﬁxed recursion depth
+is reached. In this way the routing network dynamically composes different func-
+tion blocks for each input. We employ a collaborative multi-agent reinforcement
+learning (MARL) approach to jointly train the router and function blocks. We
+evaluate our model against cross-stitch networks and shared-layer baselines on
+multi-task settings of the MNIST, mini-imagenet, and CIFAR-100 datasets. Our
+experiments demonstrate a signiﬁcant improvement in accuracy, with sharper con-
+vergence. In addition, routing networks have nearly constant per-task training cost
+while cross-stitch networks scale linearly with the number of tasks. On CIFAR-
+100 (20 tasks) we obtain cross-stitch performance levels with an 85% reduction in
+training time.
+
+1
+
+INTRODUCTION
+
+Multi-task learning (MTL) is a paradigm in which multiple tasks must be learned simultaneously.
+Tasks are typically separate prediction problems, each with their own data distribution. In an early
+formulation of the problem, (Caruana, 1997) describes the goal of MTL as improving generalization
+performance by “leveraging the domain-speciﬁc information contained in the training signals of
+related tasks.” This means a model must leverage commonalities in the tasks (positive transfer)
+while minimizing interference (negative transfer). In this paper we propose a new architecture for
+MTL problems called a routing network, which consists of two trainable components: a router and
+a set of function blocks. Given an input, the router selects a function block from the set, applies it
+to the input, and passes the result back to the router, recursively up to a ﬁxed recursion depth. If the
+router needs fewer iterations then it can decide to take a PASS action which leaves the current state
+unchanged. Intuitively, the architecture allows the network to dynamically self-organize in response
+to the input, sharing function blocks for different tasks when positive transfer is possible, and using
+separate blocks to prevent negative transfer.
+The architecture is very general allowing many possible router implementations. For example, the
+router can condition its decision on both the current activation and a task label or just one or the
+other. It can also condition on the depth (number of router invocations), ﬁltering the function mod-
+ule choices to allow layering. In addition, it can condition its decision for one instance on what
+was historically decided for other instances, to encourage re-use of existing functions for improved
+compression. The function blocks may be simple fully-connected neural network layers or whole
+
+1
+
+

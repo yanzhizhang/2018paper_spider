@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+MONOTONIC CHUNKWISE ATTENTION
+
+Chung-Cheng Chiu ∗ & Colin Raffel ∗
+Google Brain
+Mountain View, CA, 94043, USA
+{chungchengc,craffel}@google.com
+
+ABSTRACT
+
+Sequence-to-sequence models with soft attention have been successfully applied
+to a wide variety of problems, but their decoding process incurs a quadratic time
+and space cost and is inapplicable to real-time sequence transduction. To ad-
+dress these issues, we propose Monotonic Chunkwise Attention (MoChA), which
+adaptively splits the input sequence into small chunks over which soft attention
+is computed. We show that models utilizing MoChA can be trained efﬁciently
+with standard backpropagation while allowing online and linear-time decoding
+at test time. When applied to online speech recognition, we obtain state-of-the-
+art results and match the performance of a model using an ofﬂine soft attention
+mechanism.
+In document summarization experiments where we do not expect
+monotonic alignments, we show signiﬁcantly improved performance compared to
+a baseline monotonic attention-based model.
+
+1
+
+INTRODUCTION
+
+Sequence-to-sequence models (Sutskever et al., 2014; Cho et al., 2014) with a soft attention mecha-
+nism (Bahdanau et al., 2015) have been successfully applied to a plethora of sequence transduction
+problems (Luong et al., 2015; Xu et al., 2015; Chorowski et al., 2015; Wang et al., 2017; See et al.,
+2017). In their most familiar form, these models process an input sequence with an encoder recurrent
+neural network (RNN) to produce a sequence of hidden states, referred to as a memory. A decoder
+RNN then autoregressively produces the output sequence. At each output timestep, the decoder is
+directly conditioned by an attention mechanism, which allows the decoder to refer back to entries
+in the encoder’s hidden state sequence. This use of the encoder’s hidden states as a memory gives
+the model the ability to bridge long input-output time lags (Raffel & Ellis, 2015), which provides
+a distinct advantage over sequence-to-sequence models lacking an attention mechanism (Bahdanau
+et al., 2015). Furthermore, visualizing where in the input the model was attending to at each out-
+put timestep produces an input-output alignment which provides valuable insight into the model’s
+behavior.
+As originally deﬁned, soft attention inspects every entry of the memory at each output timestep,
+effectively allowing the model to condition on any arbitrary input sequence entry. This ﬂexibility
+comes at a distinct cost, namely that decoding with a soft attention mechanism has a quadratic time
+and space cost O(T U ), where T and U are the input and output sequence lengths respectively. This
+precludes its use on very long sequences, e.g. summarizing extremely long documents. In addition,
+because soft attention considers the possibility of attending to every entry in the memory at every
+output timestep, it must wait until the input sequence has been processed before producing output.
+This makes it inapplicable to real-time sequence transduction problems. Raffel et al. (2017) recently
+pointed out that these issues can be mitigated when the input-output alignment is monotonic, i.e. the
+correspondence between elements in the input and output sequence does not involve reordering. This
+property is present in various real-world problems, such as speech recognition and synthesis, where
+the input and output share a natural temporal order (see, for example, ﬁg. 2). In other settings, the
+alignment only involves local reorderings, e.g. machine translation for certain language pairs (Birch
+et al., 2008).
+Based on this observation, Raffel et al. (2017) introduced an attention mechanism that explicitly en-
+forces a hard monotonic input-output alignment, which allows for online and linear-time decoding.
+
+∗Equal contribution.
+
+1
+
+

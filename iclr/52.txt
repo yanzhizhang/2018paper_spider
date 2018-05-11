@@ -1,0 +1,63 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING DEEP MEAN FIELD GAMES FOR MODEL-
+ING LARGE POPULATION BEHAVIOR
+
+Jiachen Yang1, Xiaojing Ye2, Rakshit Trivedi1, Huan Xu1 & Hongyuan Zha1
+yjiachen@gmail.com, xye@gsu.edu, rstrivedi@gatech.edu,
+huan.xu@isye.gatech.edu, zha@cc.gatech.edu
+1Georgia Institute of Technology
+2Georgia State University
+
+ABSTRACT
+
+We consider the problem of representing collective behavior of large popula-
+tions and predicting the evolution of a population distribution over a discrete state
+space. A discrete time mean ﬁeld game (MFG) is motivated as an interpretable
+model founded on game theory for understanding the aggregate effect of individ-
+ual actions and predicting the temporal evolution of population distributions. We
+achieve a synthesis of MFG and Markov decision processes (MDP) by showing
+that a special MFG is reducible to an MDP. This enables us to broaden the scope
+of mean ﬁeld game theory and infer MFG models of large real-world systems via
+deep inverse reinforcement learning. Our method learns both the reward function
+and forward dynamics of an MFG from real data, and we report the ﬁrst empirical
+test of a mean ﬁeld game model of a real-world social media population.
+
+1
+
+INTRODUCTION
+
+Nothing takes place in the world whose meaning is not that of some maximum or
+minimum.
+(Leonhard Euler)
+
+Major global events shaped by large populations in social media, such as the Arab Spring, the Black
+Lives Matter movement, and the fake news controversy during the 2016 U.S. presidential election,
+provide signiﬁcant impetus for devising new models that account for macroscopic population behav-
+ior resulting from the aggregate decisions and actions taken by all individuals (Howard et al., 2011;
+Anderson & Hitlin, 2016; Silverman, 2016). Just as physical systems behave according to the prin-
+ciple of least action, to which Euler’s statement alludes, population behavior consists of individual
+actions that may be optimal with respect to some objective. The increasing usage of social media in
+modern societies lends plausibility to this hypothesis (Perrin, 2015), since the availability of infor-
+mation enables individuals to plan and act based on their observations of the global population state.
+For example, a population’s behavior directly affects the ranking of a set of trending topics on social
+media, represented by the global population distribution over topics, while each user’s observation
+of this global state inﬂuences their choice of the next topic in which to participate, thereby con-
+tributing to future population behavior (Twitter, 2017). In general, this feedback may be present in
+any system where the distribution of a large population over a state space is observable (or partially
+observable) by each individual, whose behavior policy generates actions given such observations.
+This motivates multiple criteria for a model of population behavior that is learnable from real data:
+1. The model captures the dependency between population distribution and their actions.
+2. It represents observed individual behavior as optimal for some implicit reward.
+3. It enables prediction of future population distribution given measurements at previous times.
+We present a mean ﬁeld game (MFG) approach to address the modeling and prediction criteria.
+Mean ﬁeld games originated as a branch of game theory that provides tractable models of large
+agent populations, by considering the limit of N-player games as N tends to inﬁnity (Lasry &
+Lions, 2007).
+In this limit, an agent population is represented via their distribution over a state
+space, and each agent’s optimal strategy is informed by a reward that is a function of the population
+distribution and their aggregate actions. The stochastic differential equations that characterize MFG
+
+1
+
+

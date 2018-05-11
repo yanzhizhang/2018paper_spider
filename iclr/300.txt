@@ -1,0 +1,69 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING TO SHARE: SIMULTANEOUS PARAMETER
+TYING AND SPARSIFICATION IN DEEP LEARNING
+
+Dejiao Zhang†∗
+University of Michigan, Ann Arbor, USA
+dejiao@umich.edu
+
+Haozhu Wang†
+University of Michigan, Ann Arbor, USA
+hzwang@umich.edu
+
+M´ario A.T. Figueiredo
+Instituto de Telecomunicac¸ ˜oe and Instituto Superior T´ecnico
+University of Lisbon, Portugal
+mario.figueiredo@lx.it.pt
+
+Laura Balzano∗
+University of Michigan, Ann Arbor, USA
+girasole@umich.edu
+
+ABSTRACT
+
+Deep neural networks (DNNs) may contain millions, even billions, of parame-
+ters/weights, making storage and computation very expensive and motivating a
+large body of work aimed at reducing their complexity by using, e.g., sparsity-
+inducing regularization. Parameter sharing/tying is another well-known approach
+for controlling the complexity of DNNs by forcing certain sets of weights to share
+a common value. Some forms of weight sharing are hard-wired to express cer-
+tain invariances; a notable example is the shift-invariance of convolutional layers.
+However, other groups of weights may be tied together during the learning pro-
+cess to further reduce the network complexity. In this paper, we adopt a recently
+proposed regularizer, GrOWL (group ordered weighted (cid:96)1), which encourages
+sparsity and, simultaneously, learns which groups of parameters should share a
+common value. GrOWL has been proven effective in linear regression, being
+able to identify and cope with strongly correlated covariates. Unlike standard
+sparsity-inducing regularizers (e.g., (cid:96)1 a.k.a. Lasso), GrOWL not only eliminates
+unimportant neurons by setting all their weights to zero, but also explicitly identi-
+ﬁes strongly correlated neurons by tying the corresponding weights to a common
+value. This ability of GrOWL motivates the following two-stage procedure: (i)
+use GrOWL regularization during training to simultaneously identify signiﬁcant
+neurons and groups of parameters that should be tied together; (ii) retrain the net-
+work, enforcing the structure that was unveiled in the previous phase, i.e., keeping
+only the signiﬁcant neurons and enforcing the learned tying structure. We evalu-
+ate this approach on several benchmark datasets, showing that it can dramatically
+compress the network with slight or even no loss on generalization accuracy.
+
+1
+
+INTRODUCTION
+
+Deep neural networks (DNNs) have recently revolutionized machine learning by dramatically ad-
+vancing the state-of-the-art in several applications, ranging from speech and image recognition to
+playing video games (Goodfellow et al., 2016). A typical DNN consists of a sequence of concate-
+nated layers, potentially involving millions or billions of parameters; by using very large training
+sets, DNNs are able to learn extremely complex non-linear mappings, features, and dependencies.
+A large amount of research has focused on the use of regularization in DNN learning (Goodfellow
+et al., 2016), as a means of reducing the generalization error. It has been shown that the parametriza-
+tion of many DNNs is very redundant, with a large fraction of the parameters being predictable
+from the remaining ones, with no accuracy loss (Denil et al., 2013). Several regularization methods
+have been proposed to tackle the potential over-ﬁtting due to this redundancy. Arguably, the earliest
+
+∗Both Dejiao Zhang and Laura Balzano’s participations were funded by DARPA-16-43-D3M-FP-037.
+†Co-ﬁrst author.
+
+1
+
+

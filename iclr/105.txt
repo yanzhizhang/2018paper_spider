@@ -1,0 +1,64 @@
+Published as a conference paper at ICLR 2018
+
+PARALLELIZING LINEAR RECURRENT NEURAL NETS
+OVER SEQUENCE LENGTH
+
+Eric Martin
+eric@ericmart.in
+
+Chris Cundy
+Department of Computer Science
+University of California, Berkeley
+Berkeley, CA 94720, USA∗
+c.cundy@berkeley.edu
+
+ABSTRACT
+
+Recurrent neural networks (RNNs) are widely used to model sequential data but
+their non-linear dependencies between sequence elements prevent parallelizing
+training over sequence length. We show the training of RNNs with only linear
+sequential dependencies can be parallelized over the sequence length using the
+parallel scan algorithm, leading to rapid training on long sequences even with small
+minibatch size. We develop a parallel linear recurrence CUDA kernel and show
+that it can be applied to immediately speed up training and inference of several state
+of the art RNN architectures by up to 9x. We abstract recent work on linear RNNs
+into a new framework of linear surrogate RNNs and develop a linear surrogate
+model for the long short-term memory unit, the GILR-LSTM, that utilizes parallel
+linear recurrence. We extend sequence learning to new extremely long sequence
+regimes that were previously out of reach by successfully training a GILR-LSTM
+on a synthetic sequence classiﬁcation task with a one million timestep dependency.
+
+1
+
+INTRODUCTION
+
+Recurrent neural networks (RNNs) are widely used for sequence modelling tasks in domains such
+as natural language processing (Sutskever et al., 2014), speech recognition (Amodei et al., 2015),
+and reinforcement learning (Hausknecht and Stone, 2015). Most RNNs, including popular variants
+such as long short-term memories (LSTMs), introduced by Hochreiter and Schmidhuber (1997),
+and gated recurrent units (GRUs), introduced by Cho et al. (2014), contain a non-linear dependency
+between sequential inputs. These non-linear dependencies create a very ﬂexible class of models but
+limit the feasibility of training RNNs on long sequences as each sequence element must be processed
+sequentially. Modelling sequences of thousands to millions of elements is important to domains such
+as robotics, remote sensing, control systems, speech recognition, medicine, and ﬁnance.
+The RNN serial evaluation inefﬁciency problem is usually mitigated by parallelizing the forward and
+backward pass over a minibatch of inputs. Without minibatches, RNN evaluation is a sequence of
+matrix-vector multiplications. Minibatches transform RNN computation into a sequence of more
+efﬁcient matrix-matrix multiplications, but this speed-up brings several disadvantages. RNN model
+size is often limited by GPU memory size, and running a forward and backward pass on a minibatch
+requires memory linear in the minibatch size. Grouping data into minibatches increases the latency
+of each pass and reduces the rate of optimization steps. Finally, training with larger minibatches
+damages generalization ability (Keskar et al., 2017). Given these effects, it is desirable to obtain
+high training throughput with small minibatches. Persistent RNNs (Diamos et al., 2016) use a novel
+implementation that can achieve high GPU utilization with very small minibatch sizes when the
+recurrent state is larger than 500 elements, but even persistent RNNs become limited by the serial
+evaluation inefﬁciency at smaller hidden sizes.
+Numerous prior works have shown strong performance from neural sequential models with only
+linear dependence on earlier sequence elements. Balduzzi and Ghifary (2016) investigated RNNs with
+only elementwise linear recurrence relations ht = αt (cid:12) ht−1 + (1 − αt) (cid:12) xt and developed linear
+
+∗Currently at the Future of Humanity Institute, University of Oxford, Oxford, UK
+
+1
+
+

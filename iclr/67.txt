@@ -1,0 +1,66 @@
+Published as a conference paper at ICLR 2018
+
+ADAPTIVE DROPOUT WITH RADEMACHER COMPLEX-
+ITY REGULARIZATION
+
+Ke Zhai
+Microsoft AI & Research
+Sunnyvale, CA
+kezhai@microsoft.com
+
+Huan Wang∗
+Salesforce Research
+Palo Alto, CA
+joyousprince@gmail.com
+
+ABSTRACT
+
+We propose a novel framework to adaptively adjust the dropout rates for the deep
+neural network based on a Rademacher complexity bound. The state-of-the-art
+deep learning algorithms impose dropout strategy to prevent feature co-adaptation.
+However, choosing the dropout rates remains an art of heuristics or relies on
+empirical grid-search over some hyperparameter space. In this work, we show the
+network Rademacher complexity is bounded by a function related to the dropout
+rate vectors and the weight coefﬁcient matrices. Subsequently, we impose this
+bound as a regularizer and provide a theoretical justiﬁed way to trade-off between
+model complexity and representation power. Therefore, the dropout rates and
+the empirical loss are uniﬁed into the same objective function, which is then
+optimized using the block coordinate descent algorithm. We discover that the
+adaptively adjusted dropout rates converge to some interesting distributions that
+reveal meaningful patterns. Experiments on the task of image and document
+classiﬁcation also show our method achieves better performance compared to the
+state-of-the-art dropout algorithms.
+
+1
+
+INTRODUCTION
+
+Dropout training (Srivastava et al., 2014) has been proposed to regularize deep neural networks for
+classiﬁcation tasks. It has been shown to work well in reducing co-adaptation of neurons—and hence,
+preventing model overﬁtting. The idea of dropout is to stochastically set a neuron’s output to zero
+according to Bernoulli random variables. It has been a crucial component in the winning solution
+to visual object recognition on ImageNet (Krizhevsky et al., 2012). Ever since, there have been
+many follow-ups on novel learning algorithms (Goodfellow et al., 2013; Baldi & Sadowski, 2013),
+regularization techniques (Wager et al., 2013), and fast approximations (Wang & Manning, 2013).
+However, the classical dropout model has a few limitations. First, the model requires to specify
+the retain rates, i.e., the probabilities of keeping a neuron’s output, a priori to model training.
+Subsequently, these retain rates are kept ﬁxed throughout the training process thereafter. It is often
+not clear how to choose the retain rates in an optimal way. They are usually set via grid-search over
+hyper-parameter space or simply according to some rule-of-thumb. Another limitation is that all
+neurons in the same layer share the same retain rate. This exponentially reduces the search space of
+hyper-parameter optimization. For example, Srivastava et al. (2014) use a ﬁxed retain probability
+throughout training for all dropout variables in each layer.
+In this paper, we propose a novel regularizer based on the Rademacher complexity of a neural
+network (Shalev-Shwartz & Ben-David, 2014). Without loss of generality, we use multilayer
+perceptron with dropout as our example and prove its Rademacher complexity is bounded by a term
+related to the dropout probabilities. This enables us to explicitly incorporate the model complexity
+term as a regularizer into the objective function.
+This Rademacher complexity bound regularizer provides us a lot of ﬂexibility and advantage in
+modeling and optimization. First, it combines the model complexity and the loss function in an
+uniﬁed objective. This offers a viable way to trade-off the model complexity and representation
+
+∗Work done at Microsoft. Authors contribute equally.
+
+1
+
+

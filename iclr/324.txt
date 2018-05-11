@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+ON THE REGULARIZATION OF WASSERSTEIN GANS
+
+Henning Petzka∗
+Fraunhofer Institute IAIS,
+Sankt Augustin, Germany
+henning.petzka@gmail.com
+
+Asja Fischer∗& Denis Lukovnikov
+Department of Computer Science,
+University of Bonn, Germany
+asja.fischer@gmail.com
+lukovnik@cs.uni-bonn.de
+
+ABSTRACT
+
+Since their invention, generative adversarial networks (GANs) have become a
+popular approach for learning to model a distribution of real (unlabeled) data.
+Convergence problems during training are overcome by Wasserstein GANs which
+minimize the distance between the model and the empirical distribution in terms
+of a different metric, but thereby introduce a Lipschitz constraint into the opti-
+mization problem. A simple way to enforce the Lipschitz constraint on the class
+of functions, which can be modeled by the neural network, is weight clipping.
+Augmenting the loss by a regularization term that penalizes the deviation of the
+gradient norm of the critic (as a function of the network’s input) from one, was
+proposed as an alternative that improves training. We present theoretical argu-
+ments why using a weaker regularization term enforcing the Lipschitz constraint
+is preferable. These arguments are supported by experimental results on several
+data sets.
+
+1
+
+INTRODUCTION
+
+General adversarial networks (GANs) (Goodfellow et al., 2014) are a class of generative models
+that have recently gained a lot of attention. They are based on the idea of deﬁning a game between
+two competing neural networks (NNs): a generator and a classiﬁer (or discriminator). While the
+classiﬁer aims at distinguishing generated from real data, the generator tries to generate samples
+which the classiﬁer can not distinguish from the ones from the empirical distribution. Realizing the
+potential behind this new approach to generative models, more recent contributions focused on the
+stabilization of training, including ensemble methods (Tolstikhin et al., 2017), improved network
+structure (Radford et al., 2015; Salimans et al., 2016) and theoretical improvements (Nowozin et al.,
+2016; Salimans et al., 2016; Arjovsky & Bottou, 2017; Chen et al., 2016) that helped to successfully
+model complex distributions using GANs.
+It was proposed by Arjovsky et al. (2017) to train generator and discriminator networks by minimiz-
+ing the Wasserstein-1 distance, a distance with properties superior to the Jensen-Shannon distance
+(used in the original GAN) in terms of convergence. Accordingly, this version of GAN was called
+Wasserstein GAN (WGAN). The change of metric introduces a new minimization problem, which
+requires the discriminator function to lie in the space of 1-Lipschitz functions. In the same paper, the
+Lipschitz constraint was guaranteed by performing weight clipping, i.e., by constraining the param-
+eters of the discriminator NN to be smaller than a given value in magnitude. An improved training
+strategy was proposed by Gulrajani et al. (2017) based on results from optimal transport theory (see
+Villani, 2008). Here, instead of clipping weights, the loss gets augmented by a regularization term
+that penalizes any deviation of the norm of the gradient of the critic function (with respect to its
+input) from one.
+We review these results and present both theoretical considerations and empirical results, leading to
+the proposal of a less restrictive regularization term for WGANs.1 More precisely, our contributions
+are as follows:
+
+∗Equal contributions
+1In the blog post https://lernapparat.de/improved-wasserstein-gan/ which was writ-
+ten simultaneously to our work, the author presents some ideas that follow a similar intuition as the one under-
+lying our arguments.
+
+1
+
+

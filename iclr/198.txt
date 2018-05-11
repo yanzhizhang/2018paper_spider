@@ -1,0 +1,59 @@
+DEEP GAUSSIAN EMBEDDING OF GRAPHS:
+UNSUPERVISED INDUCTIVE LEARNING VIA RANKING
+
+Aleksandar Bojchevski, Stephan G¨unnemann
+Technical University of Munich, Germany
+{a.bojchevski,guennemann}@in.tum.de
+
+ABSTRACT
+
+Methods that learn representations of nodes in a graph play a critical role in net-
+work analysis since they enable many downstream learning tasks. We propose
+Graph2Gauss – an approach that can efﬁciently learn versatile node embeddings
+on large scale (attributed) graphs that show strong performance on tasks such
+as link prediction and node classiﬁcation. Unlike most approaches that repre-
+sent nodes as point vectors in a low-dimensional continuous space, we embed
+each node as a Gaussian distribution, allowing us to capture uncertainty about
+the representation. Furthermore, we propose an unsupervised method that han-
+dles inductive learning scenarios and is applicable to different types of graphs:
+plain/attributed, directed/undirected. By leveraging both the network structure
+and the associated node attributes, we are able to generalize to unseen nodes with-
+out additional training. To learn the embeddings we adopt a personalized ranking
+formulation w.r.t. the node distances that exploits the natural ordering of the nodes
+imposed by the network structure. Experiments on real world networks demon-
+strate the high performance of our approach, outperforming state-of-the-art net-
+work embedding methods on several different tasks. Additionally, we demonstrate
+the beneﬁts of modeling uncertainty – by analyzing it we can estimate neighbor-
+hood diversity and detect the intrinsic latent dimensionality of a graph.
+
+1
+
+INTRODUCTION
+
+Graphs are a natural representation for a wide variety of real-life data, from social and rating net-
+works (Facebook, Amazon), to gene interactions and citation networks (BioGRID, arXiv). Node
+embeddings are a powerful and increasingly popular approach to analyze such data (Cai et al.,
+2017). By operating in the embedding space, one can employ proved learning techniques and bypass
+the difﬁculty of incorporating the complex node interactions. Tasks such as link prediction, node
+classiﬁcation, community detection, and visualization all greatly beneﬁt from these latent node rep-
+resentations. Furthermore, for attributed graphs by leveraging both sources of information (network
+structure and attributes) one is able to learn more useful representations compared to approaches
+that only consider the graph (Yang et al., 2015; Pan et al., 2016; Ganguly & Pudi, 2017).
+All existing (attributed) graph embedding approaches represent each node by a single point in a
+low-dimensional continuous vector space. Representing the nodes simply as points, however, has
+a crucial limitation: we do not have information about the uncertainty of that representation. Yet
+uncertainty is inherent when describing a node in a complex graph by a single point only. Imagine a
+node for which the different sources of information are conﬂicting with each other, e.g. pointing to
+different communities or even revealing contradicting underlying patterns. Such discrepancy should
+be reﬂected in the uncertainty of its embedding. As a solution to this problem, we introduce a novel
+embedding approach that represents nodes as Gaussian distributions: each node becomes a full
+distribution rather than a single point. Thereby, we capture uncertainty about its representation.
+To effectively capture the non-i.i.d. nature of the data arising from the complex interactions between
+the nodes, we further propose a novel unsupervised personalized ranking formulation to learn the
+embeddings. Intuitively, from the point of view of a single node, we want nodes in its immediate
+neighborhood to be closest in the embedding space, while nodes multiple hops away should become
+increasingly more distant. This ordering between the nodes imposed by the network structure w.r.t
+
+1
+
+

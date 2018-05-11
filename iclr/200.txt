@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+ACTIVE LEARNING FOR CONVOLUTIONAL NEURAL
+NETWORKS: A CORE-SET APPROACH
+
+Ozan Sener∗
+Intel Labs
+ozan.sener@intel.com
+
+Silvio Savarese
+Stanford University
+ssilvio@stanford.edu
+
+ABSTRACT
+
+Convolutional neural networks (CNNs) have been successfully applied to many
+recognition and learning tasks using a universal recipe; training a deep model
+on a very large dataset of supervised examples. However, this approach is rather
+restrictive in practice since collecting a large set of labeled images is very expensive.
+One way to ease this problem is coming up with smart ways for choosing images
+to be labelled from a very large collection (i.e. active learning).
+Our empirical study suggests that many of the active learning heuristics in the
+literature are not effective when applied to CNNs in batch setting. Inspired by
+these limitations, we deﬁne the problem of active learning as core-set selection,
+i.e. choosing set of points such that a model learned over the selected subset
+is competitive for the remaining data points. We further present a theoretical
+result characterizing the performance of any selected subset using the geometry
+of the datapoints. As an active learning algorithm, we choose the subset which is
+expected to yield best result according to our characterization. Our experiments
+show that the proposed method signiﬁcantly outperforms existing approaches in
+image classiﬁcation experiments by a large margin.
+
+1
+
+INTRODUCTION
+
+Deep convolutional neural networks (CNNs) have shown unprecedented success in many areas of
+research in computer vision and pattern recognition, such as image classiﬁcation, object detection,
+and scene segmentation. Although CNNs are universally successful in many tasks, they have a
+major drawback; they need a very large amount of labeled data to be able to learn their large number
+of parameters. More importantly, it is almost always better to have more data since the accuracy
+of CNNs is often not saturated with increasing dataset size. Hence, there is a constant desire to
+collect more and more data. Although this a desired behavior from an algorithmic perspective (higher
+representative power is typically better), labeling a dataset is a time consuming and an expensive
+task. These practical considerations raise a critical question: “what is the optimal way to choose data
+points to label such that the highest accuracy can be obtained given a ﬁxed labeling budget.” Active
+learning is one of the common paradigms to address this question.
+The goal of active learning is to ﬁnd effective ways to choose data points to label, from a pool of
+unlabeled data points, in order to maximize the accuracy. Although it is not possible to obtain a
+universally good active learning strategy (Dasgupta, 2004), there exist many heuristics (Settles, 2010)
+which have been proven to be effective in practice. Active learning is typically an iterative process in
+which a model is learned at each iteration and a set of points is chosen to be labelled from a pool of
+unlabelled points using these aforementioned heuristics. We experiment with many of these heuristics
+in this paper and ﬁnd them not effective when applied to CNNs. We argue that the main factor behind
+this ineffectiveness is the correlation caused via batch acquisition/sampling. In the classical setting,
+the active learning algorithms typically choose a single point at each iteration; however, this is not
+feasible for CNNs since i) a single point is likely to have no statistically signiﬁcant impact on the
+accuracy due to the local optimization methods, and ii) each iteration requires a full training until
+convergence which makes it intractable to query labels one-by-one. Hence, it is necessary to query
+
+∗Work is completed while author is at Stanford University.
+
+1
+
+

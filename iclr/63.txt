@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING TO COUNT OBJECTS IN NATURAL IMAGES
+FOR VISUAL QUESTION ANSWERING
+
+Yan Zhang & Jonathon Hare & Adam Pr¨ugel-Bennett
+Department of Electronics and Computer Science
+University of Southampton
+{yz5n12,jsh2,apb}@ecs.soton.ac.uk
+
+ABSTRACT
+
+Visual Question Answering (VQA) models have struggled with counting objects in
+natural images so far. We identify a fundamental problem due to soft attention in
+these models as a cause. To circumvent this problem, we propose a neural network
+component that allows robust counting from object proposals. Experiments on
+a toy task show the effectiveness of this component and we obtain state-of-the-
+art accuracy on the number category of the VQA v2 dataset without negatively
+affecting other categories, even outperforming ensemble models with our single
+model. On a difﬁcult balanced pair metric, the component gives a substantial
+improvement in counting over a strong baseline by 6.6%.
+
+1
+
+INTRODUCTION
+
+Consider the problem of counting how many cats there are in Figure 1. Solving this involves several
+rough steps: understanding what instances of that type can look like, ﬁnding them in the image, and
+adding them up. This is a common task in Visual Question Answering (VQA) – answering questions
+about images – and is rated as among the tasks requiring the lowest human age to be able to answer
+(Antol et al., 2015). However, current models for VQA on natural images struggle to answer any
+counting questions successfully outside of dataset biases (Jabri et al., 2016).
+One reason for this is the presence of a fundamental problem with counting in the widely-used soft
+attention mechanisms (section 3). Another reason is that unlike standard counting tasks, there is no
+ground truth labeling of where the objects to count are. Coupled with the fact that models need to
+be able to count a large variety of objects and that, ideally, performance on non-counting questions
+should not be compromised, the task of counting in VQA seems very challenging.
+To make this task easier, we can use object proposals – pairs of a bounding box and object features –
+from object detection networks as input instead of learning from pixels directly. In any moderately
+complex scene, this runs into the issue of double-counting overlapping object proposals. This is a
+problem present in many natural images, which leads to inaccurate counting in real-world scenarios.
+Our main contribution is a differentiable neural network component that tackles this problem and
+consequently can learn to count (section 4). Used alongside an attention mechanism, this component
+avoids a fundamental limitation of soft attention while producing strong counting features. We
+provide experimental evidence of the effectiveness of this component (section 5). On a toy dataset,
+we demonstrate that this component enables robust counting in a variety of scenarios. On the number
+category of the VQA v2 Open-Ended dataset (Goyal et al., 2017), a relatively simple baseline model
+using the counting component outperforms all previous models – including large ensembles of
+state-of-the-art methods – without degrading performance on other categories. 1
+
+2 RELATED WORK
+
+Usually, greedy non-maximum suppression (NMS) is used to eliminate duplicate bounding boxes.
+The main problem with using it as part of a model is that its gradient is piecewise constant. Various
+
+1Our implementation is available at https://github.com/Cyanogenoid/vqa-counting.
+
+1
+
+

@@ -1,0 +1,70 @@
+Published as a conference paper at ICLR 2018
+
+TEMPORAL DIFFERENCE MODELS:
+MODEL-FREE DEEP RL FOR MODEL-BASED CONTROL
+
+Vitchyr Pong∗
+University of California, Berkeley
+vitchyr@berkeley.edu
+
+Shixiang Gu∗
+University of Cambridge
+Max Planck Institute
+Google Brain
+sg717@cam.ac.uk
+
+Murtaza Dalal
+University of California, Berkeley
+mdalal@berkeley.edu
+
+Sergey Levine
+University of California, Berkeley
+svlevine@eecs.berkeley.edu
+
+ABSTRACT
+
+Model-free reinforcement learning (RL) is a powerful, general tool for learning
+complex behaviors. However, its sample efﬁciency is often impractically large for
+solving challenging real-world problems, even with off-policy algorithms such as
+Q-learning. A limiting factor in classic model-free RL is that the learning signal
+consists only of scalar rewards, ignoring much of the rich information contained
+in state transition tuples. Model-based RL uses this information, by training a
+predictive model, but often does not achieve the same asymptotic performance
+as model-free RL due to model bias. We introduce temporal difference models
+(TDMs), a family of goal-conditioned value functions that can be trained with
+model-free learning and used for model-based control. TDMs combine the bene-
+ﬁts of model-free and model-based RL: they leverage the rich information in state
+transitions to learn very efﬁciently, while still attaining asymptotic performance
+that exceeds that of direct model-based RL methods. Our experimental results
+show that, on a range of continuous control tasks, TDMs provide a substantial im-
+provement in efﬁciency compared to state-of-the-art model-based and model-free
+methods.
+
+1
+
+INTRODUCTION
+
+Reinforcement learning (RL) algorithms provide a formalism for autonomous learning of com-
+plex behaviors. When combined with rich function approximators such as deep neural networks,
+RL can provide impressive results on tasks ranging from playing games (Mnih et al., 2015; Silver
+et al., 2016), to ﬂying and driving (Lillicrap et al., 2015; Zhang et al., 2016), to controlling robotic
+arms (Levine et al., 2016; Gu et al., 2017). However, these deep RL algorithms often require a large
+amount of experience to arrive at an effective solution, which can severely limit their application to
+real-world problems where this experience might need to be gathered directly on a real physical sys-
+tem. Part of the reason for this is that direct, model-free RL learns only from the reward: experience
+that receives no reward provides minimal supervision to the learner.
+In contrast, model-based RL algorithms obtain a large amount of supervision from every sample,
+since they can use each sample to better learn how to predict the system dynamics – that is, to
+learn the “physics” of the problem. Once the dynamics are learned, near-optimal behavior can
+in principle be obtained by planning through these dynamics. Model-based algorithms tend to be
+substantially more efﬁcient (Deisenroth et al., 2013; Nagabandi et al., 2017), but often at the cost
+of larger asymptotic bias: when the dynamics cannot be learned perfectly, as is the case for most
+complex problems, the ﬁnal policy can be highly suboptimal. Therefore, conventional wisdom
+holds that model-free methods are less efﬁcient but achieve the best asymptotic performance, while
+model-based methods are more efﬁcient but do not produce policies that are as optimal.
+
+∗denotes equal contribution
+
+1
+
+

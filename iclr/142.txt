@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+ALTERNATING MULTI-BIT QUANTIZATION FOR
+RECURRENT NEURAL NETWORKS
+
+Chen Xu1,∗, Jianqiang Yao2, Zhouchen Lin1,3,†, Wenwu Ou2, Yuanbin Cao4, Zhirong Wang2,
+Hongbin Zha1,3
+1 Key Laboratory of Machine Perception (MOE), School of EECS, Peking University, China
+2 Search Algorithm Team, Alibaba Group, China
+3 Cooperative Medianet Innovation Center, Shanghai Jiao Tong University, China
+4 AI-LAB, Alibaba Group, China
+xuen@pku.edu.cn,tianduo@taobao.com,zlin@pku.edu.cn,santong.oww@taobao.com
+lingzun.cyb@alibaba-inc.com, qingfeng@taobao.com,zha@cis.pku.edu.cn
+
+ABSTRACT
+
+Recurrent neural networks have achieved excellent performance in many applica-
+tions. However, on portable devices with limited resources, the models are often
+too large to deploy. For applications on the server with large scale concurrent
+requests, the latency during inference can also be very critical for costly computing
+resources. In this work, we address these problems by quantizing the network, both
+weights and activations, into multiple binary codes {−1, +1}. We formulate the
+quantization as an optimization problem. Under the key observation that once the
+quantization coefﬁcients are ﬁxed the binary codes can be derived efﬁciently by
+binary search tree, alternating minimization is then applied. We test the quantiza-
+tion for two well-known RNNs, i.e., long short term memory (LSTM) and gated
+recurrent unit (GRU), on the language models. Compared with the full-precision
+counter part, by 2-bit quantization we can achieve ∼16× memory saving and ∼6×
+real inference acceleration on CPUs, with only a reasonable loss in the accuracy.
+By 3-bit quantization, we can achieve almost no loss in the accuracy or even
+surpass the original model, with ∼10.5× memory saving and ∼3× real inference
+acceleration. Both results beat the exiting quantization works with large margins.
+We extend our alternating quantization to image classiﬁcation tasks. In both RNNs
+and feedforward neural networks, the method also achieves excellent performance.
+
+1
+
+INTRODUCTION
+
+Recurrent neural networks (RNNs) are speciﬁc type of neural networks which are designed to model
+the sequence data. In last decades, various RNN architectures have been proposed, such as Long-
+Short-Term Memory (LSTM) (Hochreiter & Schmidhuber, 1997) and Gated Recurrent Units Cho
+et al. (2014). They have enabled the RNNs to achieve state-of-art performance in many applications,
+e.g., language models (Mikolov et al., 2010), neural machine translation (Sutskever et al., 2014;
+Wu et al., 2016), automatic speech recognition (Graves et al., 2013), image captions (Vinyals et al.,
+2015), etc. However, the models often build on high dimensional input/output,e.g., large vocabulary
+in language models, or very deep inner recurrent networks, making the models have too many
+parameters to deploy on portable devices with limited resources. In addition, RNNs can only be
+executed sequentially with dependence on current hidden states. This causes large latency during
+inference. For applications in the server with large scale concurrent requests, e.g., on-line machine
+translation and speech recognition, large latency leads to limited requests processed per machine to
+meet the stringent response time requirements. Thus much more costly computing resources are in
+demand for RNN based models.
+To alleviate the above problems, several techniques can be employed, i.e., low rank approximation
+(Sainath et al., 2013; Jaderberg et al., 2014; Lebedev et al., 2014; Tai et al., 2016), sparsity (Liu
+
+∗Work performed while interning at Alibaba search algorithm team.
+†Corresponding author.
+
+1
+
+

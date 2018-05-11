@@ -1,0 +1,65 @@
+Published as a conference paper at ICLR 2018
+
+GUIDE ACTOR-CRITIC FOR CONTINUOUS CONTROL
+
+Voot Tangkaratt
+RIKEN AIP, Tokyo, Japan
+voot.tangkaratt@riken.jp
+
+Abbas Abdolmaleki
+The University of Aveiro, Aveiro, Portugal
+abbas.a@ua.pt
+
+Masashi Sugiyama
+RIKEN AIP, Tokyo, Japan
+The University of Tokyo, Tokyo, Japan
+masashi.sugiyama@riken.jp
+
+ABSTRACT
+
+Actor-critic methods solve reinforcement learning problems by updating a param-
+eterized policy known as an actor in a direction that increases an estimate of the
+expected return known as a critic. However, existing actor-critic methods only
+use values or gradients of the critic to update the policy parameter. In this pa-
+per, we propose a novel actor-critic method called the guide actor-critic (GAC).
+GAC ﬁrstly learns a guide actor that locally maximizes the critic and then it up-
+dates the policy parameter based on the guide actor by supervised learning. Our
+main theoretical contributions are two folds. First, we show that GAC updates the
+guide actor by performing second-order optimization in the action space where
+the curvature matrix is based on the Hessians of the critic. Second, we show that
+the deterministic policy gradient method is a special case of GAC when the Hes-
+sians are ignored. Through experiments, we show that our method is a promising
+reinforcement learning method for continuous controls.
+
+1
+
+INTRODUCTION
+
+The goal of reinforcement learning (RL) is to learn an optimal policy that lets an agent achieve the
+maximum cumulative rewards known as the return (Sutton & Barto, 1998). Reinforcement learning
+has been shown to be effective in solving challenging artiﬁcial intelligence tasks such as playing
+games (Mnih et al., 2015; Silver et al., 2016) and controlling robots (Deisenroth et al., 2013; Levine
+et al., 2016).
+Reinforcement learning methods can be classiﬁed into three categories: value-based, policy-based,
+and actor-critic methods. Value-based methods learn an optimal policy by ﬁrstly learning a value
+function that estimates the expected return. Then, they infer an optimal policy by choosing an
+action that maximizes the learned value function. Choosing an action in this way requires solving a
+maximization problem which is not trivial for continuous controls. While extensions to continuous
+controls were considered recently, they are restrictive since speciﬁc structures of the value function
+are assumed (Gu et al., 2016; Amos et al., 2017).
+On the other hand, policy-based methods, also called policy search methods (Deisenroth et al.,
+2013), learn a parameterized policy maximizing a sample approximation of the expected re-
+turn without learning the value function. For instance, policy gradient methods such as REIN-
+FORCE (Williams, 1992) use gradient ascent to update the policy parameter so that the probability
+of observing high sample returns increases. Compared with value-based methods, policy search
+methods are simpler and naturally applicable to continuous problems. Moreover, the sample return
+is an unbiased estimator of the expected return and methods such as policy gradients are guaranteed
+to converge to a locally optimal policy under standard regularity conditions (Sutton et al., 1999).
+However, sample returns usually have high variance and this makes such policy search methods
+converge too slowly.
+Actor-critic methods combine the advantages of value-based and policy search methods. In these
+methods, the parameterized policy is called an actor and the learned value-function is called a critic.
+
+1
+
+

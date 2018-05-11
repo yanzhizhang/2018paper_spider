@@ -1,0 +1,62 @@
+Published as a conference paper at ICLR 2018
+
+MEMORY AUGMENTED CONTROL NETWORKS
+
+Arbaaz Khan, Clark Zhang, Nikolay Atanasov, Konstantinos Karydis,
+Vijay Kumar, Daniel D. Lee
+
+GRASP Laboratory, University of Pennsylvania
+
+ABSTRACT
+
+Planning problems in partially observable environments cannot be solved directly
+with convolutional networks and require some form of memory. But, even memory
+networks with sophisticated addressing schemes are unable to learn intelligent
+reasoning satisfactorily due to the complexity of simultaneously learning to access
+memory and plan. To mitigate these challenges we propose the Memory Aug-
+mented Control Network (MACN). The network splits planning into a hierarchical
+process. At a lower level, it learns to plan in a locally observed space. At a higher
+level, it uses a collection of policies computed on locally observed spaces to learn
+an optimal plan in the global environment it is operating in. The performance of
+the network is evaluated on path planning tasks in environments in the presence of
+simple and complex obstacles and in addition, is tested for its ability to generalize
+to new environments not seen in the training set.
+
+1
+
+INTRODUCTION
+
+A planning task in a partially observable environment involves two steps: inferring the environment
+structure from local observation and acting based on the current environment estimate. In the past,
+such perception-action loops have been learned using supervised learning with deep networks as
+well as deep reinforcement learning (Daftry et al., 2016), (Chebotar et al., 2016), (Lee et al., 2017).
+Popular approaches in this spirit are often end-to-end (i.e. mapping sensor readings directly to motion
+commands) and manage to solve problems in which the underlying dynamics of the environment or
+the agent are too complex to model. Approaches to learn end-to-end perception-action loops have
+been extended to complex reinforcement learning tasks such as learning how to play Atari games
+(Mnih et al., 2013a), as well as to imitation learning tasks like controlling a robot arm (Levine et al.,
+2015).
+Purely convolutional architectures (CNNs) perform poorly when applied to planning problems due
+to the reactive nature of the policies learned by them (Zhang et al., 2016b), (Giusti et al., 2016).
+The complexity of this problem is compounded when the environment is only partially observable as
+is the case with most real world tasks. In planning problems, when using a function approximator
+such as a convolutional neural network, the optimal actions are dependent on an internal state. If one
+wishes to use a state-less network (such as a CNN) to obtain the optimal action, the input for the
+network should be the whole history of observations and actions. Since this does not scale well, we
+need a network that has an internal state such as a recurrent neural network or a memory network.
+(Zhang et al., 2016a) showed that when learning how to plan in partially observable environments,
+it becomes necessary to use memory to retain information about states visited in the past. Using
+recurrent networks to store past information and learn optimal control has been explored before
+in (Levine, 2013). While (Siegelmann & Sontag, 1995) have shown that recurrent networks are
+Turing complete and are hence capable of generating any arbitrary sequence in theory, this does not
+always translate into practice. Recent advances in memory augmented networks have shown that it
+is beneﬁcial to use external memory with read and write operators that can be learned by a neural
+network over recurrent neural networks (Graves et al., 2014), (Graves et al., 2016). Speciﬁcally,
+we are interested in the Differentiable Neural Computer (DNC) (Graves et al., 2016) which uses
+an external memory and a network controller to learn how to read, write and access locations in
+the external memory. The DNC is structured such that computation and memory operations are
+separated from each other. Such a memory network can in principle be plugged into the convolutional
+
+1
+
+

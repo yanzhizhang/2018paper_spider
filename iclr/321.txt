@@ -1,0 +1,60 @@
+Published as a conference paper at ICLR 2018
+
+LEARNING AN EMBEDDING SPACE
+FOR TRANSFERABLE ROBOT SKILLS
+
+Karol Hausman∗
+Department of Computer Science, University of Southern California
+hausman@usc.edu
+
+Jost Tobias Springenberg, Ziyu Wang, Nicolas Heess, Martin Riedmiller
+DeepMind
+{springenberg,ziyu,heess,riedmiller}@google.com
+
+ABSTRACT
+
+We present a method for reinforcement learning of closely related skills that are
+parameterized via a skill embedding space. We learn such skills by taking advan-
+tage of latent variables and exploiting a connection between reinforcement learn-
+ing and variational inference. The main contribution of our work is an entropy-
+regularized policy gradient formulation for hierarchical policies, and an associ-
+ated, data-efﬁcient and robust off-policy gradient algorithm based on stochastic
+value gradients. We demonstrate the effectiveness of our method on several sim-
+ulated robotic manipulation tasks. We ﬁnd that our method allows for discovery
+of multiple solutions and is capable of learning the minimum number of distinct
+skills that are necessary to solve a given set of tasks.
+In addition, our results
+indicate that the hereby proposed technique can interpolate and/or sequence pre-
+viously learned skills in order to accomplish more complex tasks, even in the
+presence of sparse rewards.
+
+1
+
+INTRODUCTION
+
+Recent years have seen great progress in methods for reinforcement learning with rich function
+approximators, aka “deep reinforcement learning” (DRL). In the ﬁeld of robotics, DRL holds
+the promise of automatically learning ﬂexible behaviors end-to-end while dealing with high-
+dimensional, multi-modal sensor streams (Arulkumaran et al., 2017). Among these successes, there
+has been substantial progress in algorithms for continuous action spaces, in terms of the complexity
+of systems that can be controlled as well as the data-efﬁciency and stability of the algorithms.
+Despite this recent progress, the predominant paradigm remains, however, to learn solutions from
+scratch for every task. Not only this is inefﬁcient and constrains the difﬁculty of the tasks that can
+be solved, but also it limits the versatility and adaptivity of the systems that can be built. This is by
+no means a novel insight and there have been many attempts to address this issue (e.g. Devin et al.
+2016; Rusu et al. 2016; Finn et al. 2017; Teh et al. 2017). Nevertheless, the effective discovery,
+representation, and reuse of skills remains an open research question.
+We aim to take a step towards this goal. Our method learns manipulation skills that are continuously
+parameterized in an embedding space. We show how we can take advantage of these skills for
+rapidly solving new tasks, effectively by solving the control problem in the embedding space rather
+than the raw action space.
+To learn skills, we take advantage of latent variables - an important tool in the probabilistic mod-
+eling literature for discovering structure in data. The main contribution of our work is an entropy-
+regularized policy gradient formulation for hierarchical policies, and an associated, data-efﬁcient
+and robust off-policy gradient algorithm based on stochastic value gradients.
+
+∗This work was carried out during an internship at DeepMind.
+
+1
+
+

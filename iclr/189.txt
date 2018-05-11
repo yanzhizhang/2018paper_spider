@@ -1,0 +1,68 @@
+Published as a conference paper at ICLR 2018
+
+SYNTHETIC AND NATURAL NOISE BOTH BREAK
+NEURAL MACHINE TRANSLATION
+
+Yonatan Belinkov∗
+Computer Science and
+Artiﬁcial Intelligence Laboratory,
+Massachusetts Institute of Technology
+belinkov@mit.edu
+
+Yonatan Bisk∗
+Paul G. Allen School
+of Computer Science & Engineering,
+University of Washington
+ybisk@cs.washington.edu
+
+ABSTRACT
+
+Character-based neural machine translation (NMT) models alleviate out-of-
+vocabulary issues, learn morphology, and move us closer to completely end-to-
+end translation systems. Unfortunately, they are also very brittle and easily falter
+when presented with noisy data. In this paper, we confront NMT models with
+synthetic and natural sources of noise. We ﬁnd that state-of-the-art models fail to
+translate even moderately noisy texts that humans have no trouble comprehend-
+ing. We explore two approaches to increase model robustness: structure-invariant
+word representations and robust training on noisy texts. We ﬁnd that a model
+based on a character convolutional neural network is able to simultaneously learn
+representations robust to multiple kinds of noise.
+
+1
+
+INTRODUCTION
+
+Humans have surprisingly robust language processing systems that can easily overcome typos, mis-
+spellings, and the complete omission of letters when reading (Rawlinson, 1976). A particularly
+extreme and comical exploitation of our robustness came years ago in the form of a popular meme:
+
+“Aoccdrnig to a rscheearch at Cmabrigde Uinervtisy, it deosn’t mttaer in waht oredr the ltteers
+in a wrod are, the olny iprmoetnt tihng is taht the frist and lsat ltteer be at the rghit pclae.”
+
+A person’s ability to read this text comes as no surprise to the psychology literature. Saberi & Perrott
+(1999) found that this robustness extends to audio as well. They experimented with playing parts
+of audio transcripts backwards and found that it did not affect comprehension. Rayner et al. (2006)
+found that in noisier settings reading comprehension only slowed by 11%. McCusker et al. (1981)
+found that the common case of swapping letters could often go unnoticed by the reader. The exact
+mechanisms and limitations of our understanding system are unknown. There is some evidence that
+we rely on word shape (Mayall et al., 1997), that we can switch between whole word recognition
+and piecing together words from letters (Reicher, 1969; Pelli et al., 2003), and there appears to be
+no evidence that the ﬁrst and last letter positions are required to stay constant for comprehension.1
+In stark contrast, neural machine translation (NMT) systems, despite their pervasive use, are im-
+mensely brittle. For instance, Google Translate produces the following unintelligible translation for
+a German version of the above meme:2
+
+“After being stubbornly deﬁant, it is clear to kenie Rlloe in which Reiehnfogle is advancing the
+boulders in a Wrot that is integral to Sahce, as the utterance and the lukewarm boorstbaen stmimt.”
+
+While typos and noise are not new to NLP, our systems are rarely trained to explicitly address them,
+as we instead hope that the relevant noise will occur in the training data.
+Despite these weaknesses, the move to character-based NMT is important. It helps us tackle the long
+tailed distribution of out-of-vocabulary words in natural language, as well as reduce computation
+∗Equal contribution. Ordering determined by bartender’s coin: https://youtu.be/BFSc2HnpYtA
+1One caveat we feel is important to note is that most of the literature in psychology has focused on English.
+2Retrieved on February 2, 2018.
+
+1
+
+

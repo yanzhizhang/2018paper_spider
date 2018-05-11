@@ -1,0 +1,89 @@
+Published as a conference paper at ICLR 2018
+
+GAUSSIAN PROCESS BEHAVIOUR IN
+WIDE DEEP NEURAL NETWORKS
+
+Alexander G. de G. Matthews
+University of Cambridge
+am554@cam.ac.uk
+
+Jiri Hron
+University of Cambridge
+jh2084@cam.ac.uk
+
+Mark Rowland
+University of Cambridge
+mr504@cam.ac.uk
+
+Richard E. Turner
+University of Cambridge
+ret26@cam.ac.uk
+
+Zoubin Ghahramani
+University of Cambridge, Uber AI Labs
+zoubin@eng.cam.ac.uk
+
+ABSTRACT
+
+Whilst deep neural networks have shown great empirical success, there is still
+much work to be done to understand their theoretical properties. In this paper, we
+study the relationship between Gaussian processes with a recursive kernel deﬁni-
+tion and random wide fully connected feedforward networks with more than one
+hidden layer. We exhibit limiting procedures under which ﬁnite deep networks
+will converge in distribution to the corresponding Gaussian process. To evalu-
+ate convergence rates empirically, we use maximum mean discrepancy. We then
+exhibit situations where existing Bayesian deep networks are close to Gaussian
+processes in terms of the key quantities of interest. Any Gaussian process has a
+ﬂat representation. Since this behaviour may be undesirable in certain situations
+we discuss ways in which it might be prevented. 1
+
+1
+
+INTRODUCTION
+
+Deep feedforward neural networks have emerged as an essential component of modern machine
+learning. As such there has been signiﬁcant research effort in trying to understand the theoretical
+properties of such models. One important branch of such research is the study of random networks.
+By assuming a probability distribution on the network parameters, a distribution is induced on the
+input to output function that such networks encode. This has proved important in the study of
+initialisation and learning dynamics (Schoenholz et al., 2017) and expressivity (Poole et al., 2016).
+It is, of course, essential in the study of Bayesian priors on networks (Neal, 1996). The Bayesian
+approach makes little sense if prior assumptions are not understood, and distributional knowledge
+can be essential in ﬁnding good posterior approximations.
+Since we typically want our networks to have high modelling capacity, it is natural to consider limit
+distributions of networks as they become large. Whilst distributions on deep networks are generally
+challenging to work with exactly, the limiting behaviour can lead to more insight. Further, as we
+shall see, networks used in the literature may be very close to this behaviour.
+The seminal work in this area is that of Neal (1996), which showed that under certain conditions
+random neural networks with one hidden layer converge to a Gaussian process. The question of
+the type of convergence is non-trivial and part of our discussion. Historically this result was a
+signiﬁcant one because it provided a connection between ﬂexible Bayesian neural networks and
+Gaussian processes (Williams, 1998; Rasmussen & Williams, 2006)
+
+1Code
+
+the
+
+paper
+
+can
+
+be
+
+found
+
+at https://github.com/
+
+for
+
+the
+
+experiments
+
+in
+
+widedeepnetworks/widedeepnetworks
+
+1
+
+
