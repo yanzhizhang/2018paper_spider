@@ -23,18 +23,54 @@ class IclrSpider(scrapy.Spider):
 
     def parse_pdf(self, response):
         href_pdf = response.selector.xpath('//meta').re(r'"citation_pdf_url" content="(.*)"')[0]
-        yield Request(url=response.urljoin(href_pdf), callback=self.save_pdf)
+        return Request(url=response.urljoin(href_pdf), callback=self.save_pdf)
 
     def save_pdf(self, response):
         global COUNTER
         path = str(COUNTER) +".pdf"
-        COUNTER += 1
         self.logger.info('Saving PDF %s', path)
         with open(path, 'wb') as f:
             f.write(response.body)
         str(COUNTER)+".txt"
         call(["python", "pdf2txt.py", path, "-o", str(COUNTER)+".txt", "-p", "1"])
 
+        with open(str(COUNTER)+".txt", 'r') as f:
+            lines = f.readlines()
+
+
+        pattern  = '(.*@.*)'
+        new_files = ""
+        for line in lines:
+            match = re.search(pattern, line)
+            if match:
+                # print(match.group())
+                new_files += match.group() + " "
+        #new_files就是所有email在一个string
+
+        while "{" in new_files:
+            match_author = re.search('{(.*)}', new_files).group(1)
+            match_affliation = re.search('}([a-zA-Z|\.]*)', new_files).group(1)
+
+            temp = match_author.split(',')
+            new_string = ""
+            for i in range(len(temp)):
+                temp[i] = temp[i] + match_affliation+" "
+                new_string += temp[i]
+
+
+            new_files = re.sub('({.*}[a-zA-Z|\.]*)',new_string ,new_files)
+
+        # new_line = ""
+        # for i in new_files.split(" "):
+        #     if re.search("(@.*)",i):
+        #         new_line += re.search("(@.*)",i).group(1)+ " "
+
+        text_file = open(str(COUNTER)+"affliation.txt", "w")
+        text_file.write("%s" % new_files)
+        text_file.close()
+
+
+        COUNTER += 1
 
 
     def parse(self, response):
