@@ -42,7 +42,7 @@ class Top1000researchSpider(scrapy.Spider):
         global_authors_list.extend(authors_list)
         global_affliation_list.extend(affliation_list)
 
-        workbook = xlsxwriter.Workbook('list.xlsx')
+        workbook = xlsxwriter.Workbook('guide2reserach.xlsx')
         worksheet = workbook.add_worksheet()
 
         bold = workbook.add_format({'bold': 1})
