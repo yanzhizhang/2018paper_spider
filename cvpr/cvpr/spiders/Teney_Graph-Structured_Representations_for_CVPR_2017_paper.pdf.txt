@@ -1,0 +1,228 @@
+Graph-Structured Representations for Visual Question Answering
+
+Damien Teney
+
+Lingqiao Liu
+
+Anton van den Hengel
+
+Australian Centre for Visual Technologies
+
+The University of Adelaide
+
+{damien.teney,lingqiao.liu,anton.vandenhengel}@adelaide.edu.au
+
+Abstract
+
+This paper proposes to improve visual question answer-
+ing (VQA) with structured representations of both scene
+contents and questions. A key challenge in VQA is to require
+joint reasoning over the visual and text domains. The pre-
+dominant CNN/LSTM-based approach to VQA is limited by
+monolithic vector representations that largely ignore struc-
+ture in the scene and in the question. CNN feature vectors
+cannot effectively capture situations as simple as multiple
+object instances, and LSTMs process questions as series
+of words, which do not reﬂect the true complexity of lan-
+guage structure. We instead propose to build graphs over
+the scene objects and over the question words, and we de-
+scribe a deep neural network that exploits the structure in
+these representations. We show that this approach achieves
+signiﬁcant improvements over the state-of-the-art, increas-
+ing accuracy from 71.2% to 74.4% on the “abstract scenes”
+multiple-choice benchmark, and from 34.7% to 39.1% for
+the more challenging “balanced” scenes, i.e. image pairs
+with ﬁne-grained differences and opposite yes/no answers
+to a same question.
+
+1. Introduction
+
+The task of Visual Question Answering has received
+growing interest in the recent years (see [17, 4, 25] for ex-
+ample). One of the more interesting aspects of the problem
+is that it combines computer vision, natural language pro-
+cessing, and artiﬁcial intelligence. In its open-ended form,
+a question is provided as text in natural language together
+with an image, and a correct answer must be predicted, typ-
+ically in the form of a single word or a short phrase. In the
+multiple-choice variant, an answer is selected from a pro-
+vided set of candidates, alleviating evaluation issues related
+to synonyms and paraphrasing.
+
+Multiple datasets for VQA have been introduced with
+either real [4, 14, 17, 21, 31] or synthetic images [4, 30].
+Our experiments uses the latter, being based on clip art
+or “cartoon” images created by humans to depict realistic
+
+Neural
+network
+
+jumping
+playing
+sleeping
+eating
+...
+
+What
+
+is
+
+the
+
+white
+
+cat doing
+
+?
+
+Figure 1. We encode the input scene as a graph representing the
+objects and their spatial arrangement, and the input question as a
+graph representing words and their syntactic dependencies. A neu-
+ral network is trained to reason over these representations, and to
+produce a suitable answer as a prediction over an output vocabu-
+lary.
+
+scenes (they are usually referred to as “abstract scenes”, de-
+spite this being a misnomer). Our experiments focus on
+this dataset of clip art scenes as they allow to focus on se-
+mantic reasoning and vision-language interactions, in iso-
+lation from the performance of visual recognition (see ex-
+amples in Fig. 5). They also allow the manipulation of
+the image data so as to better illuminate algorithm perfor-
+mance. A particularly attractive VQA dataset was intro-
+duced in [30] by selecting only the questions with binary an-
+swers (e.g. yes/no) and pairing each (synthetic) image with
+a minimally-different complementary version that elicits the
+opposite (no/yes) answer (see examples in Fig. 5, bottom
+rows). This strongly contrasts with other VQA datasets of
+real images, where a correct answer is often obvious with-
+out looking at the image, by relying on systematic regulari-
+ties of frequent questions and answers [4, 30]. Performance
+improvements reported on such datasets are difﬁcult to in-
+terpret as actual progress in scene understanding and rea-
+soning as they might similarly be taken to represent a better
+modeling of the language prior of the dataset. This ham-
+pers, or at best obscures, progress toward the greater goal
+of general VQA. In our view, and despite obvious limita-
+tions of synthetic images, improvements on the aforemen-
+tioned “balanced” dataset constitute an illuminating mea-
+sure of progress in scene-understanding, because a language
+
+1
+
+model alone cannot perform better than chance on this data.
+
+Challenges The questions in the clip-art dataset vary
+greatly in their complexity. Some can be directly answered
+from observations of visual elements, e.g. Is there a dog in
+the room ?, or Is the weather good ?. Others require relating
+multiple facts or understanding complex actions, e.g. Is the
+boy going to catch the ball?, or Is it winter?. An additional
+challenge, which affects all VQA datasets, is the sparsity of
+the training data. Even a large number of training questions
+(almost 25,000 for the clip art scenes of [4]) cannot pos-
+sibly cover the combinatorial diversity of possible objects
+and concepts. Adding to this challenge, most methods for
+VQA process the question through a recurrent neural net-
+work (such as an LSTM) trained from scratch solely on the
+training questions.
+
+Language representation The above reasons motivate us
+to take advantage of the extensive existing work in the nat-
+ural language community to aid processing the questions.
+First, we identify the syntactic structure of the question us-
+ing a dependency parser [7]. This produces a graph repre-
+sentation of the question in which each node represents a
+word and each edge a particular type of dependency (e.g.
+determiner, nominal subject, direct object, etc.). Second,
+we associate each word (node) with a vector embedding
+pretrained on large corpora of text data [20]. This embed-
+ding maps the words to a space in which distances are se-
+mantically meaningful. Consequently, this essentially reg-
+ularizes the remainder of the network to share learned con-
+cepts among related words and synonyms. This partic-
+ularly helps in dealing with rare words, and also allows
+questions to include words absent from the training ques-
+tions/answers. Note that this pretraining and ad hoc pro-
+cessing of the language part mimics a practice common for
+the image part, in which visual features are usually obtained
+from a ﬁxed CNN, itself pretrained on a larger dataset and
+with a different (supervised classiﬁcation) objective.
+
+Scene representation Each object in the scene corre-
+sponds to a node in the scene graph, which has an associated
+feature vector describing its appearance. The graph is fully
+connected, with each edge representing the relative position
+of the objects in the image.
+
+and (2) the semantic relationships between elements (and
+the grammatical relationships between words in particular).
+This contrasts with the typical approach of representing the
+image with CNN activations (which are sensitive to individ-
+ual object locations but less so to relative position) and the
+processing words of the question serially with an RNN (de-
+spite the fact that grammatical structure is very non-linear).
+The graph representation ignores the order in which ele-
+ments are processed, but instead represents the relationships
+between different elements using different edge types. Our
+network uses multiple layers that iterate over the features
+associated with every node, then ultimately identiﬁes a soft
+matching between nodes from the two graphs. This match-
+ing reﬂects the correspondences between the words in the
+question and the objects in the image. The features of the
+matched nodes then feed into a classiﬁer to infer the answer
+to the question (Fig. 1).
+
+The main contributions of this paper are four-fold.
+
+1) We describe how to use graph representations of scene
+and question for VQA, and a neural network capable of
+processing these representations to infer an answer.
+
+2) We show how to make use of an off-the-shelf language
+parsing tool by generating a graph representation of text
+that captures grammatical relationships, and by making
+this information accessible to the VQA model. This rep-
+resentation uses a pre-trained word embedding to form
+node features, and encodes syntactic dependencies be-
+tween words as edge features.
+
+3) We train the proposed model on the VQA “abstract
+scenes” benchmark [4] and demonstrate its efﬁcacy
+by raising the state-of-the-art accuracy from 71.2% to
+74.4% in the multiple-choice setting. On the “balanced”
+version of the dataset, we raise the accuracy from 34.7%
+to 39.1% in the hardest setting (requiring a correct an-
+swer over pairs of scenes).
+
+4) We evaluate the uncertainty in the model by presenting
+– for the ﬁrst time on the task of VQA – precision/recall
+curves of predicted answers. Those curves provide more
+insight than the single accuracy metric and show that the
+uncertainty estimated by the model about its predictions
+correlates with the ambiguity of the human-provided
+ground truth.
+
+2. Related work
+
+Applying Neural Networks to graphs The two graph
+representations feed into a deep neural network that we
+will describe in Section 4. The advantage of this approach
+with text- and scene-graphs, rather than more typical repre-
+sentations, is that the graphs can capture relationships be-
+tween words and between objects which are of semantic
+signiﬁcance. This enables the GNN to exploit (1) the un-
+ordered nature of scene elements (the objects in particular)
+
+The task of visual question answering has received in-
+creasing interest since the seminal paper of Antol et al. [4].
+Most recent methods are based on the idea of a joint em-
+bedding of the image and the question using a deep neu-
+ral network. The image is passed through a convolutional
+neural network (CNN) pretrained for image classiﬁcation,
+from which intermediate features are extracted to describe
+the image. The question is typically passed through a re-
+
+2
+
+
