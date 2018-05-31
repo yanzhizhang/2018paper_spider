@@ -54,6 +54,6 @@ for i in range(len(AUTHOR_LIST)):
     row += 1
 workbook.close()
 
-print(AUTHOR_LIST)
-print(EMAIL_LIST)
-print(TOPIC_LIST)
+# print(AUTHOR_LIST)
+# print(EMAIL_LIST)
+# print(TOPIC_LIST)

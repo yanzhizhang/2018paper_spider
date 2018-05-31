@@ -29,7 +29,6 @@ class Sigar2018Spider(scrapy.Spider):
         worksheet.write('A1', 'Name', bold)
         worksheet.write('B1', 'Affliation', bold)
 
-        print("作者")
         row = 1
         worksheet.write(row, 0, 'Full paper', bold)
         row+=1
