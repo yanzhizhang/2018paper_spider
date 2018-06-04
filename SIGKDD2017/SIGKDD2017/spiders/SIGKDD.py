@@ -6,7 +6,6 @@ import xlsxwriter
 
 class SigkddSpider(scrapy.Spider):
     name = 'SIGKDD'
-    # allowed_domains = ['http://www.kdd.org/kdd2017/accepted-papers']
 
     def start_requests(self):
         urls = ['http://www.kdd.org/kdd2017/accepted-papers']
