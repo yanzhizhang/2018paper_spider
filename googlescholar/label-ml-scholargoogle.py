@@ -8,7 +8,7 @@ AUTHOR_LIST = []
 EMAIL_LIST = []
 TOPIC_LIST = []
 
-urls = ['https://scholar.google.com/citations?view_op=search_authors&hl=en&mauthors=label:machine_learning&after_author=0LcBAH5D_v8J&astart=0',
+urls = ['https://scholar.google.com/citations?authuser=1&hl=en&mauthors=label%3Amachine_learning&view_op=search_authors',
         'https://scholar.google.com/citations?view_op=search_authors&hl=en&mauthors=label:machine_learning&after_author=0LcBAH5D_v8J&astart=10',
         'https://scholar.google.com/citations?view_op=search_authors&hl=en&mauthors=label:machine_learning&after_author=0LcBAH5D_v8J&astart=20',
         'https://scholar.google.com/citations?view_op=search_authors&hl=en&mauthors=label:machine_learning&after_author=0LcBAH5D_v8J&astart=30',
@@ -37,7 +37,7 @@ for index, url in enumerate(urls):
             temp += i.contents
         TOPIC_LIST.append(temp)
 
-workbook = xlsxwriter.Workbook('google_scholar_label:ai.xlsx')
+workbook = xlsxwriter.Workbook('google_scholar_label:ml.xlsx')
 worksheet = workbook.add_worksheet()
 
 bold = workbook.add_format({'bold': 1})
