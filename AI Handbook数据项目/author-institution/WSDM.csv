@@ -1,0 +1,317 @@
+Person:,Organization:
+Carsten Eickhoff,ETH Zurich
+Yuqiu Qian,The University of Hong Kong
+ Conghui Tan,The Chinese University of Hong Kong
+ Nikos Mamoulis,University of Ioannina
+ David W. Cheung,The University of Hong Kong
+Alistair Moffat,The University of Melbourne
+ Matthias Petri,The University of Melbourne
+Tom Hope,Hebrew University of Jerusalem
+ Dafna Shahaf,Hebrew University of Jerusalem
+Meizi Zhou,JD.com
+ Zhuoye Ding,JD.com
+ Jiliang Tang,Michigan State University
+ Dawei Yin,JD.com
+Suhas Ranganath,ASU
+ Ghazaleh Beigi,Arizona State University
+ Huan Liu,Arizona State University
+Longqi Yang,"Cornell Tech, Cornell University"
+ Eugene Bagdasaryan,"Cornell Tech, Cornell University"
+ Joshua Gruenstein,Massachusetts Institute of Technology
+ Cheng-Kang Hsieh,"Cornell Tech, Cornell University"
+ Deborah Estrin,"Cornell Tech, Cornell University"
+Jianfei Yu,Singapore Management University
+ Minghui Qiu,Alibaba Group
+ Jing Jiang,Singapore Management University
+ Shuangyong Song,Alibaba Group
+ Jun Huang,Alibaba Group
+ Wei Chu,Alibaba Group
+ Haiqing Chen,Alibaba Group
+Xiaohui Xie,Tsinghua University
+ Yiqun Liu,Tsinghua University
+ Maarten de Rijke,University of Amsterdam
+ Jiyin He,Centrum Wiskunde & Informatica (CWI
+ Min Zhang,Tsinghua University
+ Shaoping Ma,Tsinghua University
+Alexandre Gilotte,Criteo
+ Clement Calauzenes,Criteo
+ Thomas Nedelec,Criteo
+ Alexandre Abraham,Criteo
+ Simon Dollé,Criteo
+Zachary Friggstad,University of Alberta
+ Sreenivas Gollapudi,Google
+ Kostas Kollias,Google
+ Tamas Sarlos,Google
+ Chaitanya Swamy,University of Waterloo
+ Andrew Tomkins,Google
+Iftah Gamzu,Amazon
+ Liane Lewin-Eytan,Amazon
+ Natalia Silberstein,Yahoo Research
+Samaneh Ebrahimi,Georgia Institute of Technology
+ Hossein Vahabi,Pandora Media Inc.
+ Matthew Prockup,Pandora Media Inc.
+ Oriol Nieto,Pandora Media Inc.
+Jiezhong Qiu,Tsinghua University
+ Yuxiao Dong,Microsoft
+ Hao Ma,Microsoft
+ Jian Li,Tsinghua University
+ Kuansan Wang,Microsoft
+ Jie Tang,Tsinghua University
+Zihan Wang,"Data Science Lab, JD.com"
+ Ziheng Jiang,"Data Science Lab, JD.com"
+ Zhaochun Ren,"Data Science Lab, JD.com"
+ Jiliang Tang,Michigan State University
+ Dawei Yin,"Data Science Lab, JD.com"
+Ning Su,Tsinghua University
+ Jiyin He,CWI
+ Yiqun Liu,Tsinghua University
+ Min Zhang,Tsinghua University
+ Shaoping Ma,Tsinghua University
+Harshal Chaudhari,Boston University
+ John Byers,Boston University
+ Evimaria Terzi,Boston University
+Parisa Kaghazgaran,Texas A&M University
+ James Caverlee,Texas A&M University
+ Anna Squicciarini,The Pennsylvania State University
+Alex Beutel,Google
+ Paul Covington,Google
+ Sagar Jain,Google
+ Can Xu,Google
+ Jia Li,University of Illinois at Chicago
+ Vince Gatto,Google
+ Ed H. Chi,Google
+Xuanhui Wang,Google
+ Nadav Golbandi,Google
+ Michael Bendersky,Google
+ Donald Metzler,Google
+ Marc Najork,Google
+Ido Guy,eBay Research
+ Victor Makarenkov,Ben-Gurion University of the Negev
+ Niva Hazon,Ben-Gurion University of the Negev
+ Lior Rokach,Ben-Gurion University of the Negev
+ Bracha Shapira,Ben-Gurion University of the Negev
+Jooyeon Kim,Korea Advanced Institute of Science and Technology
+ Behzad Tabibian,Max Planck Institute for Intelligent Systems
+ Alice Oh,Korea Advanced Institute of Science and Technology
+ Bernhard Schölkopf,Max Planck Institute for Intelligent Systems
+ Manuel Gomez Rodriguez,Max Planck Institute for Software Systems
+Preethi Lahoti,Max Planck Institute for Informatics
+ Kiran Garimella,Aalto University
+ Aristides Gionis,Aalto University
+Noriaki. K,The University of Tokyo
+Xiao Huang,Texas A&M University
+ Qingquan Song,Texas A&M University
+ Jundong Li,Arizona State University
+ Xia Ben Hu,Texas A&M University
+Jiaxi Tang,Simon Fraser University
+ Ke Wang,Simon Fraser University
+Zhuyun Dai,Carnegie Mellon University
+ Chenyan Xiong,Carnegie Mellon University
+ Jamie Callan,Carnegie Mellon University
+ Zhiyuan Liu,Tsinghua University
+Yashoteja Prabhu,IIT Delhi
+ Shilpa Gopinath,Samsung Research India
+ Kunal Dahiya,IIT Delhi
+ Anil Kag,Microsoft
+ Shrutendra Harsola,Microsoft IDC Bangalore
+ Rahul Agrawal,Microsoft IDC Bangalore
+ Manik Varma,Microsoft
+Djellel Difallah,New York University
+ Elena Filatova,CUNY
+ Panos Ipeirotis,New York University
+Yi Tay,Nanyang Technological University
+ Anh Tuan Luu,Institute for Infocomm Research
+ Siu Cheung Hui,Nanyang Technological University
+Dan Li,University of Amsterdam
+ Evangelos Kanoulas,University of Amsterdam
+Hongwei Wang,Shanghai Jiao Tong University
+ Fuzheng Zhang,Microsoft
+ Min Hou,University of Science and Technology of China
+ Xing Xie,Microsoft
+ Minyi Guo,Shanghai Jiao Tong University
+ Qi Liu,USTC
+Sheng Wang,RMIT University
+ Zhifeng Bao,RMIT University
+ Shixun Huang,RMIT University
+ Rui Zhang,The University of Melbourne
+Xu Chen,Tsinghua University
+ Hongteng Xu,Georgia Institute of Technology
+ Yongfeng Zhang,University of Massachusetts Amherst
+ Yixin Cao,Tsinghua University
+ Zheng Qin,Tsinghua University
+ Jiaxi Tang,Simon Fraser University
+ Hongyuan Zha,Georgia Institute of Technology
+Kamran Ghasedi Dizaji,University of Pittsburgh
+ Yanhua Yang,Xidian University
+ Heng Huang,University of Pittsburgh
+Armita Afsharinejad,"Insight Centre for Data Analytics, University College Dublin"
+ Neil Hurley,"Insight Centre for Data Analytics, University College Dublin"
+Jundong Li,Arizona State University
+ Kewei Cheng,Arizona State University
+ Liang Wu,Arizona State University
+ Huan Liu,Arizona State University
+Ming He,"Faculty of Information Technology, Beijing University of Technology"
+ Jiuling Zhang,"Faculty of Information Technology, Beijing University of Technology"
+ Peng Yang,"Faculty of Information Technology, Beijing University of Technology"
+ Kaisheng Yao,"Faculty of Information Technology, Beijing University of Technology"
+Joel Mackenzie,RMIT University
+ J. Shane Culpepper,RMIT University
+ Roi Blanco,Amazon
+ Matt Crane,University of Waterloo
+ Charles L. A. Clarke,University of Waterloo
+ Jimmy Lin,University of Waterloo
+Liang Wu,Arizona State University
+ Huan Liu,Arizona State University
+Ahmet Erdem Sarıyüce,University at Buffalo
+ Ali Pinar,Sandia National Laboratories
+Yao Ma,Michigan State University
+ Zhaochun Ren,"Data Science Lab, JD.com"
+ Ziheng Jiang,"Data Science Lab, JD.com"
+ Jiliang Tang,Michigan State University
+ Dawei Yin,"Data Science Lab, JD.com"
+Xian Zhou,Shanghai Jiao Tong University
+ Yanyan Shen,Shanghai Jiao Tong University
+ Yanmin Zhu,Shanghai Jiao Tong University
+ Linpeng Huang,"Dept. of Computer Science and Engineering, ShangHai Jiao Tong University"
+Moumita Sinha,Adobe Research
+ Vishwa Vinay,Adobe Research
+ Harvineet Singh,Adobe Research
+Nazanin Alipourfard,University of Southern California Information Sciences Institute
+ Peter Fennell,University of Southern California Information Sciences Institute
+ Kristina Lerman,University of Southern California Information Sciences Institute
+Yan Zhang,University of Electronic Science and Technology of China
+ Hongzhi Yin,The University of Queensland
+ Zi Huang,The University of Queensland
+ Xingzhong Du,The University of Queensland
+ Guowu Yang,University of Electronic Science and Technology of China
+ Defu Lian,University of Electronic Science and Technology of China
+Kai Hui,Max Planck Institute for Informatics
+ Andrew Yates,Max Planck Institute for Informatics
+ Klaus Berberich,Max Planck Institute for Informatics
+ Gerard de Melo,Rutgers University
+Ziniu Hu,Peking University
+ Weiqing Liu,Microsoft
+ Jiang Bian,Microsoft
+ Xuanzhe Liu,Peking University
+ Tie-Yan Liu,Microsoft
+Golnoosh Farnadi,University of California Santa Cruz
+ Jie Tang,Tsinghua University
+ Martine De Cock,University of Washington
+ Marie-Francine Moens,KU Leuven
+Kai Shu,Arizona State University
+ Suhang Wang,Arizona State University
+ Jiliang Tang,Michigan State University
+ Yilin Wang,Arizona State University
+ Huan Liu,Arizona State University
+Sreyasi Nag Chowdhury,Max Planck Institute for Informatics
+ Niket Tandon,Allen Institute for AI
+ Hakan Ferhatosmanoglu,University of Warwick
+ Gerhard Weikum,Max Planck Institute for Informatics
+Marc Bury,Thyssenkrupp Industrial Solutions AG
+ Chris Schwiegelshohn,Sapienza University of Rome
+ Mara Sorella,Sapienza University of Rome
+Long Chen,University of Glasgow
+ Fajie Yuan,University of Glasgow
+ Joemon Jose,University of Glasgow
+ Weinan Zhang,Shanghai Jiao Tong University
+Stergios Stergiou,Yahoo Research
+ Dipen Rughwani,Yahoo Research
+ Kostas Tsioutsiouliklis,Yahoo Research
+Roman Budylin,Yandex
+ Alexey Drutsa,Yandex
+ Ilya Katsev,Yandex
+ Valeriya Tsoy,Yandex
+Tobias Schnabel,Cornell University
+ Paul Bennett,Microsoft
+ Susan Dumais,Microsoft
+ Thorsten Joachims,"Cornell University, Dept. of Computer Science"
+Austin Benson,Cornell University
+ Ravi Kumar,Google
+ Andrew Tomkins,Google
+Zijun Yao,Rutgers University
+ Yifan Sun,Technicolor Research
+ Weicong Ding,Amazon
+ Nikhil Rao,Amazon
+ Hui Xiong,Rutgers University
+Mojtaba Rezvani,Australian National University
+ Qing Wang,Australian National University
+ Weifa Liang,Australian National University
+Wenjian Hu,UC Davis
+ Krishna Kumar Singh,UC Davis
+ Fanyi Xiao,UC Davis
+ Jinyoung Han,Hanyang University
+ Chen-Nee Chuah,UC Davis
+ Yong Jae Lee,UC Davis
+Yu-Ting Wen,National Chiao Tung University
+ Wen-Chih Peng,National Chiao Tung University
+ Pei-Wen Yeh,National Chiao Tung University
+ Hong-Han Shuai,National Chiao Tung University
+Zhaoyang Liu,Shanghai Jiao Tong University
+ Yanyan Shen,Shanghai Jiao Tong University
+ Yanmin Zhu,Shanghai Jiao Tong University
+Zeqiu Wu,University of Illinois at Urbana-Champaign
+ Xiang Ren,University of Illinois at Urbana-Champaign
+ Frank F. Xu,Shanghai Jiao Tong University
+ Ji Li,University of Illinois at Urbana-Champaign
+ Jiawei Han,University of Illinois at Urbana-Champaign
+Meng Qu,University of Illinois at Urbana-Champaign
+ Jian Tang,HEC Montreal & Montreal Institute of Learning Algorithms
+ Jiawei Han,University of Illinois at Urbana-Champaign
+Mingming Sun,Baidu Research
+ Xu Li,Baidu Research
+ Xin Wang,Baidu Research
+ Miao Fan,Baidu Research
+ Yue Feng,Baidu Research
+ Ping Li,Baidu Research
+Ido Guy,Ben-Gurion University of the Negev
+ Alexander Nus,eBay
+ Dan Pelleg,Yahoo Research
+ Idan Szpektor,Google
+Zhengshen Jiang,Peking University
+ Hongzhi Liu,Peking University
+ Bin Fu,Peking University
+ Zhonghai Wu,Peking University
+ Tao Zhang,Beijing Huapinborui Network Technology Company
+Katrien Laenen,KU Leuven
+ Susana Zoghbi,KU Leuven
+ Marie-Francine Moens,KU Leuven
+Qian Yu,The Chinese University of Hong Kong
+ Wai Lam,The Chinese University of Hong Kong
+Matteo Ceccarello,DEI - Università di Padova
+ Andrea Pietracaprina,DEI - Università di Padova
+ Geppino Pucci,"DEI - Università di Padova, Italy"
+Sharad Nandanwar,"Department of Computer Science &amp; Automation, Indian Institute of Science"
+ Aayush Moroney,Indian Institute of Science
+ Narasimha Murty Musti,Indian Institute of Science
+Saehan Jo,Seoul National University
+ Jaemin Yoo,Seoul National University
+ U Kang,Seoul National University
+Jun Hu,Rutgers University
+ Ping Li,Rutgers University
+Kien Pham,New York University
+ Aecio Santos,New York University
+ Juliana Freire,New York University
+Farig Sadeque,University of Arizona
+ Dongfang Xu,University of Arizona
+ Steven Bethard,University of Arizona
+Wei Niu,Texas A&M University
+ James Caverlee,Texas A&M University
+ Haokai Lu,Texas A&M University
+Srijan Kumar,Stanford University
+ Bryan Hooi,CMU
+ Disha Makhija,"Flipkart, India"
+ Mohit Kumar,Flipkart
+ Christos Faloutsos,Carnegie Mellon University
+ V.S. Subrahmanian,Dartmouth College
+Hamed Zamani,University of Massachusetts Amherst
+ Bhaskar Mitra,Microsoft
+ Xia Song,Microsoft
+ Nick Craswell,Microsoft
+ Saurabh Tiwary,Microsoft
+Thang Bui,University of Cambridge
+ Sujith Ravi,Google
+ Vivek Ramavajjala,Google
+Saeid Balaneshinkordan,Wayne State University
+ Alexander Kotov,Wayne State University
+Md. Mehrab Tanjim,Bangladesh University of Engineering and Technology
+ Muhammad Abdullah Adnan,Bangladesh University of Engineering and Technology
