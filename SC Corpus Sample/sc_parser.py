@@ -4,14 +4,13 @@ import os
 import re
 import xlsxwriter
 import json
+import gzip
+import glob
 
-# file = os.listdir(os.getcwd())
+files = glob.glob("*.gz")
 
-files = ["s2-corpus-00"]
-
-workbook = xlsxwriter.Workbook('sc2.xlsx')
+workbook = xlsxwriter.Workbook('semantic_scholar.xlsx')
 worksheet = workbook.add_worksheet()
-
 bold = workbook.add_format({'bold': 1})
 worksheet.write('A1', 'title', bold)
 worksheet.write('B1', 'authors', bold)
@@ -24,7 +23,7 @@ worksheet.write('H1', 'outCitations', bold)
 row = 1
 
 for file in files:
-    with open(file) as f:
+    with gzip.open(file) as f:
         readbylines = f.readlines()
         json_dict = []
         for line in readbylines:
@@ -50,6 +49,7 @@ for file in files:
                 inCitations =";".join(inCitations)
                 outCitations = json_dict["outCitations"]
                 outCitations =" ".join(outCitations)
+
                 worksheet.write_string  (row, 0, title)
                 worksheet.write_string  (row, 1, authors)
                 worksheet.write_string  (row, 2, venue)
