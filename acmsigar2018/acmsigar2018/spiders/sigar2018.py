@@ -15,7 +15,7 @@ class Sigar2018Spider(scrapy.Spider):
 
     def parse(self, response):
 
-        page = response.url.split("/")[-2]
+        page = response.url.split("/")[-]
 
         filename = 'body-%s.html' % page
         with open(filename, 'wb') as f:
