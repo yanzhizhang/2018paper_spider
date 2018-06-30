@@ -17,10 +17,11 @@ class AclAnthologySpider(scrapy.Spider):
         acl_event = response.xpath('//*[@id="content"]/table[1]/*')
         other_event = response.xpath('//*[@id="content"]/table[2]/*')
 
-        acl_href = response.xpath('//*[@id="content"]/table[1]//tr[1]/td/a').extract()[3:]
+        acl_href = response.xpath('//*[@id="content"]/table[1]//td/a').extract()[3:]
         for href in acl_href:
-            next_page = response.urljoin(re.search('<a href="(.*)">',href).group(1))
-            yield scrapy.Request(next_page, callback=self.parse_page)
+            if re.search('<a href="(.*)">',href).group(1)[0].isupper():
+                next_page = response.urljoin(re.search('<a href="(.*)">',href).group(1))
+                yield scrapy.Request(next_page, callback=self.parse_page)
 
 
     def parse_page(self, response):
@@ -29,18 +30,22 @@ class AclAnthologySpider(scrapy.Spider):
         authors_name = []
         paper_href = []
         for i in raw_data.extract():
+            # print(i)
             paper_href.append(response.url + re.search('<a href="(.*)">', i).group(1))
             if "<b>" in i:
                 authors_name.append(re.search('<b>(.*)</b>', i).group(1))
             else:
                 authors_name.append("")
-            paper_title.append(re.search('<i>(.*)</i>', i).group(1))
+            if "<i>" in i:
+                paper_title.append(re.search('<i>(.*)</i>', i).group(1))
+            else:
+                paper_title.append("")
 
         all_titles.extend(paper_title)
         all_authors.extend(authors_name)
         all_href.extend(paper_href)
-        if len(all_titles) == 1778:
-            self.writeToXlsx()
+
+        self.writeToXlsx()
 
     def writeToXlsx(self):
         workbook = xlsxwriter.Workbook('acl_anthology.xlsx')
